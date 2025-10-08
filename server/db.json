@@ -32,5 +32,200 @@
       "email": "lucas@hotmail.com",
       "ruc": "20123456789"
     }
+  ],
+  "categories": [
+    {
+      "id": "cat-001",
+      "name": "Lácteos",
+      "description": "Productos lácteos y derivados"
+    },
+    {
+      "id": "cat-002",
+      "name": "Bebidas",
+      "description": "Bebidas refrescantes y gaseosas"
+    },
+    {
+      "id": "cat-003",
+      "name": "Panadería",
+      "description": "Panes y productos de panadería"
+    },
+    {
+      "id": "cat-004",
+      "name": "Snacks",
+      "description": "Bocaditos y golosinas"
+    },
+    {
+      "id": "cat-005",
+      "name": "Abarrotes",
+      "description": "Productos de despensa básica"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-001",
+      "name": "Leche Gloria Entera 1L",
+      "description": "Leche entera UHT de larga duración, rica en calcio y vitaminas",
+      "categoryId": "cat-001",
+      "providerId": "1",
+      "minStock": 20,
+      "unitPrice": 4.50,
+      "isActive": true
+    },
+    {
+      "id": "prod-002",
+      "name": "Coca Cola 1.5L",
+      "description": "Gaseosa Coca Cola sabor original en botella de 1.5 litros",
+      "categoryId": "cat-002",
+      "providerId": "2",
+      "minStock": 30,
+      "unitPrice": 5.00,
+      "isActive": true
+    },
+    {
+      "id": "prod-003",
+      "name": "Pan Francés (unidad)",
+      "description": "Pan francés fresco del día, ideal para desayuno",
+      "categoryId": "cat-003",
+      "providerId": "3",
+      "minStock": 50,
+      "unitPrice": 0.30,
+      "isActive": true
+    },
+    {
+      "id": "prod-004",
+      "name": "Papas Lays Clásicas 130g",
+      "description": "Papas fritas Lays sabor clásico, bolsa familiar de 130 gramos",
+      "categoryId": "cat-004",
+      "providerId": "2",
+      "minStock": 15,
+      "unitPrice": 6.50,
+      "isActive": true
+    },
+    {
+      "id": "prod-005",
+      "name": "Arroz Costeño 1kg",
+      "description": "Arroz extra superior, grano seleccionado de primera calidad",
+      "categoryId": "cat-005",
+      "providerId": "4",
+      "minStock": 25,
+      "unitPrice": 4.20,
+      "isActive": true
+    },
+    {
+      "id": "prod-006",
+      "name": "Galletas Oreo 432g",
+      "description": "Galletas Oreo clásicas con crema, paquete familiar",
+      "categoryId": "cat-004",
+      "providerId": "1",
+      "minStock": 12,
+      "unitPrice": 8.90,
+      "isActive": true
+    },
+    {
+      "id": "prod-007",
+      "name": "Agua San Luis 2.5L",
+      "description": "Agua mineral sin gas en bidón de 2.5 litros",
+      "categoryId": "cat-002",
+      "providerId": "3",
+      "minStock": 40,
+      "unitPrice": 3.50,
+      "isActive": true
+    },
+    {
+      "id": "prod-008",
+      "name": "Queso Fresco 500g",
+      "description": "Queso fresco artesanal de vaca, ideal para ensaladas",
+      "categoryId": "cat-001",
+      "providerId": "4",
+      "minStock": 10,
+      "unitPrice": 12.00,
+      "isActive": false
+    }
+  ],
+  "stock": [
+    {
+      "id": "stock-001",
+      "productId": "prod-001",
+      "currentStock": 35,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-002",
+      "productId": "prod-002",
+      "currentStock": 48,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-003",
+      "productId": "prod-003",
+      "currentStock": 120,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-004",
+      "productId": "prod-004",
+      "currentStock": 22,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-005",
+      "productId": "prod-005",
+      "currentStock": 45,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-006",
+      "productId": "prod-006",
+      "currentStock": 18,
+      "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-007",
+      "productId": "prod-007",
+      "currentStock": 65,
+      "lastUpdated": "2025-01-08"
+    }
+  ],
+  "restockings": [
+    {
+      "id": "rest-001",
+      "lot": "L-01",
+      "receptionDate": "2025-01-05",
+      "expirationDate": "2025-06-05",
+      "items": [
+        {
+          "productId": "prod-001",
+          "quantityToAdd": 20
+        },
+        {
+          "productId": "prod-002",
+          "quantityToAdd": 30
+        },
+        {
+          "productId": "prod-006",
+          "quantityToAdd": 15
+        }
+      ]
+    },
+    {
+      "id": "rest-002",
+      "lot": "L-02",
+      "receptionDate": "2025-01-06",
+      "expirationDate": "2025-06-06",
+      "items": [
+        {
+          "productId": "prod-003",
+          "quantityToAdd": 50
+        },
+        {
+          "productId": "prod-004",
+          "quantityToAdd": 10
+        },
+        {
+          "productId": "prod-005",
+          "quantityToAdd": 25
+        }
+      ]
+    }
   ]
 }

@@ -19,5 +19,20 @@ html, body {
   width: 100%;
 }
 
+/* Dialog Overlay Styles */
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.restocking-dialog .mat-mdc-dialog-container {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.restocking-dialog .mat-mdc-dialog-surface {
+  border-radius: 12px;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

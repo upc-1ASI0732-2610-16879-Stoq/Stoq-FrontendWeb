@@ -1,7 +1,42 @@
 <div class="inventory-container">
-  <div class="header">
-    <h1>{{ t('inventory.title') }}</h1>
-    <p>{{ t('inventory.subtitle') }}</p>
+  <!-- Título principal con línea -->
+  <div class="page-title">
+    <div class="title-line"></div>
+    <h1>Inventario</h1>
+  </div>
+
+  <!-- Barra de acciones -->
+  <div class="action-bar">
+    <div class="search-filter-group">
+      <div class="search-box">
+        <i class="material-icons">search</i>
+        <input type="text" placeholder="Buscar" />
+      </div>
+      <button class="btn-filter">
+        <i class="material-icons">tune</i>
+        <span>Filtro</span>
+      </button>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-purple">
+        <i class="material-icons">add</i>
+        <span>Kit</span>
+      </button>
+      <button class="btn-green">
+        <i class="material-icons">add</i>
+        <span>Producto</span>
+      </button>
+      <button class="btn-orange" (click)="openRestockingDialog()">
+        <i class="material-icons">add</i>
+        <span>Ingresar reposición</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Sección de productos -->
+  <div class="section-title">
+    <h2>Productos</h2>
   </div>
 
   <div class="content">
