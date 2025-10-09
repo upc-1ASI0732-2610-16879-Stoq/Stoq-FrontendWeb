@@ -15,19 +15,16 @@ export class PersonalAdministrationPage {
   filterRole: string = 'todos';
   showFilterDropdown: boolean = false;
 
-  // Control de modales
   showUserModal = false;
   showRoleModal = false;
   showEditModal = false;
   showDeleteModal = false;
 
-  // === LISTA DE ROLES DINÁMICA ===
   roles = [
     { name: 'Vendedor', permissions: { productos: true, compras: true, estadisticas: false, usuarios: false } },
     { name: 'Administrador', permissions: { productos: true, compras: true, estadisticas: true, usuarios: true } }
   ];
 
-  // === USUARIOS ===
   users = [
     { id: 1, name: 'Juan Pérez Díaz', role: 'Vendedor', account: 'perez.j@company.com', status: 'Activo' },
     { id: 2, name: 'María López Gonzales', role: 'Vendedor', account: 'lopez.m@company.com', status: 'Inactivo' },
@@ -35,7 +32,6 @@ export class PersonalAdministrationPage {
     { id: 4, name: 'Juan Pérez Aguirre', role: 'Administrador', account: 'admin@company.com', status: 'Activo' }
   ];
 
-  // === NUEVO USUARIO / ROL ===
   newUser = { name: '', lastname: '', phone: '', email: '', role: '' };
   selectedUser: any = null;
 
@@ -49,7 +45,6 @@ export class PersonalAdministrationPage {
     }
   };
 
-  // === FUNCIONES PARA MODALES ===
   openUserModal() { this.showUserModal = true; }
   closeUserModal() { this.showUserModal = false; }
 
@@ -74,7 +69,6 @@ export class PersonalAdministrationPage {
     this.selectedUser = null;
   }
 
-  // === FUNCIONES FILTRO ===
   toggleFilterDropdown() {
     this.showFilterDropdown = !this.showFilterDropdown;
   }
@@ -90,7 +84,6 @@ export class PersonalAdministrationPage {
     this.showFilterDropdown = false;
   }
 
-  // === FILTRADO DE USUARIOS ===
   get filteredUsers() {
     const search = this.searchTerm.toLowerCase();
     return this.users.filter(user => {
@@ -109,7 +102,6 @@ export class PersonalAdministrationPage {
     });
   }
 
-  // === GUARDAR USUARIO NUEVO ===
   saveUser() {
     const newId = this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) + 1 : 1;
     this.users.push({
@@ -123,30 +115,26 @@ export class PersonalAdministrationPage {
     this.newUser = { name: '', lastname: '', phone: '', email: '', role: '' };
   }
 
-  // === GUARDAR USUARIO EDITADO ===
+
   saveEditedUser() {
     const index = this.users.findIndex(u => u.id === this.selectedUser.id);
     if (index > -1) this.users[index] = { ...this.selectedUser };
     this.closeEditModal();
   }
 
-  // === ELIMINAR USUARIO ===
   confirmDeleteUser() {
     this.users = this.users.filter(u => u.id !== this.selectedUser.id);
     this.closeDeleteModal();
   }
 
-  // === GUARDAR NUEVO ROL ===
   saveRole() {
     if (this.newRole.name.trim() === '') return;
 
-    // Evita duplicar roles con el mismo nombre
     const exists = this.roles.some(r => r.name.toLowerCase() === this.newRole.name.toLowerCase());
     if (!exists) {
       this.roles.push({ ...this.newRole });
     }
 
-    // Limpia y cierra modal
     this.newRole = {
       name: '',
       permissions: { productos: false, compras: false, estadisticas: false, usuarios: false }
