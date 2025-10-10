@@ -55,6 +55,40 @@
       "ruc": "RUC",
       "cancel": "Cancel",
       "save": "Save"
+      }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create one"
+    },
+    "register": {
+      "title": "Sign up",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "submit": "Sign up",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in"
+    },
+    "tagline": "An inventory control designed to help you sell more and stress less",
+    "errors": {
+      "loginFailed": "Login failed. Please check your credentials.",
+      "registerFailed": "Registration failed. Please try again.",
+      "passwordMismatch": "Passwords do not match"
+    },
+    "validation": {
+      "required": "is required",
+      "emailInvalid": "Invalid email",
+      "minLength": "Minimum {{min}} characters",
+      "passwordRequired": "is required",
+      "confirmRequired": "Confirmation is required"
     }
   }
 }

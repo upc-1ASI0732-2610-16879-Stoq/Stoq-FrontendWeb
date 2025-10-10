@@ -55,6 +55,40 @@
       "cancel": "Cancelar",
       "save": "Guardar"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Inicia sesión",
+      "email": "Email",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "createAccount": "Crea una"
+    },
+    "register": {
+      "title": "Regístrate",
+      "name": "Nombre",
+      "email": "Email",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Registrarse",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "login": "Inicia sesión"
+    },
+    "tagline": "Un control de inventario diseñado para que vendas más y te estreses menos",
+    "errors": {
+      "loginFailed": "Error al iniciar sesión. Verifica tus credenciales.",
+      "registerFailed": "Error al registrarse. Intenta nuevamente.",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    },
+    "validation": {
+      "required": "es requerido",
+      "emailInvalid": "Email inválido",
+      "minLength": "Mínimo {{min}} caracteres",
+      "passwordRequired": "es requerida",
+      "confirmRequired": "Confirmación es requerida"
+    }
   }
 }
 
