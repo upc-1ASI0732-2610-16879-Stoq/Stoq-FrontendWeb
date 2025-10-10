@@ -1,9 +1,5 @@
 export const environment = {
   production: false,
   platformProviderApiBaseUrl: 'http://localhost:3000/api/v1',
-  platformProviderProvidersEndpointPath: '/providers',
-  platformProviderProductsEndpointPath: '/products',
-  platformProviderRestockingEndpointPath: '/restockings',
-  platformProviderStockEndpointPath: '/stock',
-  platformProviderCategoriesEndpointPath: '/categories'
+  platformProviderProvidersEndpointPath: '/providers'
 }

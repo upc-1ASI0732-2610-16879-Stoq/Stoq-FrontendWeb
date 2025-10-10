@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestockingDialogComponent } from '../restocking-dialog/restocking-dialog';
+import { NewKitDialogComponent } from '../new-kit-dialog/new-kit-dialog';
+import { KitApi } from '../../infrastructure/kit-api';
+import { Kit } from '../../domain/model/kit.entity';
 
 @Component({
   selector: 'app-inventory-list',
@@ -11,12 +14,38 @@ import { RestockingDialogComponent } from '../restocking-dialog/restocking-dialo
   standalone: true,
   imports: [CommonModule, TranslateModule],
 })
-export class InventoryListComponent {
+export class InventoryListComponent implements OnInit {
   private translate = inject(TranslateService);
   private dialog = inject(MatDialog);
+  private kitApi = inject(KitApi);
+
+  kits: Kit[] = [];
+  loading: boolean = true;
+  error: string = '';
+
+  ngOnInit(): void {
+    this.loadKits();
+  }
 
   protected t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  loadKits(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.kitApi.getKits().subscribe({
+      next: (kits) => {
+        this.kits = kits.filter(k => k.isEnabled);
+        this.loading = false;
+      },
+      error: (error: any) => {
+        console.error('Error al cargar kits:', error);
+        this.error = 'Error al cargar los kits';
+        this.loading = false;
+      }
+    });
   }
 
   openRestockingDialog(): void {
@@ -33,6 +62,29 @@ export class InventoryListComponent {
         // Aquí puedes manejar los datos guardados
       }
     });
+  }
+
+
+  openNewKitDialog(): void {
+    const dialogRef = this.dialog.open(NewKitDialogComponent, {
+      width: '750px',
+      maxWidth: '90vw',
+      panelClass: 'new-kit-dialog',
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Kit creado exitosamente:', result);
+        // Recargar los kits para mostrar el nuevo
+        this.loadKits();
+      }
+    });
+  }
+
+  // Calcula el total del kit sumando los productos
+  calculateKitTotal(kit: Kit): number {
+    return kit.products.reduce((sum, product) => sum + product.quantity, 0);
   }
 }
 

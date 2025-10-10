@@ -68,7 +68,7 @@
       "categoryId": "cat-001",
       "providerId": "1",
       "minStock": 20,
-      "unitPrice": 4.50,
+      "unitPrice": 4.5,
       "isActive": true
     },
     {
@@ -78,7 +78,7 @@
       "categoryId": "cat-002",
       "providerId": "2",
       "minStock": 30,
-      "unitPrice": 5.00,
+      "unitPrice": 5,
       "isActive": true
     },
     {
@@ -88,7 +88,7 @@
       "categoryId": "cat-003",
       "providerId": "3",
       "minStock": 50,
-      "unitPrice": 0.30,
+      "unitPrice": 0.3,
       "isActive": true
     },
     {
@@ -98,7 +98,7 @@
       "categoryId": "cat-004",
       "providerId": "2",
       "minStock": 15,
-      "unitPrice": 6.50,
+      "unitPrice": 6.5,
       "isActive": true
     },
     {
@@ -108,7 +108,7 @@
       "categoryId": "cat-005",
       "providerId": "4",
       "minStock": 25,
-      "unitPrice": 4.20,
+      "unitPrice": 4.2,
       "isActive": true
     },
     {
@@ -118,7 +118,7 @@
       "categoryId": "cat-004",
       "providerId": "1",
       "minStock": 12,
-      "unitPrice": 8.90,
+      "unitPrice": 8.9,
       "isActive": true
     },
     {
@@ -128,7 +128,7 @@
       "categoryId": "cat-002",
       "providerId": "3",
       "minStock": 40,
-      "unitPrice": 3.50,
+      "unitPrice": 3.5,
       "isActive": true
     },
     {
@@ -138,7 +138,7 @@
       "categoryId": "cat-001",
       "providerId": "4",
       "minStock": 10,
-      "unitPrice": 12.00,
+      "unitPrice": 12,
       "isActive": false
     }
   ],
@@ -224,6 +224,75 @@
         {
           "productId": "prod-005",
           "quantityToAdd": 25
+        }
+      ]
+    }
+  ],
+  "kits": [
+    {
+      "id": "kit-001",
+      "name": "Combo Desayuno",
+      "price": 8.5,
+      "isEnabled": true,
+      "products": [
+        {
+          "productId": "prod-001",
+          "name": "Leche Gloria Entera 1L",
+          "quantity": 1
+        },
+        {
+          "productId": "prod-003",
+          "name": "Pan Francés (unidad)",
+          "quantity": 3
+        }
+      ]
+    },
+    {
+      "id": "kit-002",
+      "name": "Combo Película",
+      "price": 12,
+      "isEnabled": true,
+      "products": [
+        {
+          "productId": "prod-002",
+          "name": "Coca Cola 1.5L",
+          "quantity": 1
+        },
+        {
+          "productId": "prod-004",
+          "name": "Papas Lays Clásicas 130g",
+          "quantity": 1
+        },
+        {
+          "productId": "prod-006",
+          "name": "Galletas Oreo 432g",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "jpSSb5C",
+      "name": "Combo prueba",
+      "price": "15",
+      "isEnabled": true,
+      "products": [
+        {
+          "productId": "prod-001",
+          "name": "Leche Gloria Entera 1L",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "IbzFmSt",
+      "name": "Combo Almuerzo 2",
+      "price": "13.50",
+      "isEnabled": true,
+      "products": [
+        {
+          "productId": "prod-005",
+          "name": "Arroz Costeño 1kg",
+          "quantity": 1
         }
       ]
     }

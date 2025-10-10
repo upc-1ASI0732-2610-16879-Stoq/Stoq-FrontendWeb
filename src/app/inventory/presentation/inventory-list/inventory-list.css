@@ -3,29 +3,17 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 1.5em;
 }
 
-/* Título principal con línea naranja */
-.page-title {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.title-line {
-  width: 4px;
-  height: 32px;
-  background: #FF8C42;
-  border-radius: 2px;
-}
-
-.page-title h1 {
-  font-size: 1.75rem;
+/* Título principal */
+.header {
   font-weight: 600;
-  color: #333;
-  margin: 0;
+  font-size: 1.2rem;
+  color: #ff662a;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ff662a;
+  padding-bottom: 0.3rem;
 }
 
 /* Barra de acciones */
@@ -100,65 +88,47 @@
 }
 
 /* Botones de acción */
-.action-buttons {
+.toolbar-buttons {
   display: flex;
-  gap: 12px;
+  gap: 0.5rem;
 }
 
-.btn-purple,
-.btn-green,
-.btn-orange {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
+.toolbar-buttons button {
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
   color: white;
   cursor: pointer;
+  font-weight: 500;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .btn-purple {
-  background: #6366F1;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  background-color: #8a57e9;
 }
 
 .btn-purple:hover {
-  background: #5558E3;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  background-color: #5a3399;
+  transform: translateY(-1px);
 }
 
 .btn-green {
-  background: #10B981;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  background-color: #21cd4a;
 }
 
 .btn-green:hover {
-  background: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  background-color: #218838;
+  transform: translateY(-1px);
 }
 
 .btn-orange {
-  background: #F97316;
-  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+  background-color: #F97316;
 }
 
 .btn-orange:hover {
-  background: #EA580C;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
-}
-
-.btn-purple i,
-.btn-green i,
-.btn-orange i {
-  font-size: 20px;
+  background-color: #EA580C;
+  transform: translateY(-1px);
 }
 
 /* Título de sección */
@@ -189,16 +159,13 @@
     max-width: 100%;
   }
 
-  .action-buttons {
+  .toolbar-buttons {
     width: 100%;
     flex-direction: column;
   }
 
-  .btn-purple,
-  .btn-green,
-  .btn-orange {
+  .toolbar-buttons button {
     width: 100%;
-    justify-content: center;
   }
 }
 
@@ -209,28 +176,160 @@
   justify-content: center;
 }
 
+/* Estados de carga y error */
+.loading-state,
+.error-state,
 .empty-state {
   text-align: center;
   max-width: 400px;
 }
 
+.loading-state i,
+.error-state i,
 .empty-state i {
-  font-size: 120px;
+  font-size: 80px;
   color: #FF8C42;
-  margin-bottom: 24px;
-}
-
-.empty-state h2 {
-  font-size: 1.8rem;
-  color: #333;
   margin-bottom: 16px;
-  font-weight: 600;
 }
 
+.error-state i {
+  color: #ef4444;
+}
+
+.loading-state p,
+.error-state p,
 .empty-state p {
   font-size: 1rem;
   color: #666;
   line-height: 1.6;
   margin-bottom: 8px;
+}
+
+.empty-state h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.rotating {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.btn-retry {
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: #FF8C42;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-retry:hover {
+  background: #E67932;
+  transform: translateY(-2px);
+}
+
+/* Grid de Kits - Diseño Simple */
+.kits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+  width: 100%;
+}
+
+/* Tarjeta de Kit */
+.kit-card {
+  background: #FFF8E1;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Encabezado del Kit */
+.kit-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #FFD54F;
+}
+
+/* Cuerpo del Kit - Lista de Productos */
+.kit-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kit-product {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.product-quantity {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.product-name {
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Footer del Kit */
+.kit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #FFE082;
+}
+
+.kit-total-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.kit-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FF8C42;
+}
+
+/* Responsive para kits */
+@media (max-width: 768px) {
+  .kits-grid {
+    grid-template-columns: 1fr;
+  }
 }
 

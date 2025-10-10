@@ -4,5 +4,6 @@ export const environment = {
   platformProviderProvidersEndpointPath: '/providers',
   platformProviderProductsEndpointPath: '/products',
   platformProviderRestockingEndpointPath: '/restockings',
-  platformProviderStockEndpointPath: '/stock'
+  platformProviderStockEndpointPath: '/stock',
+  platformProviderKitsEndpointPath: '/kits'
 }
