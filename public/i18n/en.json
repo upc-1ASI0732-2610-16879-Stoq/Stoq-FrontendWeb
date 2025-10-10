@@ -43,6 +43,18 @@
       "search": "Search",
       "filter": "Filter",
       "add-provider": "Add Provider"
+    },
+    "form-dialog": {
+      "add": "Add Provider",
+      "edit": "Edit Provider",
+      "title": "Add/Edit Provider",
+      "first-name": "First Name",
+      "last-name": "Last Name",
+      "phone-number": "Cellphone",
+      "email": "Email",
+      "ruc": "RUC",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   }
 }

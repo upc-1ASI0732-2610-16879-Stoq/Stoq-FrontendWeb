@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatFormField} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
@@ -26,7 +27,8 @@ import {MatButton} from '@angular/material/button';
     ReactiveFormsModule,
     MatDialogActions,
     MatButton,
-    MatDialogTitle
+    MatDialogTitle,
+    TranslatePipe
   ],
   templateUrl: './provider-form-dialog.html'
 })

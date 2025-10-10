@@ -43,6 +43,17 @@
       "search": "Buscar",
       "filter": "Filtrar",
       "add-provider": "Agregar Proveedor"
+    },
+    "form-dialog": {
+      "add": "Agregar Proveedor",
+      "edit": "Editar Proveedor",
+      "first-name": "Nombres",
+      "last-name": "Apellidos",
+      "phone-number": "Celular",
+      "email": "Correo Electrónico",
+      "ruc": "RUC",
+      "cancel": "Cancelar",
+      "save": "Guardar"
     }
   }
 }
