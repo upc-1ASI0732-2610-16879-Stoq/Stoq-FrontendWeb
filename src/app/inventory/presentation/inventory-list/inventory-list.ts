@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
 import { ProductsApi } from '../../infrastructure/products-api';
 import { StockApi } from '../../infrastructure/stock-api';
 import { ProductInfoDialogComponent, ProductInfoData } from '../product-info-dialog/product-info-dialog';
+import {CategoryApi} from '../../infrastructure/category-api';
 
 type ProductRow = {
   id: string,
@@ -38,6 +39,7 @@ export class InventoryListComponent implements OnInit {
   private kitApi = inject(KitApi);
   private productsApi = inject(ProductsApi);
   private stockApi = inject(StockApi);
+  private categoriesApi = inject(CategoryApi);
 
   kits: Kit[] = [];
   loading: boolean = true;
@@ -118,16 +120,19 @@ export class InventoryListComponent implements OnInit {
 
     forkJoin({
       products: this.productsApi.getProducts(), // Product[]
-      stock: this.stockApi.getStock()           // StockResource[]
+      stock: this.stockApi.getStock(),           // StockResource[]
+      categories: this.categoriesApi.getAll()     // CategoryResource[]
     }).subscribe({
-      next: ({ products, stock }) => {
+      next: ({ products, stock, categories }) => {
         const stockByProduct = new Map(stock.map(s => [s.productId, s.currentStock]));
+        const categoryMap = new Map(categories.map(c => [c.id, c.name]));
         this.productsRow = products.map(p => ({
           id: p.id,
           name: p.name,
           unitPrice: p.unitPrice,
           minStock: p.minStock,
-          currentStock: stockByProduct.get(p.id) ?? 0
+          currentStock: stockByProduct.get(p.id) ?? 0,
+          categoryName: categoryMap.get(p.categoryId) ?? '-'
         }));
         this.loading = false;
       },
