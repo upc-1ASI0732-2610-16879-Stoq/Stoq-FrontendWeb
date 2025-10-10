@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SidebarComponent } from './sidebar';
+import { ProductInfoDialog } from './product-info-dialog';
 
-describe('Sidebar', () => {
-  let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
+describe('ProductInfoDialog', () => {
+  let component: ProductInfoDialog;
+  let fixture: ComponentFixture<ProductInfoDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SidebarComponent]
+      imports: [ProductInfoDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SidebarComponent);
+    fixture = TestBed.createComponent(ProductInfoDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

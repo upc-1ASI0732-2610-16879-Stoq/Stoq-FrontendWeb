@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { Layout } from './shared/presentation/components/layout/layout';
 import { HomeComponent } from './shared/presentation/views/home/home';
 import { InventoryListComponent } from './inventory/presentation/inventory-list/inventory-list';
+import { PersonalAdministrationPage } from './personal-administration/presentation/personal-administration.page';
+
 import {ProvidersTable} from './providers-management/presentation/components/providers-table/providers-table';
 import {ProviderComponent} from './shared/presentation/views/provider/provider';
 import {SalesComponent} from './shared/presentation/views/sales/sales';
