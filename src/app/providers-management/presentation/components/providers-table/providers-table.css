@@ -1,7 +1,12 @@
 .table-providers-container {
-  height: 400px;
+  max-width: 1616px;
+  height: 540px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
   overflow: auto;
 }
+
 
 /* Centrado de texto */
 .table-providers-container th,
@@ -24,6 +29,7 @@
   font-weight: 600;
   border-bottom: none !important;
   padding: 12px 8px;
+
 }
 
 .table-providers-container .mat-mdc-header-cell:first-child,
@@ -41,6 +47,7 @@
 .table-providers-container td.mat-cell {
   border-bottom: none;
   padding: 14px 8px;
+  background: transparent !important;
 }
 
 /* Hover sutil sobre la fila */
@@ -55,7 +62,6 @@
   text-decoration: underline;
 }
 
-/* Acciones: íconos edit gris y delete rojo */
 .actions-cell {
   display: flex;
   justify-content: center;
@@ -63,14 +69,13 @@
 }
 
 .icon-edit mat-icon {
-  color: #616161; /* gris */
+  color: #616161;
 }
 
 .icon-delete mat-icon {
-  color: #e74c3c; /* rojo */
+  color: #e74c3c;
 }
 
-/* Opcional: foco accesible para navegación con teclado */
 .table-providers-container:focus {
   outline: none;
 }
