@@ -1,4 +1,8 @@
 {
+  "global": {
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
   "sidebar": {
     "title": "StockTrack",
     "menu": {
@@ -27,7 +31,7 @@
     },
     "header": "Inventario",
     "products": "Productos",
-    "nameProduct": "Nombre",
+    "name": "Nombre",
     "unitPrice": "Precio unitario",
     "currentStock": "Stock actual",
     "minimumStock": "Stock mínimo",
@@ -40,7 +44,10 @@
     "newProduct": "Producto",
     "newReplacement": "Ingresar reposición",
     "noKits": "No hay kits disponibles",
-    "startKits": "Comienza creando tu primer kit haciendo clic en el botón"
+    "startKits": "Comienza creando tu primer kit haciendo clic en el botón",
+    "newKit": "Nuevo kit",
+    "priceKit": "Precio kit",
+    "quantity": "Cantidad a seleccionar"
   },
   "providers-table": {
     "name": "Nombre",

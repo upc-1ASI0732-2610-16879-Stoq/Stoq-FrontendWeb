@@ -13,6 +13,7 @@ import { StockApi } from '../../infrastructure/stock-api';
 import { ProductsApi } from '../../infrastructure/products-api';
 import { KitApi } from '../../infrastructure/kit-api';
 import { forkJoin } from 'rxjs';
+import {TranslatePipe} from '@ngx-translate/core';
 interface NewKitItem {
   productId: string;
   name: string;
@@ -34,7 +35,9 @@ interface NewKitItem {
     MatFormFieldModule,
     MatIconModule,
     FormsModule,
-    MatProgressSpinnerModule]
+    MatProgressSpinnerModule,
+    TranslatePipe
+  ]
 })
 
 export class NewKitDialogComponent implements OnInit {
