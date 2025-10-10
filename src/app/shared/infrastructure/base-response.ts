@@ -1,14 +1,19 @@
 /**
- * Abstract interface for API response structures.
- */
-export interface BaseResponse {}
-
-/**
- * Defines a standard structure for API resources/DTOs with a unique identifier.
+ * Base interface for API resources.
+ * @remarks
+ * All API resource DTOs should extend this interface.
  */
 export interface BaseResource {
-  /**
-   * The unique identifier for the resource.
-   */
-  id: string;
+  id?: string | number;
 }
+
+/**
+ * Base interface for API responses.
+ * @remarks
+ * All API response DTOs should extend this interface.
+ */
+export interface BaseResponse {
+  // Common response fields can be added here
+  // e.g., status, message, timestamp, etc.
+}
+

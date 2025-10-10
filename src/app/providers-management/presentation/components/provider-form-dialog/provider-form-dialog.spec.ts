@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProviderComponent } from './provider';
+import { ProviderFormDialog } from './provider-form-dialog';
 
-describe('Provider', () => {
-  let component: ProviderComponent;
-  let fixture: ComponentFixture<ProviderComponent>;
+describe('ProviderFormDialog', () => {
+  let component: ProviderFormDialog;
+  let fixture: ComponentFixture<ProviderFormDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProviderComponent]
+      imports: [ProviderFormDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProviderComponent);
+    fixture = TestBed.createComponent(ProviderFormDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
