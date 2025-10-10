@@ -6,11 +6,28 @@ import { RestockingDialogComponent } from '../restocking-dialog/restocking-dialo
 import { NewKitDialogComponent } from '../new-kit-dialog/new-kit-dialog';
 import { KitApi } from '../../infrastructure/kit-api';
 import { Kit } from '../../domain/model/kit.entity';
-import { RestockingApi } from '../../infrastructure/restocking-api';
+import { Product } from '../../domain/model/product.entity';
+import { forkJoin } from 'rxjs';
+import { ProductsApi } from '../../infrastructure/products-api';
 import { StockApi } from '../../infrastructure/stock-api';
+import { ProductInfoDialogComponent, ProductInfoData } from '../product-info-dialog/product-info-dialog';
+import { CategoryApi } from '../../infrastructure/category-api';
+import { RestockingApi } from '../../infrastructure/restocking-api';
 import { Restocking } from '../../domain/model/restocking.entity';
 import { RestockingItem } from '../../domain/model/restocking-item.entity';
-import { forkJoin } from 'rxjs';
+
+type ProductRow = {
+  id: string,
+  name: string,
+  unitPrice: number,
+  minStock: number,
+  currentStock: number,
+  categoryName?: string;
+  providerName?: string;
+  lastReception?: string;  // ISO 'YYYY-MM-DD'
+  lot?: string;
+  expirationDate?: string;
+};
 
 @Component({
   selector: 'app-inventory-list',
@@ -23,15 +40,19 @@ export class InventoryListComponent implements OnInit {
   private translate = inject(TranslateService);
   private dialog = inject(MatDialog);
   private kitApi = inject(KitApi);
-  private restockingApi = inject(RestockingApi);
+  private productsApi = inject(ProductsApi);
   private stockApi = inject(StockApi);
+  private categoriesApi = inject(CategoryApi);
+  private restockingApi = inject(RestockingApi);
 
   kits: Kit[] = [];
   loading: boolean = true;
   error: string = '';
+  productsRow: ProductRow[] = [];
 
   ngOnInit(): void {
     this.loadKits();
+    this.loadProducts();
   }
 
   protected t(key: string): string {
@@ -173,5 +194,81 @@ export class InventoryListComponent implements OnInit {
   calculateKitTotal(kit: Kit): number {
     return kit.products.reduce((sum, product) => sum + product.quantity, 0);
   }
+
+
+  /* PRODUCTOS */
+
+  loadProducts(): void {
+    this.loading = true;
+    this.error = '';
+
+    forkJoin({
+      products: this.productsApi.getProducts(), // Product[]
+      stock: this.stockApi.getStock(),           // StockResource[]
+      categories: this.categoriesApi.getAll(),     // CategoryResource[]
+      restockings: this.restockingApi.getRestockings() // [{lot,receptionDate,expirationDate,items:[{productId,...}]}]
+    }).subscribe({
+      next: ({ products, stock, categories, restockings }) => {
+        const stockByProduct = new Map(stock.map(s => [s.productId, s.currentStock]));
+        const categoryMap = new Map(categories.map(c => [c.id, c.name]));
+        const latestByProduct = new Map<string, { lot: string; receptionDate: string; expirationDate: string }>();
+        for (const r of restockings) {
+          const recDate = new Date(r.receptionDate);
+          for (const it of r.items) {
+            const prev = latestByProduct.get(it.productId);
+            if (!prev || recDate > new Date(prev.receptionDate)) {
+              latestByProduct.set(it.productId, {
+                lot: r.lot,
+                receptionDate: r.receptionDate,
+                expirationDate: r.expirationDate
+              });
+            }
+          }
+        }
+        this.productsRow = products.map(p => ({
+          id: p.id,
+          name: p.name,
+          unitPrice: p.unitPrice,
+          minStock: p.minStock,
+          currentStock: stockByProduct.get(p.id) ?? 0,
+          categoryName: categoryMap.get(p.categoryId) ?? '-',
+          lot: latestByProduct.get(p.id)?.lot ?? '-',                       // ⬅️ lote
+          lastReception: latestByProduct.get(p.id)?.receptionDate ?? undefined,
+          expirationDate: latestByProduct.get(p.id)?.expirationDate ?? undefined
+        }));
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar productos', err);
+        this.error = 'Error al cargar los productos';
+        this.loading = false;
+      }
+    });
+  }
+
+  trackByProductId(_: number, p: ProductRow) { return p.id; }
+
+  openProductInfo(p: ProductRow) {
+    const data: ProductInfoData = {
+      title: p.name,
+      category: p.categoryName,
+      currentStock: p.currentStock,
+      minStock: p.minStock,
+      unitPrice: p.unitPrice,
+      lastReception: p.lastReception,
+      lot: p.lot,
+      provider: p.providerName,
+      expirationDate: p.expirationDate
+    };
+
+    this.dialog.open(ProductInfoDialogComponent, {
+      width: '520px',
+      maxWidth: '90vw',
+      panelClass: 'product-info-dialog',
+      data
+    });
+  }
+
+
 }
 

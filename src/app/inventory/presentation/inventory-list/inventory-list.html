@@ -22,6 +22,41 @@
     </div>
   </div>
 
+  <!-- Sección de Productos -->
+  <div class="section-title">
+    <h2>Products</h2>
+  </div>
+
+  <!-- Lista de Productos -->
+  <div class="products-list" *ngIf="!loading && !error && productsRow.length > 0">
+    <div class="table-wrapper">
+      <table class="products-table">
+        <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Precio unitario</th>
+          <th>Stock actual</th>
+          <th>Stock mínimo</th>
+          <th>Información</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of productsRow; trackBy: trackByProductId">
+          <td>{{ p.name }}</td>
+          <td>s/. {{ p.unitPrice | number:'1.2-2' }}</td>
+          <td>{{ p.currentStock }}</td>
+          <td>{{ p.minStock }}</td>
+          <td>
+            <button class="icon-btn" (click)="openProductInfo(p)">
+              <i class="material-icons">info_outline</i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Sección de Kits -->
   <div class="section-title">
     <h2>Kits</h2>
