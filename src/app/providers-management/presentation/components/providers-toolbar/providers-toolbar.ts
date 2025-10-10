@@ -6,6 +6,10 @@ import {FormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {TranslatePipe} from '@ngx-translate/core';
 import {MatButton, MatFabButton} from '@angular/material/button';
+import {ProviderFormDialog} from '../provider-form-dialog/provider-form-dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {Provider} from '../../../../inventory/domain/model/provider.entity';
+import {ProvidersApi} from '../../../infrastructure/providers-api';
 
 @Component({
   selector: 'app-providers-toolbar',
@@ -16,7 +20,6 @@ import {MatButton, MatFabButton} from '@angular/material/button';
     FormsModule,
     MatIconModule,
     TranslatePipe,
-    MatButton,
     MatFabButton
   ],
   templateUrl: './providers-toolbar.html',
@@ -24,9 +27,24 @@ import {MatButton, MatFabButton} from '@angular/material/button';
 })
 export class ProvidersToolbar {
   searchTerm = '';
+  dataSource: Provider[] = [];
+
+  ngOnInit(): void {
+    this.providersApi.getProviders().subscribe((providers: Provider[]) => {
+      this.dataSource = providers;
+    });
+  }
+
+  constructor(private providersApi: ProvidersApi, private dialog: MatDialog) {
+  }
 
 
-  openAddProviderDialog() {
+  onCreate() {
+    const ref = this.dialog.open(ProviderFormDialog, {
+      width: '720px',
+      disableClose: true,
+      data: {}
+    });
 
   }
 }
