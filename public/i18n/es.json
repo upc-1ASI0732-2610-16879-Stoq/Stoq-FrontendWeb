@@ -26,6 +26,36 @@
       "message": "Próximamente podrás gestionar todos tus productos aquí"
     }
   },
+  "providers-view": {
+    "providers": "Proveedores",
+    "providers-table": {
+      "name": "Nombre",
+      "contact": "Contacto",
+      "phone": "Celular",
+      "email": "Correo Electrónico",
+      "ruc": "RUC",
+      "address": "Dirección",
+      "actions": "Acciones",
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "providers-toolbar": {
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "add-provider": "Agregar Proveedor"
+    },
+    "form-dialog": {
+      "add": "Agregar Proveedor",
+      "edit": "Editar Proveedor",
+      "first-name": "Nombres",
+      "last-name": "Apellidos",
+      "phone-number": "Celular",
+      "email": "Correo Electrónico",
+      "ruc": "RUC",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    }
+  },
   "auth": {
     "login": {
       "title": "Inicia sesión",

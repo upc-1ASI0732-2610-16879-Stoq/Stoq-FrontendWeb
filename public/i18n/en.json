@@ -26,6 +26,37 @@
       "message": "Soon you will be able to manage all your products here"
     }
   },
+  "providers-view": {
+    "providers": "Providers",
+    "providers-table": {
+      "name": "Name",
+      "contact": "Contact",
+      "phone": "Cellphone",
+      "email": "Email",
+      "ruc": "RUC",
+      "address": "Address",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "providers-toolbar": {
+      "search": "Search",
+      "filter": "Filter",
+      "add-provider": "Add Provider"
+    },
+    "form-dialog": {
+      "add": "Add Provider",
+      "edit": "Edit Provider",
+      "title": "Add/Edit Provider",
+      "first-name": "First Name",
+      "last-name": "Last Name",
+      "phone-number": "Cellphone",
+      "email": "Email",
+      "ruc": "RUC",
+      "cancel": "Cancel",
+      "save": "Save"
+      }
+  },
   "auth": {
     "login": {
       "title": "Sign in",
