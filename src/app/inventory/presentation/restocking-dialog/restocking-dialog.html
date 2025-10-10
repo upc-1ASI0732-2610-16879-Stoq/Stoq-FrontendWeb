@@ -84,7 +84,11 @@
     <button mat-stroked-button (click)="onCancel()">
       {{ 'global.cancel' | translate }}
     </button>
-    <button mat-raised-button color="primary" (click)="onSave()">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!canSave"
+      (click)="onSave()">
       {{ 'global.save' | translate }}
     </button>
   </div>

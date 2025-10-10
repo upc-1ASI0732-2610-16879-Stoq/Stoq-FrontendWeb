@@ -150,6 +150,16 @@
       "minStock": 10,
       "unitPrice": 1.5,
       "isActive": true
+    },
+    {
+      "id": "prod-1760118675427",
+      "name": "Inca Kola 3L",
+      "description": "",
+      "categoryId": "cat-002",
+      "providerId": "3",
+      "minStock": 10,
+      "unitPrice": 12,
+      "isActive": true
     }
   ],
   "stock": [
@@ -199,6 +209,12 @@
       "id": "stock-1760110655840",
       "productId": "prod-1760110655720",
       "currentStock": 20,
+      "lastUpdated": "2025-10-10"
+    },
+    {
+      "id": "stock-1760118675503",
+      "productId": "prod-1760118675427",
+      "currentStock": 15,
       "lastUpdated": "2025-10-10"
     }
   ],
@@ -303,6 +319,30 @@
       "items": [
         {
           "productId": "prod-1760110655720",
+          "quantityToAdd": 5
+        }
+      ]
+    },
+    {
+      "id": "6k6fhvrbp",
+      "lot": "L-04",
+      "receptionDate": "2023-08-25",
+      "expirationDate": "2030-08-04",
+      "items": [
+        {
+          "productId": "prod-1760118675427",
+          "quantityToAdd": 10
+        }
+      ]
+    },
+    {
+      "id": "bm0ye8r8m",
+      "lot": "L-06",
+      "receptionDate": "2022-04-15",
+      "expirationDate": "2027-12-24",
+      "items": [
+        {
+          "productId": "prod-1760118675427",
           "quantityToAdd": 5
         }
       ]

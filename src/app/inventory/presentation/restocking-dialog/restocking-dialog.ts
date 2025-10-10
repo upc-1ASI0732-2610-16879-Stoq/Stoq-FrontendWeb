@@ -98,6 +98,8 @@ export class RestockingDialogComponent implements OnInit {
 
   onSave(): void {
     // Filtrar solo items con cantidad mayor a 0
+    this.touched = true;
+    if (!this.canSave) return;  // No permite guardar
     const itemsToSave = this.items.filter(item => item.quantity > 0);
 
     const data = {
@@ -127,4 +129,26 @@ export class RestockingDialogComponent implements OnInit {
     }
     item.total = item.currentStock + item.quantity;
   }
+
+  // Para mostrar errores cuando intenten guardar
+  touched = false;
+
+  // ---- Validaciones ----
+  isValidDate(d: string): boolean {
+    return !!d && !isNaN(Date.parse(d));
+  }
+
+  isExpirationBeforeReception(): boolean {
+    if (!this.isValidDate(this.fechaRecepcion) || !this.isValidDate(this.fechaVencimiento)) return false;
+    return new Date(this.fechaVencimiento) < new Date(this.fechaRecepcion);
+  }
+
+  get canSave(): boolean {
+    const loteOk = this.lote.trim().length > 0;
+    const recOk  = this.isValidDate(this.fechaRecepcion);
+    const expOk  = this.isValidDate(this.fechaVencimiento);
+    const orderOk = !this.isExpirationBeforeReception();
+    return loteOk && recOk && expOk && orderOk;
+  }
+
 }
