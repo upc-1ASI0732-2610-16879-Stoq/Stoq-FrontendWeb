@@ -27,6 +27,7 @@
     }
   },
   "providers-view": {
+    "providers": "Proveedores",
     "providers-table": {
       "name": "Nombre",
       "contact": "Contacto",
