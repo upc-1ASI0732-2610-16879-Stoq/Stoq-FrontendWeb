@@ -28,4 +28,15 @@ export class StockApi {
       lastUpdated: new Date().toISOString().split('T')[0]
     });
   }
+
+  createStock(productId: string, currentStock = 0) {
+    const body = {
+      id: `stock-${Date.now()}`,
+      productId,
+      currentStock,
+      lastUpdated: new Date().toISOString().slice(0,10)
+    };
+    return this.http.post(`${this.baseUrl}`, body);
+  }
+
 }

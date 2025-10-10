@@ -140,6 +140,16 @@
       "minStock": 10,
       "unitPrice": 12,
       "isActive": false
+    },
+    {
+      "id": "prod-1760110655720",
+      "name": "Sprite 500ml",
+      "description": "",
+      "categoryId": "cat-002",
+      "providerId": "1",
+      "minStock": 10,
+      "unitPrice": 1.5,
+      "isActive": true
     }
   ],
   "stock": [
@@ -184,6 +194,12 @@
       "productId": "prod-007",
       "currentStock": 65,
       "lastUpdated": "2025-01-08"
+    },
+    {
+      "id": "stock-1760110655840",
+      "productId": "prod-1760110655720",
+      "currentStock": 20,
+      "lastUpdated": "2025-10-10"
     }
   ],
   "restockings": [
@@ -276,6 +292,18 @@
         {
           "productId": "prod-001",
           "quantityToAdd": 2
+        }
+      ]
+    },
+    {
+      "id": "84nx9vono",
+      "lot": "L-05",
+      "receptionDate": "2025-04-08",
+      "expirationDate": "2028-12-12",
+      "items": [
+        {
+          "productId": "prod-1760110655720",
+          "quantityToAdd": 5
         }
       ]
     }

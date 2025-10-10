@@ -15,6 +15,7 @@ import { CategoryApi } from '../../infrastructure/category-api';
 import { RestockingApi } from '../../infrastructure/restocking-api';
 import { Restocking } from '../../domain/model/restocking.entity';
 import { RestockingItem } from '../../domain/model/restocking-item.entity';
+import {NewProductDialogComponent} from '../new-product-dialog/new-product-dialog';
 
 type ProductRow = {
   id: string,
@@ -269,6 +270,16 @@ export class InventoryListComponent implements OnInit {
     });
   }
 
+  /* NUEVO PRODUCTO */
 
+  openNewProductDialog(): void {
+    const dialogRef = this.dialog.open(NewProductDialogComponent, {
+      width: '750px',
+      maxWidth: '90vw',
+      panelClass: 'new-product-dialog',
+      disableClose: false
+    });
+    dialogRef.afterClosed().subscribe(ok => { if (ok) this.loadProducts(); });
+  }
 }
 
