@@ -333,3 +333,98 @@
   }
 }
 
+
+/* ====== Productos ====== */
+
+.products-list{
+  margin: 12px 0 28px;
+}
+
+.products-list-title{
+  margin: 6px 0 10px;
+  color: #8b8f97;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Contenedor de tabla*/
+.products-list .table-wrapper{
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+}
+
+/* Tabla */
+.products-list .products-table{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+}
+
+/* Encabezado */
+.products-list .products-table thead th{
+  background: #3f3f40;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 18px;
+  text-align: center;
+  letter-spacing: .2px;
+}
+.products-list .products-table thead th:first-child{
+  text-align: left;
+  padding-left: 24px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.products-list .products-table thead th:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Filas */
+.products-list .products-table tbody td{
+  padding: 18px 18px;
+  border-bottom: 1px solid #efefef;
+  text-align: center;
+  color: #2e2f33;
+  vertical-align: middle;
+}
+.products-list .products-table tbody td:first-child{
+  text-align: left;
+  padding-left: 24px;
+}
+.products-list .products-table tbody tr:last-child td{
+  border-bottom: 0;
+}
+.products-list .products-table tbody tr:hover td{
+  background: #fafafa;
+}
+
+/* Botón de información */
+.products-list .icon-btn{
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: #000;
+}
+.products-list .icon-btn i{
+  font-size: 20px;
+  color: inherit;
+}
+.products-list .icon-btn:hover{
+  opacity: .85;
+}
+.products-list .icon-btn:focus-visible{
+  outline: 2px solid #000;
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+

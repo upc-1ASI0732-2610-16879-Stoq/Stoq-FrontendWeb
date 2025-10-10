@@ -6,6 +6,18 @@ import { RestockingDialogComponent } from '../restocking-dialog/restocking-dialo
 import { NewKitDialogComponent } from '../new-kit-dialog/new-kit-dialog';
 import { KitApi } from '../../infrastructure/kit-api';
 import { Kit } from '../../domain/model/kit.entity';
+import { Product } from '../../domain/model/product.entity';
+import { forkJoin } from 'rxjs';
+import { ProductsApi } from '../../infrastructure/products-api';
+import { StockApi } from '../../infrastructure/stock-api';
+
+type ProductRow = {
+  id: string,
+  name: string,
+  unitPrice: number,
+  minStock: number,
+  currentStock: number,
+};
 
 @Component({
   selector: 'app-inventory-list',
@@ -18,13 +30,17 @@ export class InventoryListComponent implements OnInit {
   private translate = inject(TranslateService);
   private dialog = inject(MatDialog);
   private kitApi = inject(KitApi);
+  private productsApi = inject(ProductsApi);
+  private stockApi = inject(StockApi);
 
   kits: Kit[] = [];
   loading: boolean = true;
   error: string = '';
+  productsRow: ProductRow[] = [];
 
   ngOnInit(): void {
     this.loadKits();
+    this.loadProducts();
   }
 
   protected t(key: string): string {
@@ -86,5 +102,43 @@ export class InventoryListComponent implements OnInit {
   calculateKitTotal(kit: Kit): number {
     return kit.products.reduce((sum, product) => sum + product.quantity, 0);
   }
+
+
+  /* PRODUCTOS */
+
+  loadProducts(): void {
+    this.loading = true;
+    this.error = '';
+
+    forkJoin({
+      products: this.productsApi.getProducts(), // Product[]
+      stock: this.stockApi.getStock()           // StockResource[]
+    }).subscribe({
+      next: ({ products, stock }) => {
+        const stockByProduct = new Map(stock.map(s => [s.productId, s.currentStock]));
+        this.productsRow = products.map(p => ({
+          id: p.id,
+          name: p.name,
+          unitPrice: p.unitPrice,
+          minStock: p.minStock,
+          currentStock: stockByProduct.get(p.id) ?? 0
+        }));
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar productos', err);
+        this.error = 'Error al cargar los productos';
+        this.loading = false;
+      }
+    });
+  }
+
+  trackByProductId(_: number, p: ProductRow) { return p.id; }
+
+  openProductInfo(p: ProductRow) {
+
+  }
+
+
 }
 
