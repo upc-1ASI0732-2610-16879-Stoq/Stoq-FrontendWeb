@@ -19,7 +19,7 @@ export class DashboardAssembler implements BaseAssembler<Dashboard, DashboardRes
    */
   toDashboardFromResource(resource: DashboardResource): Dashboard {
     return new Dashboard({
-      id: 'dashboard-1', // Dashboard is a singleton, so we use a fixed ID
+      id: 'dashboard-1',
       stats: this.toDashboardStatsFromResource(resource),
       monthlyIncome: this.toMonthlyIncomeFromResources(resource.monthlyIncome),
       productSales: this.toProductSalesFromResources(resource.productSales),

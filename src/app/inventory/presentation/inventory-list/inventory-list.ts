@@ -36,7 +36,6 @@ export class InventoryListComponent {
   private translate = inject(TranslateService);
   private dialog = inject(MatDialog);
 
-  // Getter reactivo que calcula productsRow directamente desde los signals del store
   get productsRow(): ProductRow[] {
     const stock = this.store.stock();
     const restockings = this.store.restockings();
@@ -114,8 +113,6 @@ export class InventoryListComponent {
       items: restockingItems
     });
 
-    // El store se encarga de crear el restocking
-    // productsRow se actualiza automáticamente porque es un getter reactivo
     this.store.addRestocking(restocking);
   }
 
@@ -130,7 +127,6 @@ export class InventoryListComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Los kits se actualizan automáticamente en el store
       }
     });
   }
@@ -170,7 +166,6 @@ export class InventoryListComponent {
       disableClose: false
     });
     dialogRef.afterClosed().subscribe(ok => { 
-      // productsRow se actualiza automáticamente porque es un getter reactivo
       if (ok) console.log('Producto creado exitosamente');
     });
   }

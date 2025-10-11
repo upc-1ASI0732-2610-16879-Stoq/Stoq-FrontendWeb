@@ -191,8 +191,20 @@ export class InventoryStore {
    * @param kit - The kit to add.
    */
   addKit(kit: Kit): void {
-    const currentKits = this.kitsSignal();
-    this.kitsSignal.set([...currentKits, kit]);
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    this.kitApi.createKit(kit).subscribe({
+      next: (createdKit: Kit) => {
+        const currentKits = this.kitsSignal();
+        this.kitsSignal.set([...currentKits, createdKit]);
+        this.loadingSignal.set(false);
+      },
+      error: (err: Error) => {
+        this.errorSignal.set(this.formatError(err, 'Error creating kit'));
+        this.loadingSignal.set(false);
+      }
+    });
   }
 
   /**
@@ -219,36 +231,64 @@ export class InventoryStore {
   }
 
   /**
-   * Adds a new restocking to the store.
-   * @param restocking - The restocking to add.
+   * Adds stock to products (restocking functionality).
+   * @param restocking - The restocking data containing lot and items.
    */
   addRestocking(restocking: Restocking): void {
-    this.restockingApi.createRestocking(restocking).subscribe({
-      next: (createdRestocking: Restocking) => {
-        this.restockingsSignal.update(restockings => [...restockings, createdRestocking]);
-        
-        // Actualizar el stock de los productos
-        restocking.items.forEach(item => {
-          this.stockApi.getStockByProductId(item.productId).subscribe({
-            next: (stockResource) => {
-              if (stockResource) {
-                const newStock = stockResource.currentStock + item.quantityToAdd;
-                this.stockApi.updateStock(stockResource.id, newStock).subscribe({
-                  next: (updatedStock) => {
-                    // Actualizar el stock en el signal
-                    this.stockSignal.update(stocks => 
-                      stocks.map(s => s.id === updatedStock.id ? updatedStock : s)
-                    );
-                  }
-                });
-              }
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    const updatePromises = restocking.items.map(item => {
+      return new Promise<void>((resolve, reject) => {
+        this.stockApi.getStockByProductId(item.productId).subscribe({
+          next: (stockResource) => {
+            if (stockResource) {
+              const newStock = stockResource.currentStock + item.quantityToAdd;
+              
+              this.stockApi.updateStock(stockResource.id, newStock).subscribe({
+                next: (updatedStock) => {
+                  this.stockSignal.update(stocks => 
+                    stocks.map(s => s.id === updatedStock.id ? updatedStock : s)
+                  );
+                  resolve();
+                },
+                error: (err: any) => {
+                  this.errorSignal.set(this.formatError(err, 'Error updating stock'));
+                  reject(err);
+                }
+              });
+            } else {
+              this.stockApi.createStock(item.productId, item.quantityToAdd).subscribe({
+                next: (newStock) => {
+                  this.stockApi.getStock().subscribe({
+                    next: (allStock) => {
+                      this.stockSignal.set(allStock);
+                      resolve();
+                    },
+                    error: (err) => {
+                      reject(err);
+                    }
+                  });
+                },
+                error: (err: any) => {
+                  this.errorSignal.set(this.formatError(err, 'Error creating stock'));
+                  reject(err);
+                }
+              });
             }
-          });
+          },
+          error: (err: any) => {
+            this.errorSignal.set(this.formatError(err, 'Error getting stock'));
+            reject(err);
+          }
         });
-      },
-      error: (err: any) => {
-        this.errorSignal.set(this.formatError(err, 'Error adding restocking'));
-      }
+      });
+    });
+
+    Promise.all(updatePromises).then(() => {
+      this.loadingSignal.set(false);
+    }).catch((err) => {
+      this.loadingSignal.set(false);
     });
   }
 

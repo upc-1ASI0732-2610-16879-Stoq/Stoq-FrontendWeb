@@ -23,7 +23,6 @@ export class UserStore {
   readonly activeUsers = computed(() => this.users().filter(user => user.isActive()));
   readonly adminUsers = computed(() => this.users().filter(user => user.isAdmin()));
 
-  // Available roles (static data)
   readonly availableRoles = [
     { name: 'Vendedor', permissions: { productos: true, compras: true, estadisticas: false, usuarios: false } },
     { name: 'Administrador', permissions: { productos: true, compras: true, estadisticas: true, usuarios: true } }

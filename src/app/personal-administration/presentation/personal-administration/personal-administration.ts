@@ -210,4 +210,8 @@ export class PersonalAdministrationComponent {
   getUserStatusDisplay(status: UserStatus): string {
     return status === UserStatus.ACTIVE ? 'Activo' : 'Inactivo';
   }
+
+  trackByUserId(index: number, user: User): string {
+    return user.id;
+  }
 }

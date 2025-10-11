@@ -52,7 +52,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of filteredUsers">
+      <tr *ngFor="let user of filteredUsers; trackBy: trackByUserId">
         <td>{{ user.name }}</td>
         <td>{{ getUserRoleDisplay(user.role) }}</td>
         <td>{{ user.email }}</td>

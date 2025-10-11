@@ -21,10 +21,10 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
     return new User({
       id: String(resource.id || ''),
       name: resource.name,
-      role: this.mapStringToUserRole(resource.role),
+      role: this.mapStringToUserRole(resource.role || 'Vendedor'),
       email: resource.email,
       password: resource.password || '',
-      status: this.mapStringToUserStatus(resource.status)
+      status: this.mapStringToUserStatus(resource.status || 'Activo')
     });
   }
 
@@ -103,13 +103,17 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
    * @returns The corresponding UserRole enum value.
    */
   private mapStringToUserRole(roleString: string): UserRole {
+    if (!roleString) {
+      return UserRole.VENDOR;
+    }
+    
     switch (roleString.toLowerCase()) {
       case 'administrador':
         return UserRole.ADMIN;
       case 'vendedor':
         return UserRole.VENDOR;
       default:
-        throw new Error(`Unknown user role: ${roleString}`);
+        return UserRole.VENDOR;
     }
   }
 
@@ -119,13 +123,17 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
    * @returns The corresponding UserStatus enum value.
    */
   private mapStringToUserStatus(statusString: string): UserStatus {
+    if (!statusString) {
+      return UserStatus.ACTIVE;
+    }
+    
     switch (statusString.toLowerCase()) {
       case 'activo':
         return UserStatus.ACTIVE;
       case 'inactivo':
         return UserStatus.INACTIVE;
       default:
-        throw new Error(`Unknown user status: ${statusString}`);
+        return UserStatus.ACTIVE;
     }
   }
 
