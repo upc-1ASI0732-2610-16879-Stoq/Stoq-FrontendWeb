@@ -15,7 +15,8 @@
     },
     "footer": {
       "settings": "Configuración",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "logout": "Cerrar Sesión"
     }
   },
   "home": {
@@ -86,7 +87,17 @@
       "email": "Correo Electrónico",
       "ruc": "RUC",
       "cancel": "Cancelar",
-      "save": "Guardar"
+      "save": "Guardar",
+      "first-name-required": "El nombre es requerido",
+      "first-name-minlength": "El nombre debe tener al menos 2 caracteres",
+      "last-name-required": "El apellido es requerido",
+      "last-name-minlength": "El apellido debe tener al menos 2 caracteres",
+      "phone-number-required": "El teléfono es requerido",
+      "phone-number-invalid": "Formato de teléfono inválido",
+      "email-required": "El correo electrónico es requerido",
+      "email-invalid": "Formato de correo electrónico inválido",
+      "ruc-required": "El RUC es requerido",
+      "ruc-invalid": "El RUC debe tener exactamente 11 dígitos"
     }
   },
   "auth": {
@@ -178,6 +189,7 @@
     "lastnameLabel": "Apellidos",
     "phoneLabel": "Número telefónico",
     "emailLabel": "Correo",
+    "passwordLabel": "Contraseña",
     "roleLabel": "Rol",
     "editUserTitle": "Editar Usuario",
     "fullNameLabel": "Nombre completo",
@@ -199,6 +211,13 @@
     "save": "Guardar",
     "saveChanges": "Guardar Cambios",
     "delete": "Eliminar"
+  },
+  "notFound": {
+    "title": "Página No Encontrada",
+    "message": "¡Ups! La página que buscas no existe.",
+    "description": "Es posible que la URL esté mal escrita o que la página se haya movido. Por favor, verifica la dirección o regresa a la página principal.",
+    "goHome": "Ir al Inicio",
+    "goBack": "Volver Atrás"
   }
 
 }

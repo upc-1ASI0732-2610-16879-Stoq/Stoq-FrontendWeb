@@ -15,7 +15,8 @@
     },
     "footer": {
       "settings": "Settings",
-      "profile": "Profile"
+      "profile": "Profile",
+      "logout": "Logout"
     }
   },
   "home": {
@@ -87,8 +88,18 @@
       "email": "Email",
       "ruc": "RUC",
       "cancel": "Cancel",
-      "save": "Save"
-      }
+      "save": "Save",
+      "first-name-required": "First name is required",
+      "first-name-minlength": "First name must be at least 2 characters",
+      "last-name-required": "Last name is required",
+      "last-name-minlength": "Last name must be at least 2 characters",
+      "phone-number-required": "Phone number is required",
+      "phone-number-invalid": "Invalid phone number format",
+      "email-required": "Email is required",
+      "email-invalid": "Invalid email format",
+      "ruc-required": "RUC is required",
+      "ruc-invalid": "RUC must have exactly 11 digits"
+    }
   },
   "auth": {
     "login": {
@@ -179,6 +190,7 @@
     "lastnameLabel": "Last Name",
     "phoneLabel": "Phone Number",
     "emailLabel": "Email",
+    "passwordLabel": "Password",
     "roleLabel": "Role",
     "editUserTitle": "Edit User",
     "fullNameLabel": "Full Name",
@@ -200,7 +212,13 @@
     "save": "Save",
     "saveChanges": "Save Changes",
     "delete": "Delete"
-
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "Oops! The page you're looking for doesn't exist.",
+    "description": "The URL might be misspelled or the page may have been moved. Please check the address or return to the main page.",
+    "goHome": "Go Home",
+    "goBack": "Go Back"
   }
 
 }
