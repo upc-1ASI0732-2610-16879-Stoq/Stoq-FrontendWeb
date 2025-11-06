@@ -1,0 +1,156 @@
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 0;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 64px;
+  padding: 0 8px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  min-width: 64px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.nav-item:hover {
+  color: rgba(0, 0, 0, 0.87);
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+.nav-item.active {
+  color: #FF6B35;
+}
+
+.nav-item mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.nav-label {
+  font-size: 0.7rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.more-btn {
+  color: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 8px 12px !important;
+  min-width: 64px !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+.more-btn:hover {
+  color: rgba(0, 0, 0, 0.87) !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.more-btn mat-icon {
+  font-size: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 24px !important;
+  margin: 0 !important;
+}
+
+.more-menu {
+  max-width: 300px;
+}
+
+.more-menu button[mat-menu-item] {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.more-menu button[mat-menu-item] mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.language-menu-section {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.language-menu-section ::ng-deep .language-switcher {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.language-menu-section ::ng-deep .lang-btn {
+  min-width: 40px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.87);
+  background: transparent;
+}
+
+.language-menu-section ::ng-deep .lang-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: none;
+}
+
+.language-menu-section ::ng-deep .lang-btn.active {
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  font-weight: 600;
+}
+
+.logout-menu-item {
+  color: #d32f2f;
+}
+
+.logout-menu-item:hover {
+  background: rgba(211, 47, 47, 0.08);
+}
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 8px 0;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  min-height: 48px;
+}
+

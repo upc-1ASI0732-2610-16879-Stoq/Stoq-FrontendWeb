@@ -11,12 +11,28 @@
       "inventory": "Inventario",
       "providers": "Proveedores",
       "sales": "Venta",
-      "reports": "Reportes"
+      "reports": "Reportes",
+      "more": "Más",
+      "aria": {
+        "home": "Ir a inicio",
+        "inventory": "Ir a inventario",
+        "providers": "Ir a proveedores",
+        "sales": "Ir a ventas",
+        "reports": "Ir a reportes",
+        "more": "Abrir menú de más opciones",
+        "language": "Selector de idioma",
+        "navigation": "Navegación principal"
+      }
     },
     "footer": {
       "settings": "Configuración",
       "profile": "Perfil",
-      "logout": "Cerrar Sesión"
+      "logout": "Cerrar Sesión",
+      "aria": {
+        "settings": "Ir a configuración",
+        "profile": "Ir a perfil",
+        "logout": "Cerrar sesión"
+      }
     }
   },
   "home": {

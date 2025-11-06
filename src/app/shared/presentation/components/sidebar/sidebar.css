@@ -14,7 +14,7 @@
 }
 
 .sidebar.expanded {
-  width: 280px;
+  width: 240px;
 }
 
 .sidebar .toggle-btn {
@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .sidebar .logo-container .logo-icon {
@@ -115,7 +115,7 @@
   text-decoration: none;
   border-radius: 12px;
   transition: all 0.2s ease;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .sidebar .menu ul li a i {
@@ -147,7 +147,7 @@
   margin-top: auto;
   padding: 16px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -164,7 +164,7 @@
   border-radius: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: white;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -202,7 +202,10 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Ajustes para cuando está colapsado */
+.sidebar:not(.expanded) .logo-container {
+  justify-content: center;
+}
+
 .sidebar:not(.expanded) .menu ul li a,
 .sidebar:not(.expanded) .sidebar-footer a {
   justify-content: center;
@@ -211,4 +214,14 @@
 .sidebar:not(.expanded) .menu ul li a i,
 .sidebar:not(.expanded) .sidebar-footer a i {
   margin: 0;
+}
+
+.sidebar:not(.expanded) .language-section {
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none !important;
+  }
 }
