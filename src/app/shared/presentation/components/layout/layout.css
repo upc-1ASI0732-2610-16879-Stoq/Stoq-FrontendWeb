@@ -4,16 +4,16 @@
   width: 100%;
   background-color: #f5f5f5;
   overflow: hidden;
+  gap: 16px;
+  padding: 16px;
 }
 
 .main-content {
   flex: 1;
   padding: 32px;
   overflow-y: auto;
-  margin: 16px 16px 16px 0;
+  margin-left: 0;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .layout-container.mobile-layout {
@@ -24,22 +24,20 @@
 .main-content.mobile-content {
   margin: 0;
   padding: 16px;
-  border-radius: 0;
-  box-shadow: none;
   height: calc(100vh - 64px); 
   overflow-y: auto;
 }
 
 @media (max-width: 768px) {
+  .layout-container {
+    padding: 0;
+    gap: 0;
+    padding-bottom: 64px; 
+  }
+  
   .main-content {
     margin: 0;
     padding: 16px;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  
-  .layout-container {
-    padding-bottom: 64px; 
   }
 }
 
