@@ -2,6 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { AuthStore } from '../../../../auth/application/auth.store';
 
@@ -16,7 +20,16 @@ interface MenuItem {
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, LanguageSwitcher, TranslateModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    LanguageSwitcher,
+    TranslateModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule
+  ],
 })
 export class SidebarComponent {
   private translate = inject(TranslateService);

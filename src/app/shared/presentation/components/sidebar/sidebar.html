@@ -1,7 +1,7 @@
 <div class="sidebar" [class.expanded]="isExpanded">
-  <div class="toggle-btn" (click)="toggleSidebar()">
-    <i class="material-icons">{{ isExpanded ? 'chevron_left' : 'chevron_right' }}</i>
-  </div>
+  <button mat-icon-button class="toggle-btn" (click)="toggleSidebar()" [attr.aria-label]="isExpanded ? 'Collapse sidebar' : 'Expand sidebar'">
+    <mat-icon>{{ isExpanded ? 'chevron_left' : 'chevron_right' }}</mat-icon>
+  </button>
 
   <div class="header-container">
     <div class="logo-container">
@@ -9,33 +9,37 @@
     </div>
   </div>
 
-  <div class="menu">
-    <ul>
-      <li *ngFor="let item of menuItems">
-        <a [routerLink]="item.route" routerLinkActive="active">
-          <i class="material-icons">{{item.icon}}</i>
-          <span *ngIf="isExpanded">{{ t(item.titleKey) }}</span>
-        </a>
-      </li>
-    </ul>
-  </div>
+  <mat-nav-list class="menu">
+    <a mat-list-item 
+       *ngFor="let item of menuItems"
+       [routerLink]="item.route" 
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: item.route === '/'}">
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span matListItemTitle *ngIf="isExpanded">{{ t(item.titleKey) }}</span>
+    </a>
+  </mat-nav-list>
+
+  <mat-divider class="sidebar-divider" *ngIf="isExpanded"></mat-divider>
 
   <div class="language-section" *ngIf="isExpanded">
     <app-language-switcher></app-language-switcher>
   </div>
 
-  <div class="sidebar-footer">
-    <a routerLink="/configuracion" routerLinkActive="active">
-      <i class="material-icons">settings</i>
-      <span *ngIf="isExpanded">{{ t('sidebar.footer.settings') }}</span>
+  <mat-divider class="sidebar-divider"></mat-divider>
+
+  <mat-nav-list class="sidebar-footer">
+    <a mat-list-item routerLink="/configuracion" routerLinkActive="active">
+      <mat-icon matListItemIcon>settings</mat-icon>
+      <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.settings') }}</span>
     </a>
-    <a routerLink="/perfil" routerLinkActive="active">
-      <i class="material-icons">person</i>
-      <span *ngIf="isExpanded">{{ t('sidebar.footer.profile') }}</span>
+    <a mat-list-item routerLink="/perfil" routerLinkActive="active">
+      <mat-icon matListItemIcon>person</mat-icon>
+      <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.profile') }}</span>
     </a>
-    <a (click)="logout()" class="logout-btn">
-      <i class="material-icons">logout</i>
-      <span *ngIf="isExpanded">{{ t('sidebar.footer.logout') }}</span>
+    <a mat-list-item (click)="logout()" class="logout-btn">
+      <mat-icon matListItemIcon>logout</mat-icon>
+      <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.logout') }}</span>
     </a>
-  </div>
+  </mat-nav-list>
 </div>
