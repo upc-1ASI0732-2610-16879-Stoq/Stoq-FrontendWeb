@@ -1,92 +1,168 @@
 <div class="inventory-container">
   <div class="inventory-grid">
     <div class="products-column">
-      <div class="section-title">
-        <h2>{{ 'inventory.products' | translate }}</h2>
+      <div class="section-header">
+        <div class="section-title">
+          <h2>{{ 'inventory.products' | translate }}</h2>
+        </div>
+        <div class="toolbar-buttons">
+          <button class="btn-purple" (click)="openNewKitDialog()">＋ Kit</button>
+          <button class="btn-green" (click)="openNewProductDialog()">＋ {{ 'inventory.product' | translate}}</button>
+          <button class="btn-orange" (click)="openRestockingDialog()">＋ {{ 'inventory.newReplacement' | translate }}</button>
+        </div>
       </div>
       <div class="products-card">
         <div class="action-bar">
-          <div class="search-filter-group">
-            <div class="search-box">
-              <i class="material-icons">search</i>
-              <input type="text" placeholder="{{ 'inventory.search' | translate }}" />
-            </div>
-            <button class="btn-filter">
-              <i class="material-icons">tune</i>
-              <span>{{ 'inventory.filter' | translate }}</span>
-            </button>
-          </div>
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input 
+              matInput 
+              type="text" 
+              [placeholder]="'inventory.search' | translate"
+              [value]="searchTerm()"
+              (input)="onSearchChange($any($event.target).value)" />
+          </mat-form-field>
+          
+          <div class="filters-container">
+            <mat-form-field appearance="outline" class="filter-field-inline">
+              <mat-label>{{ 'inventory.category' | translate }}</mat-label>
+              <mat-select [value]="selectedCategory()" (selectionChange)="onCategorySelected($event.value)">
+                <mat-option value="">{{ 'inventory.allCategories' | translate }}</mat-option>
+                @for (category of categories; track category.id) {
+                  <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
 
-          <div class="toolbar-buttons">
-            <button class="btn-purple" (click)="openNewKitDialog()">＋ Kit</button>
-            <button class="btn-green" (click)="openNewProductDialog()">＋ {{ 'inventory.product' | translate}}</button>
-            <button class="btn-orange" (click)="openRestockingDialog()">＋ {{ 'inventory.newReplacement' | translate }}</button>
+            <mat-form-field appearance="outline" class="filter-field-inline">
+              <mat-label>{{ 'inventory.provider' | translate }}</mat-label>
+              <mat-select [value]="selectedProvider()" (selectionChange)="onProviderSelected($event.value)">
+                <mat-option value="">{{ 'inventory.allProviders' | translate }}</mat-option>
+                @for (provider of providers; track provider.id) {
+                  <mat-option [value]="provider.id">{{ getProviderName(provider.id) }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="filter-field-inline">
+              <mat-label>{{ 'inventory.status' | translate }}</mat-label>
+              <mat-select [value]="selectedStatus()" (selectionChange)="onStatusSelected($event.value)">
+                <mat-option value="">{{ 'inventory.allStatuses' | translate }}</mat-option>
+                <mat-option value="normal">{{ 'inventory.normalStock' | translate }}</mat-option>
+                <mat-option value="lowStock">{{ 'inventory.lowStock' | translate }}</mat-option>
+                <mat-option value="outOfStock">{{ 'inventory.outOfStock' | translate }}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
 
-        <div class="products-list" *ngIf="!store.loading() && !store.error() && productsRow.length > 0">
-        <div class="table-wrapper">
-          <table class="products-table">
-            <thead>
-            <tr>
-              <th>{{ 'inventory.name' | translate }}</th>
-              <th>{{ 'inventory.unitPrice' | translate }}</th>
-              <th>{{ 'inventory.currentStock' | translate }}</th>
-              <th>{{ 'inventory.minimumStock' | translate }}</th>
-              <th class="status-column">{{ 'inventory.status' | translate }}</th>
-              <th>{{ 'inventory.actions' | translate }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            @for (p of productsRow; track p.id) {
-              <tr [class.low-stock]="p.currentStock > 0 && p.currentStock <= p.minStock"
-                  [class.out-of-stock]="p.currentStock === 0">
-                <td>
-                  <div class="product-name-cell">
-                    <span>{{ p.name }}</span>
-                  </div>
-                </td>
-                <td>S/. {{ p.unitPrice | number:'1.2-2' }}</td>
-                <td>
-                  <span class="stock-quantity">
-                    {{ p.currentStock }}
-                  </span>
-                </td>
-                <td>{{ p.minStock }}</td>
-                <td>
-                  @if (p.currentStock === 0) {
-                    <span class="stock-status-badge out-of-stock-badge">{{ 'inventory.outOfStock' | translate }}</span>
-                  } @else if (p.currentStock <= p.minStock) {
-                    <span class="stock-status-badge low-stock-badge">{{ 'inventory.lowStock' | translate }}</span>
-                  } @else {
-                    <span class="stock-status-badge normal-stock-badge">{{ 'inventory.normalStock' | translate }}</span>
-                  }
-                </td>
-                <td>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" class="actions-btn">
-                    <mat-icon>more_vert</mat-icon>
+        @if (activeFiltersCount > 0) {
+          <div class="applied-filters-bar">
+            <div class="filters-chips">
+              @for (filter of activeFilters; track filter.type) {
+                <mat-chip [removable]="true" (removed)="removeFilter(filter.type)">
+                  {{ filter.label }}
+                  <button matChipRemove [attr.aria-label]="'inventory.removeFilter' | translate">
+                    <mat-icon>cancel</mat-icon>
                   </button>
-                  <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="openProductInfo(p)">
-                      <mat-icon>visibility</mat-icon>
-                      <span>{{ 'inventory.viewDetail' | translate }}</span>
-                    </button>
-                    <button mat-menu-item (click)="editProduct(p)">
-                      <mat-icon>edit</mat-icon>
-                      <span>{{ 'inventory.edit' | translate }}</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button mat-menu-item (click)="deleteProduct(p)" class="delete-action">
-                      <mat-icon>delete</mat-icon>
-                      <span>{{ 'inventory.delete' | translate }}</span>
-                    </button>
-                  </mat-menu>
-                </td>
+                </mat-chip>
+              }
+              <button mat-stroked-button class="clear-filters-btn" (click)="clearFilters()" [attr.aria-label]="'inventory.clearFilters' | translate">
+                <mat-icon>clear</mat-icon>
+                <span>{{ 'inventory.clearFilters' | translate }}</span>
+              </button>
+            </div>
+          </div>
+        }
+
+        <div class="products-list" *ngIf="!store.loading() && !store.error()">
+          <div class="table-wrapper">
+            <table class="products-table">
+              <thead>
+              <tr>
+                <th>{{ 'inventory.name' | translate }}</th>
+                <th>{{ 'inventory.unitPrice' | translate }}</th>
+                <th>{{ 'inventory.currentStock' | translate }}</th>
+                <th>{{ 'inventory.minimumStock' | translate }}</th>
+                <th class="status-column">{{ 'inventory.status' | translate }}</th>
+                <th>{{ 'inventory.actions' | translate }}</th>
               </tr>
-            }
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+              @if (productsRow.length === 0) {
+                <tr>
+                  <td colspan="6" class="no-results-cell">
+                    <div class="no-results-message">
+                      <mat-icon>search_off</mat-icon>
+                      <p>{{ 'inventory.noProductsFound' | translate }}</p>
+                      @if (searchTerm() || selectedCategory() || selectedProvider() || selectedStatus()) {
+                        <small>{{ 'inventory.tryDifferentSearch' | translate }}</small>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              } @else {
+                @for (p of paginatedProducts; track p.id) {
+                  <tr [class.low-stock]="p.currentStock > 0 && p.currentStock <= p.minStock"
+                      [class.out-of-stock]="p.currentStock === 0">
+                    <td>
+                      <div class="product-name-cell">
+                        <span>{{ p.name }}</span>
+                      </div>
+                    </td>
+                    <td>S/. {{ p.unitPrice | number:'1.2-2' }}</td>
+                    <td>
+                      <span class="stock-quantity">
+                        {{ p.currentStock }}
+                      </span>
+                    </td>
+                    <td>{{ p.minStock }}</td>
+                    <td>
+                      @if (p.currentStock === 0) {
+                        <span class="stock-status-badge out-of-stock-badge">{{ 'inventory.outOfStock' | translate }}</span>
+                      } @else if (p.currentStock <= p.minStock) {
+                        <span class="stock-status-badge low-stock-badge">{{ 'inventory.lowStock' | translate }}</span>
+                      } @else {
+                        <span class="stock-status-badge normal-stock-badge">{{ 'inventory.normalStock' | translate }}</span>
+                      }
+                    </td>
+                    <td>
+                      <button mat-icon-button [matMenuTriggerFor]="menu" class="actions-btn">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="openProductInfo(p)">
+                          <mat-icon>visibility</mat-icon>
+                          <span>{{ 'inventory.viewDetail' | translate }}</span>
+                        </button>
+                        <button mat-menu-item (click)="editProduct(p)">
+                          <mat-icon>edit</mat-icon>
+                          <span>{{ 'inventory.edit' | translate }}</span>
+                        </button>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="deleteProduct(p)" class="delete-action">
+                          <mat-icon>delete</mat-icon>
+                          <span>{{ 'inventory.delete' | translate }}</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </tr>
+                }
+              }
+              </tbody>
+            </table>
+          </div>
+          @if (productsRow.length > 0) {
+            <mat-paginator 
+              [length]="totalProducts"
+              [pageSize]="pageSize()"
+              [pageIndex]="pageIndex()"
+              [pageSizeOptions]="[5, 10, 25]"
+              (page)="onPageChange($event)"
+              showFirstLastButtons
+              class="products-paginator">
+            </mat-paginator>
+          }
       </div>
       </div>
     </div>
@@ -113,21 +189,21 @@
         </div>
 
         <div class="kits-list" *ngIf="!store.loading() && !store.error() && store.kits().length > 0">
-          <div class="kit-card" *ngFor="let kit of store.kits()">
-            <div class="kit-header">
-              <h3>{{ kit.name }}</h3>
-            </div>
-            <div class="kit-body">
+          <mat-card *ngFor="let kit of store.kits()">
+            <mat-card-header>
+              <mat-card-title>{{ kit.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
               <div class="kit-product" *ngFor="let product of kit.products">
-                <span class="product-quantity">{{ product.quantity }}</span>
-                <span class="product-name">{{ product.name }}</span>
+                <span>{{ product.quantity }}</span>
+                <span>{{ product.name }}</span>
               </div>
-            </div>
-            <div class="kit-footer">
-              <span class="kit-total-label">Total:</span>
+            </mat-card-content>
+            <mat-card-footer class="kit-footer">
+              <span>Total:</span>
               <span class="kit-price">s/ {{ kit.price | number: '1.2-2' }}</span>
-            </div>
-          </div>
+            </mat-card-footer>
+          </mat-card>
         </div>
 
         <div class="content" *ngIf="!store.loading() && !store.error() && store.kits().length === 0">

@@ -212,24 +212,24 @@
 }
 
 .logout-menu-item {
-  color: #dc2626 !important;
+  color: var(--color-error-text) !important;
 }
 
 .logout-menu-item ::ng-deep mat-icon {
-  color: #dc2626 !important;
+  color: var(--color-error-text) !important;
 }
 
 .logout-menu-item ::ng-deep span {
-  color: #dc2626 !important;
+  color: var(--color-error-text) !important;
 }
 
 .logout-menu-item:hover {
-  background: rgba(220, 38, 38, 0.1) !important;
+  background: var(--color-error) !important;
 }
 
 .logout-menu-item:hover ::ng-deep mat-icon,
 .logout-menu-item:hover ::ng-deep span {
-  color: #b91c1c !important;
+  color: var(--color-error-text) !important;
 }
 
 .more-menu ::ng-deep .mat-mdc-divider {

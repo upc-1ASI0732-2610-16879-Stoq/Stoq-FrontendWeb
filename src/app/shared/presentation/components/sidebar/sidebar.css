@@ -160,31 +160,31 @@
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn {
-  background: #fef2f2;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #dc2626;
+  background: var(--color-error);
+  border: 1px solid rgba(153, 27, 27, 0.3);
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn:hover {
   background: #fee2e2;
-  border-color: rgba(239, 68, 68, 0.5);
-  color: #b91c1c;
+  border-color: rgba(153, 27, 27, 0.5);
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn mat-icon {
-  color: #dc2626;
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn:hover mat-icon {
-  color: #b91c1c;
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn span {
-  color: #dc2626;
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn:hover span {
-  color: #b91c1c;
+  color: var(--color-error-text);
 }
 
 .sidebar .sidebar-footer mat-icon[matListItemIcon] {
