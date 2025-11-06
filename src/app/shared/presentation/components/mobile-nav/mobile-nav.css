@@ -15,7 +15,7 @@
   justify-content: space-around;
   align-items: center;
   height: 64px;
-  padding: 0 8px;
+  padding: 0;
   max-width: 100%;
   overflow-x: auto;
 }
@@ -26,16 +26,19 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 8px 12px;
-  min-width: 64px;
+  padding: 8px;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
   text-decoration: none;
   color: rgba(0, 0, 0, 0.6);
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: 500;
+  height: 100%;
 }
 
 .nav-item:hover {
@@ -54,39 +57,65 @@
   width: 24px;
   height: 24px;
   line-height: 24px;
+  flex-shrink: 0;
 }
 
 .nav-label {
   font-size: 0.7rem;
   line-height: 1;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  text-align: center;
 }
 
 .more-btn {
-  color: rgba(0, 0, 0, 0.6) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 4px !important;
-  padding: 8px 12px !important;
-  min-width: 64px !important;
-  width: auto !important;
-  height: auto !important;
-  line-height: normal !important;
+  color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  height: 100%;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 0;
 }
 
 .more-btn:hover {
-  color: var(--color-primary) !important;
-  background: var(--color-primary-light) !important;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  border-radius: 8px;
 }
 
 .more-btn mat-icon {
-  font-size: 24px !important;
-  width: 24px !important;
-  height: 24px !important;
-  line-height: 24px !important;
-  margin: 0 !important;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.more-btn .nav-label {
+  font-size: 0.7rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  text-align: center;
 }
 
 .more-menu {

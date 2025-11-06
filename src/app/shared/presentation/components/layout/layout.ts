@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../sidebar/sidebar';
 import { MobileNavComponent } from '../mobile-nav/mobile-nav';
+import { TopbarComponent } from '../topbar/topbar';
 
 @Component({
   selector: 'app-layout',
@@ -13,6 +14,7 @@ import { MobileNavComponent } from '../mobile-nav/mobile-nav';
     RouterOutlet,
     SidebarComponent,
     MobileNavComponent,
+    TopbarComponent,
     CommonModule
   ],
   templateUrl: './layout.html',
