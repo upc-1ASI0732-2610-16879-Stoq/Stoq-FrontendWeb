@@ -1,6 +1,6 @@
 .sidebar {
   width: 70px;
-  background: linear-gradient(180deg, #F19F38, #fb823c);
+  background: #ffa22a;
   transition: all 0.3s ease;
   overflow: visible;
   height: calc(100vh - 32px);
@@ -21,7 +21,7 @@
   position: absolute;
   right: -16px;
   top: 24px;
-  background: #FF6B35;
+  background: #ffa22a;
   border: none;
   color: white;
   cursor: pointer;
@@ -36,7 +36,7 @@
 }
 
 .sidebar .toggle-btn:hover {
-  background: #FF8C42;
+  background: #ffb755;
 }
 
 .sidebar .toggle-btn mat-icon {
@@ -114,7 +114,8 @@
 }
 
 .sidebar .menu a[mat-list-item].active {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 162, 42, 0.4);
 }
 
 .sidebar .menu mat-icon[matListItemIcon] {
@@ -161,17 +162,36 @@
 }
 
 .sidebar .sidebar-footer a[mat-list-item].active {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 162, 42, 0.4);
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn {
-  background: rgba(255, 107, 53, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: #fef2f2;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
 }
 
 .sidebar .sidebar-footer a[mat-list-item].logout-btn:hover {
-  background: rgba(255, 107, 53, 0.5);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #fee2e2;
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #b91c1c;
+}
+
+.sidebar .sidebar-footer a[mat-list-item].logout-btn mat-icon {
+  color: #dc2626;
+}
+
+.sidebar .sidebar-footer a[mat-list-item].logout-btn:hover mat-icon {
+  color: #b91c1c;
+}
+
+.sidebar .sidebar-footer a[mat-list-item].logout-btn span {
+  color: #dc2626;
+}
+
+.sidebar .sidebar-footer a[mat-list-item].logout-btn:hover span {
+  color: #b91c1c;
 }
 
 .sidebar .sidebar-footer mat-icon[matListItemIcon] {
@@ -205,6 +225,15 @@
 .sidebar:not(.expanded) .menu mat-icon[matListItemIcon],
 .sidebar:not(.expanded) .sidebar-footer mat-icon[matListItemIcon] {
   margin-right: 0;
+}
+
+.sidebar:not(.expanded) .sidebar-footer a[mat-list-item].logout-btn {
+  background: rgba(254, 242, 242, 0.9);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.sidebar:not(.expanded) .sidebar-footer a[mat-list-item].logout-btn:hover {
+  background: rgba(254, 226, 226, 0.95);
 }
 
 .sidebar:not(.expanded) .language-section {
