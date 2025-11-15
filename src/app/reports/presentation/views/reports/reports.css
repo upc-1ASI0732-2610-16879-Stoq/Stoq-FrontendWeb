@@ -1,0 +1,260 @@
+.reports-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em;
+  background-color: #F9FAFB;
+  min-height: 100vh;
+}
+
+/* Título principal - igual que inventario */
+.header {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #ff662a;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ff662a;
+  padding-bottom: 0.3rem;
+}
+
+/* Barra de acciones - igual que inventario */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-filter-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Botones de acción - igual que inventario */
+.toolbar-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toolbar-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.toolbar-buttons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.toolbar-buttons button i {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-orange {
+  background-color: #F97316;
+}
+
+.btn-orange:hover:not(:disabled) {
+  background-color: #EA580C;
+  transform: translateY(-1px);
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.error-container {
+  color: #DC2626;
+}
+
+.error-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: #DC2626;
+}
+
+.reports-tabs {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+.tab-content {
+  padding: 1.5rem;
+}
+
+.report-card {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.report-card mat-card-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.card-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.month-filter {
+  min-width: 250px;
+}
+
+.show-all-checkbox {
+  margin-left: 0.5rem;
+}
+
+.report-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1F2937;
+  margin: 0;
+}
+
+.report-card mat-card-title mat-icon {
+  color: #F97316;
+}
+
+.report-card mat-card-subtitle {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-top: 0.25rem;
+}
+
+.reports-table {
+  width: 100%;
+  background-color: white;
+}
+
+.reports-table th {
+  font-weight: 600;
+  color: #1F2937;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reports-table td {
+  color: #4B5563;
+  font-size: 0.875rem;
+}
+
+.reports-table tr:hover {
+  background-color: #F9FAFB;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  gap: 1rem;
+  color: #6B7280;
+}
+
+.empty-state mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: #9CA3AF;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .reports-container {
+    padding: 1rem;
+  }
+
+  .reports-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .reports-title {
+    font-size: 1.5rem;
+  }
+
+  .tab-content {
+    padding: 1rem;
+  }
+
+  .reports-table {
+    font-size: 0.8125rem;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .reports-container {
+    padding: 0.75rem;
+  }
+
+  .header {
+    font-size: 1.1rem;
+  }
+
+  .tab-content {
+    padding: 0.75rem;
+    overflow-x: auto;
+  }
+
+  .reports-table {
+    min-width: 600px;
+  }
+}
+

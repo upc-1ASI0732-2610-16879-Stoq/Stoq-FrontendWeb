@@ -6,6 +6,7 @@ import { PersonalAdministrationComponent } from './personal-administration/prese
 import { ProviderComponent } from './shared/presentation/views/provider/provider';
 import { SalesComponent } from './shared/presentation/views/sales/sales';
 import { NotFound } from './shared/presentation/views/not-found/not-found';
+import { ReportsComponent } from './reports/presentation/views/reports/reports';
 import { authGuard } from './auth/infrastructure/auth-guard';
 import { roleGuard } from './auth/infrastructure/role-guard';
 
@@ -24,49 +25,49 @@ export const routes: Routes = [
     component: Layout,
     canActivate: [authGuard],
     children: [
-      { 
-        path: '', 
-        redirectTo: 'dashboard', 
-        pathMatch: 'full' 
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       },
-      { 
-        path: 'dashboard', 
-        component: DashboardComponent 
+      {
+        path: 'dashboard',
+        component: DashboardComponent
       },
-      { 
-        path: 'inventory', 
-        component: InventoryListComponent 
+      {
+        path: 'inventory',
+        component: InventoryListComponent
       },
-      { 
-        path: 'inventario', 
-        component: InventoryListComponent 
+      {
+        path: 'inventario',
+        component: InventoryListComponent
       },
-      { 
-        path: 'reportes', 
-        component: DashboardComponent 
+      {
+        path: 'reportes',
+        component: ReportsComponent
       },
-      { 
-        path: 'configuracion', 
-        component: DashboardComponent 
+      {
+        path: 'configuracion',
+        component: DashboardComponent
       },
-      { 
-        path: 'proveedores', 
-        component: ProviderComponent 
+      {
+        path: 'proveedores',
+        component: ProviderComponent
       },
-      { 
-        path: 'venta', 
-        component: SalesComponent 
+      {
+        path: 'venta',
+        component: SalesComponent
       },
-      { 
-        path: 'perfil', 
+      {
+        path: 'perfil',
         component: PersonalAdministrationComponent,
         canActivate: [roleGuard],
         data: { roles: ['Administrador'] }
       }
     ]
   },
-  { 
-    path: '**', 
+  {
+    path: '**',
     redirectTo: '404',
     pathMatch: 'full'
   }
