@@ -218,6 +218,103 @@
     "description": "Es posible que la URL esté mal escrita o que la página se haya movido. Por favor, verifica la dirección o regresa a la página principal.",
     "goHome": "Ir al Inicio",
     "goBack": "Volver Atrás"
+  },
+  "reports": {
+    "title": "Reportes",
+    "subtitle": "Visualiza y analiza información importante de tu inventario",
+    "refresh": "Actualizar",
+    "export": "Exportar a Excel",
+    "loading": "Cargando reportes...",
+    "retry": "Reintentar",
+    "expired": "Vencido",
+    "expiresToday": "Vence hoy",
+    "expiresTomorrow": "Vence mañana",
+    "daysLeft": "{days} días restantes",
+    "dayLeft": "{days} día restante",
+    "monthLeft": "{months} mes restante",
+    "monthsLeft": "{months} meses restantes",
+    "tabs": {
+      "providers": "Proveedores",
+      "stock": "Stock Actual",
+      "expiring": "Por Vencer",
+      "lowStock": "Stock Bajo"
+    },
+    "providers": {
+      "title": "Listado de Proveedores",
+      "subtitle": "Información completa de todos tus proveedores",
+      "empty": "No hay proveedores registrados",
+      "columns": {
+        "name": "Nombre",
+        "ruc": "RUC",
+        "email": "Correo",
+        "phone": "Teléfono",
+        "productCount": "Productos"
+      }
+    },
+    "stock": {
+      "title": "Reporte de Stock Actual",
+      "subtitle": "Estado actual del inventario de todos los productos",
+      "empty": "No hay productos en inventario",
+      "columns": {
+        "productName": "Producto",
+        "category": "Categoría",
+        "currentStock": "Stock Actual",
+        "minStock": "Stock Mínimo",
+        "unitPrice": "Precio Unitario",
+        "totalValue": "Valor Total",
+        "status": "Estado"
+      },
+      "status": {
+        "normal": "Normal",
+        "low": "Bajo",
+        "critical": "Crítico"
+      }
+    },
+    "expiring": {
+      "title": "Productos por Vencer",
+      "subtitle": "Visualiza productos por mes de vencimiento",
+      "empty": "No hay productos con fecha de vencimiento",
+      "emptyFiltered": "No hay productos que vencen en el mes seleccionado",
+      "emptyNext30Days": "No hay productos próximos a vencer en los próximos 30 días",
+      "filterByMonth": "Filtrar por mes",
+      "next30Days": "Próximos 30 días",
+      "showAll": "Mostrar todos",
+      "clearFilter": "Limpiar filtro",
+      "columns": {
+        "productName": "Producto",
+        "category": "Categoría",
+        "expirationDate": "Fecha de Vencimiento",
+        "daysLeft": "Días Restantes",
+        "currentStock": "Stock Actual",
+        "lot": "Lote",
+        "status": "Estado"
+      },
+      "status": {
+        "expired": "Vencido",
+        "critical": "Crítico",
+        "warning": "Advertencia",
+        "normal": "Normal"
+      }
+    },
+    "lowStock": {
+      "title": "Productos con Stock Bajo",
+      "subtitle": "Productos que están por debajo del stock mínimo",
+      "empty": "No hay productos con stock bajo",
+      "columns": {
+        "productName": "Producto",
+        "category": "Categoría",
+        "currentStock": "Stock Actual",
+        "minStock": "Stock Mínimo",
+        "difference": "Diferencia",
+        "unitPrice": "Precio Unitario",
+        "status": "Estado"
+      },
+      "status": {
+        "critical": "Crítico",
+        "low": "Bajo",
+        "normal": "Normal"
+      }
+    }
   }
 
 }
