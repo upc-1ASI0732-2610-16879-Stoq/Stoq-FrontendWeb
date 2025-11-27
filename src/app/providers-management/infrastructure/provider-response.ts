@@ -1,7 +1,7 @@
 import {BaseResource, BaseResponse} from '../../shared/infrastructure/base-response';
 
 
-export interface ProviderResource {
+export interface ProviderResource extends BaseResource {
   id: string;
   firstName: string;
   lastName: string;
@@ -10,6 +10,6 @@ export interface ProviderResource {
   ruc: string;
 }
 
-export interface ProviderResponse {
+export interface ProviderResponse extends BaseResponse{
   providers: ProviderResource[];
 }
