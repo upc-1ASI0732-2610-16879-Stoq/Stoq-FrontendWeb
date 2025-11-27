@@ -1,16 +1,15 @@
 import {BaseResource, BaseResponse} from '../../shared/infrastructure/base-response';
 
 
-export interface ProviderResource extends BaseResource {
+export interface ProviderResource {
   id: string;
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  phone?: string;
   email: string;
   ruc: string;
 }
 
-
-export interface ProviderResponse extends BaseResponse {
+export interface ProviderResponse {
   providers: ProviderResource[];
 }
