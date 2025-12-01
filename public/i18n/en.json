@@ -39,15 +39,6 @@
     "title": "Welcome to StockTrack",
     "subtitle": "Inventory management system"
   },
-  "sales": {
-    "title": "Sales Management",
-    "subtitle": "Manage your sales and transactions",
-    "emptyState": {
-      "title": "Sales",
-      "description": "This is the sales screen",
-      "message": "Soon you will be able to manage all your sales here"
-    }
-  },
   "inventory": {
     "title": "Inventory Management",
     "subtitle": "Manage your products and stock",
@@ -143,6 +134,31 @@
       "ruc-required": "RUC is required",
       "ruc-invalid": "RUC must have exactly 11 digits"
     }
+  },
+  "sales": {
+    "title": "Sales Management",
+    "subtitle": "Manage your sales and transactions",
+    "filter": "Filter",
+    "emptyState": {
+      "title": "Sales",
+      "description": "This is the sales screen",
+      "message": "You will soon be able to manage all your sales here"
+    },
+    "products": "Products",
+    "salesDraft": "Product Outflow Draft",
+    "table": {
+      "name": "Name",
+      "unitPrice": "Unit Price",
+      "stock": "Stock",
+      "quantity": "Quantity",
+      "totalPrice": "Total Price",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "kits": "Kits"
   },
   "auth": {
     "login": {

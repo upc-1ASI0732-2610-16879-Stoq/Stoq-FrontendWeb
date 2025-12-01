@@ -39,15 +39,6 @@
     "title": "Bienvenido a StockTrack",
     "subtitle": "Sistema de gestión de inventario"
   },
-  "sales": {
-    "title": "Gestión de Ventas",
-    "subtitle": "Administra tus ventas y transacciones",
-    "emptyState": {
-      "title": "Ventas",
-      "description": "Esta es la pantalla de ventas",
-      "message": "Próximamente podrás gestionar todas tus ventas aquí"
-    }
-  },
   "inventory": {
     "title": "Gestión de Inventario",
     "subtitle": "Administra tus productos y stock",
@@ -150,6 +141,31 @@
       "ruc-invalid": "El RUC debe tener exactamente 11 dígitos"
     }
   },
+  "sales": {
+    "title": "Gestión de Ventas",
+    "subtitle": "Administra tus ventas y transacciones",
+    "filter": "Filtro",
+    "emptyState": {
+      "title": "Ventas",
+      "description": "Esta es la pantalla de ventas",
+      "message": "Próximamente podrás gestionar todas tus ventas aquí"
+    },
+    "products": "Productos",
+    "salesDraft": "Borrador salida de productos",
+    "table": {
+      "name": "Nombre",
+      "unitPrice": "Precio unitario",
+      "stock": "Stock",
+      "quantity": "Cantidad",
+      "totalPrice": "Precio total",
+      "actions": "Acciones",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "kits": "Kits"
+  },
   "auth": {
     "login": {
       "title": "Inicia sesión",
@@ -184,7 +200,6 @@
       "confirmRequired": "Confirmación es requerida"
     }
   },
-
   "dashboard": {
     "greeting": "Buenos días",
     "notifications": {
@@ -217,7 +232,6 @@
       "lowStock": "Producto a agotarse"
     }
   },
-
   "personal": {
     "title": "Administración de Personal"
   },
@@ -372,6 +386,5 @@
       }
     }
   }
-
 }
 
