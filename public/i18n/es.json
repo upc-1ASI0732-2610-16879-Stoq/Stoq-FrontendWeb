@@ -39,6 +39,15 @@
     "title": "Bienvenido a StockTrack",
     "subtitle": "Sistema de gestión de inventario"
   },
+  "sales": {
+    "title": "Gestión de Ventas",
+    "subtitle": "Administra tus ventas y transacciones",
+    "emptyState": {
+      "title": "Ventas",
+      "description": "Esta es la pantalla de ventas",
+      "message": "Próximamente podrás gestionar todas tus ventas aquí"
+    }
+  },
   "inventory": {
     "title": "Gestión de Inventario",
     "subtitle": "Administra tus productos y stock",
