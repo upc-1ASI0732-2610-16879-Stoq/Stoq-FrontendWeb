@@ -39,6 +39,15 @@
     "title": "Welcome to StockTrack",
     "subtitle": "Inventory management system"
   },
+  "sales": {
+    "title": "Sales Management",
+    "subtitle": "Manage your sales and transactions",
+    "emptyState": {
+      "title": "Sales",
+      "description": "This is the sales screen",
+      "message": "Soon you will be able to manage all your sales here"
+    }
+  },
   "inventory": {
     "title": "Inventory Management",
     "subtitle": "Manage your products and stock",
@@ -169,7 +178,6 @@
       "confirmRequired": "Confirmation is required"
     }
   },
-
   "dashboard": {
     "greeting": "Good morning",
     "notifications": {
@@ -202,7 +210,6 @@
       "lowStock": "Product running out"
     }
   },
-    
   "personalAdministration": {
     "title": "Staff Administration",
     "search": "Search...",
@@ -254,6 +261,5 @@
     "goHome": "Go Home",
     "goBack": "Go Back"
   }
-
 }
 
