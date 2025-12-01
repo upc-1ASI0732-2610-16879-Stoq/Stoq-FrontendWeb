@@ -10,6 +10,7 @@ import {MatFormField} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {KitResource} from '../../../../inventory/infrastructure/kit-response';
 import {InventoryStore} from '../../../../inventory/application/inventory.store';
+import {Kit} from '../../../../inventory/domain/model/kit.entity';
 
 interface ViewProduct {
   id: string;
@@ -33,6 +34,7 @@ export class SalesTables {
   get availableKits() {
     return this.inventoryStore.kits().filter(kit => kit.isEnabled);
   }
+
   get products(): ViewProduct[] {
     const products = this.store.products();
     const batches = this.store.batches();
@@ -66,17 +68,26 @@ export class SalesTables {
     {name: 'Item A', unitPrice: 4.9, quantity: 1, total: 4.9}
   ];
 
-  get totalAmount()
-    :
+  get totalAmount():
     number {
     return this.cartItems.reduce((s, i) => s + i.total, 0);
+  }
+
+  getProductName(productId: string): string {
+    const product = this.store.products().find(p => p.id === productId);
+    return product?.name || 'Producto no encontrado';
+  }
+
+  getTotalKitPrice(kit: Kit): number {
+    return kit.products.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+    }, 0);
   }
 
   deleteItem(item
              :
              any
   ) {
-    // implementación mínima para mantener la plantilla funcional
     this.cartItems = this.cartItems.filter(i => i !== item);
   }
 

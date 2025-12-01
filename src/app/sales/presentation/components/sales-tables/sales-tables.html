@@ -53,12 +53,12 @@
               <div class="kit-body">
                 <div class="kit-row" *ngFor="let product of kit.products">
                   <span class="qty">{{ product.quantity }}</span>
-                  <span class="name">{{ product.name }}</span>
+                  <span class="name">{{ getProductName(product.productId) }}</span>
                   <span class="price">s/. {{ product.price | number:'1.2-2' }}</span>
                 </div>
                 <div class="kit-divider"></div>
                 <div class="kit-total">
-                  <span>{{ 'sales.total' | translate }}: s/. {{ kit.price | number:'1.2-2' }}</span>
+                  <span>{{ 'sales.total' | translate }}: s/. {{ getTotalKitPrice(kit) | number:'1.2-2' }}</span>
                 </div>
               </div>
             </div>

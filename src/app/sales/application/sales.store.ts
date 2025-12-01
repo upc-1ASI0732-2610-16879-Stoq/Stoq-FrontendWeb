@@ -11,17 +11,17 @@ import {KitApi} from '../../inventory/infrastructure/kit-api';
   providedIn: 'root'
 })
 export class SalesStore {
-  private readonly SalesSignal = signal<Sale[]>([]);
-  private readonly ProductsSignal = signal<Product[]>([]);
-  private readonly KitsSignal = signal<Kit[]>([]);
+  private readonly salesSignal = signal<Sale[]>([]);
+  private readonly productsSignal = signal<Product[]>([]);
+  private readonly kitsSignal = signal<Kit[]>([]);
   private readonly batchesSignal = signal<Batch[]>([]);
   private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
 
-  readonly sales = this.SalesSignal.asReadonly();
-  readonly products = this.ProductsSignal.asReadonly();
+  readonly sales = this.salesSignal.asReadonly();
+  readonly products = this.productsSignal.asReadonly();
   readonly batches = this.batchesSignal.asReadonly();
-  readonly kits = this.KitsSignal.asReadonly();
+  readonly kits = this.kitsSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
 
@@ -40,7 +40,7 @@ export class SalesStore {
     this.errorSignal.set(null);
     this.productsApi.getProducts().subscribe({
       next: (data: Product[]) => {
-        this.ProductsSignal.set(data);
+        this.productsSignal.set(data);
         this.loadingSignal.set(false);
       },
       error: (err: Error) => {
@@ -70,7 +70,7 @@ export class SalesStore {
     this.errorSignal.set(null);
     this.kitsApi.getKits().subscribe({
       next: (data: Kit[]) => {
-        this.KitsSignal.set(data);
+        this.kitsSignal.set(data);
         this.loadingSignal.set(false);
       },
       error: (err: Error) => {
