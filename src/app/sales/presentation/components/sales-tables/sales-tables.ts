@@ -84,9 +84,7 @@ export class SalesTables {
     }, 0);
   }
 
-  deleteItem(item
-             :
-             any
+  deleteItem(item: any
   ) {
     this.cartItems = this.cartItems.filter(i => i !== item);
   }
