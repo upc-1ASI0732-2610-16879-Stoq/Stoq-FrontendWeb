@@ -163,8 +163,10 @@
       "save": "Save"
     },
     "kits": "Kits",
-    "noKitsAvailable": "No hay kits disponibles",
-    "total": "Total"
+    "noKitsAvailable": "No kits available",
+    "total": "Total",
+    "kit": "Kit",
+    "emptyCart": "The draft is empty. Add products or kits to get started."
   },
   "auth": {
     "login": {
@@ -305,7 +307,8 @@
       "providers": "Providers",
       "stock": "Current Stock",
       "expiring": "Expiring",
-      "lowStock": "Low Stock"
+      "lowStock": "Low Stock",
+      "sales": "Sales"
     },
     "providers": {
       "title": "Providers List",
@@ -385,6 +388,16 @@
         "critical": "Critical",
         "low": "Low",
         "normal": "Normal"
+      }
+    },
+    "sales": {
+      "title": "Sales Report",
+      "subtitle": "History of all sales made",
+      "empty": "No sales registered",
+      "columns": {
+        "id": "ID",
+        "totalAmount": "Total Amount",
+        "products": "Product Details"
       }
     }
   }

@@ -168,7 +168,11 @@
       "cancel": "Cancelar",
       "save": "Guardar"
     },
-    "kits": "Kits"
+    "kits": "Kits",
+    "noKitsAvailable": "No hay kits disponibles",
+    "total": "Total",
+    "kit": "Kit",
+    "emptyCart": "El borrador está vacío. Agrega productos o kits para comenzar."
   },
   "auth": {
     "login": {
@@ -308,7 +312,8 @@
       "providers": "Proveedores",
       "stock": "Stock Actual",
       "expiring": "Por Vencer",
-      "lowStock": "Stock Bajo"
+      "lowStock": "Stock Bajo",
+      "sales": "Ventas"
     },
     "providers": {
       "title": "Listado de Proveedores",
@@ -387,6 +392,16 @@
         "critical": "Crítico",
         "low": "Bajo",
         "normal": "Normal"
+      }
+    },
+    "sales": {
+      "title": "Reporte de Ventas",
+      "subtitle": "Historial de todas las ventas realizadas",
+      "empty": "No hay ventas registradas",
+      "columns": {
+        "id": "ID",
+        "totalAmount": "Monto Total",
+        "products": "Detalles de Productos"
       }
     }
   }

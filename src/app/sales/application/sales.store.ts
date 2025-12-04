@@ -50,7 +50,7 @@ export class SalesStore {
     });
   }
 
-  private loadBatches() {
+  loadBatches() {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
     this.batchesApi.getBatches().subscribe({
