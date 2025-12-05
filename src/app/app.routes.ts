@@ -7,6 +7,7 @@ import { ProviderComponent } from './shared/presentation/views/provider/provider
 import { SalesComponent } from './shared/presentation/views/sales/sales';
 import { NotFound } from './shared/presentation/views/not-found/not-found';
 import { ReportsComponent } from './reports/presentation/views/reports/reports';
+import { SettingsComponent } from './settings/presentation/views/settings/settings';
 import { authGuard } from './auth/infrastructure/auth-guard';
 import { roleGuard } from './auth/infrastructure/role-guard';
 
@@ -44,11 +45,13 @@ export const routes: Routes = [
       },
       {
         path: 'reportes',
-        component: ReportsComponent
+        component: ReportsComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['ROLE_ADMIN'] }
       },
       {
         path: 'configuracion',
-        component: DashboardComponent
+        component: SettingsComponent
       },
       {
         path: 'proveedores',
@@ -62,7 +65,7 @@ export const routes: Routes = [
         path: 'perfil',
         component: PersonalAdministrationComponent,
         canActivate: [roleGuard],
-        data: { roles: ['Administrador'] }
+        data: { roles: ['ROLE_ADMIN'] }
       }
     ]
   },
