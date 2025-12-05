@@ -1,214 +1,188 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { UserStore } from '../../application/user.store';
-import { User, UserRole, UserStatus } from '../../domain/user.model';
+import { AuthStore } from '../../../auth/application/auth.store';
+import { User, UserRole } from '../../domain/user.model';
+import { UserFormDialog } from '../components/user-form-dialog/user-form-dialog';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../shared/presentation/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-personal-administration',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatChipsModule
+  ],
   templateUrl: './personal-administration.html',
   styleUrl: './personal-administration.css'
 })
 export class PersonalAdministrationComponent {
   private translate = inject(TranslateService);
   private userStore = inject(UserStore);
+  private authStore = inject(AuthStore);
+  private dialog = inject(MatDialog);
 
-  searchTerm = signal<string>('');
-  filterStatus = signal<string>('todos');
-  filterRole = signal<string>('todos');
-  showFilterDropdown = signal<boolean>(false);
-  showUserModal = signal<boolean>(false);
-  showRoleModal = signal<boolean>(false);
-  showEditModal = signal<boolean>(false);
-  showDeleteModal = signal<boolean>(false);
+  searchTerm = '';
+  filterRole = 'todos';
 
-  newUser = signal({
-    name: '',
-    lastname: '',
-    phone: '',
-    email: '',
-    password: '',
-    role: ''
-  });
-
-  selectedUser = signal<User | null>(null);
-
-  newRole = signal({
-    name: '',
-    permissions: {
-      productos: false,
-      compras: false,
-      estadisticas: false,
-      usuarios: false
-    }
-  });
+  displayedColumns = ['email', 'role', 'actions'];
 
   users = this.userStore.users;
-  roles = this.userStore.availableRoles;
   loading = this.userStore.loading;
   error = this.userStore.error;
   hasUsers = this.userStore.hasUsers;
-  activeUsers = this.userStore.activeUsers;
-  adminUsers = this.userStore.adminUsers;
+  currentUser = this.authStore.currentUser;
+
+  readonly ROLE_ADMIN = UserRole.ADMIN;
+  readonly ROLE_USER = UserRole.USER;
 
   protected t(key: string, params?: any): string {
     return this.translate.instant(key, params);
   }
 
-  updateNewUserField(field: 'name' | 'lastname' | 'phone' | 'email' | 'password' | 'role', value: string): void {
-    const current = this.newUser();
-    this.newUser.set({ ...current, [field]: value });
-  }
+  get filteredUsers(): User[] {
+    const allUsers = this.users();
+    if (allUsers.length === 0) return [];
 
-  updateSelectedUserField(field: string, value: string): void {
-    const current = this.selectedUser();
-    if (!current) return;
-    this.selectedUser.set({ ...current, [field]: value } as User);
-  }
+    const primaryUserId = this.getPrimaryUserId(allUsers);
 
-  updateNewRoleField(field: string, value: any): void {
-    const current = this.newRole();
-    if (field.startsWith('permissions.')) {
-      const permKey = field.split('.')[1] as keyof typeof current.permissions;
-      this.newRole.set({
-        ...current,
-        permissions: { ...current.permissions, [permKey]: value }
+    const search = this.searchTerm.toLowerCase();
+    return allUsers
+      .filter(user => {
+        if (user.id === primaryUserId) return false;
+
+        const matchesSearch =
+          user.displayName.toLowerCase().includes(search) ||
+          user.email.toLowerCase().includes(search) ||
+          user.roleDisplayName.toLowerCase().includes(search);
+
+        const matchesRole = this.filterRole === 'todos' ||
+          (this.filterRole === UserRole.ADMIN && user.hasRole(UserRole.ADMIN)) ||
+          (this.filterRole === UserRole.USER && user.hasRole(UserRole.USER));
+
+        return matchesSearch && matchesRole;
       });
-    } else {
-      this.newRole.set({ ...current, [field]: value });
-    }
   }
 
-  get filteredUsers() {
-    const search = this.searchTerm().toLowerCase();
-    return this.users().filter(user => {
-      const matchesSearch =
-        user.name.toLowerCase().includes(search) ||
-        user.role.toLowerCase().includes(search) ||
-        user.email.toLowerCase().includes(search);
-
-      const matchesStatus =
-        this.filterStatus() === 'todos' || user.status === this.filterStatus();
-
-      const matchesRole =
-        this.filterRole() === 'todos' || user.role === this.filterRole();
-
-      return matchesSearch && matchesStatus && matchesRole;
-    });
+  private getPrimaryUserId(users: User[]): string {
+    if (users.length === 0) return '';
+    const sorted = [...users].sort((a, b) => Number(a.id) - Number(b.id));
+    return sorted[0].id;
   }
 
-  openUserModal() { this.showUserModal.set(true); }
-  closeUserModal() { 
-    this.showUserModal.set(false);
-    this.newUser.set({ name: '', lastname: '', phone: '', email: '', password: '', role: '' });
-  }
-
-  openRoleModal() { this.showRoleModal.set(true); }
-  closeRoleModal() { 
-    this.showRoleModal.set(false);
-    this.newRole.set({
-      name: '',
-      permissions: { productos: false, compras: false, estadisticas: false, usuarios: false }
-    });
-  }
-
-  openEditModal(user: User) {
-    this.selectedUser.set(user);
-    this.showEditModal.set(true);
-  }
-
-  closeEditModal() {
-    this.showEditModal.set(false);
-    this.selectedUser.set(null);
-  }
-
-  openDeleteModal(user: User) {
-    this.selectedUser.set(user);
-    this.showDeleteModal.set(true);
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal.set(false);
-    this.selectedUser.set(null);
-  }
-
-  toggleFilterDropdown() {
-    this.showFilterDropdown.set(!this.showFilterDropdown());
-  }
-
-  closeFilterDropdown() {
-    this.showFilterDropdown.set(false);
-  }
-
-  clearFilters() {
-    this.filterStatus.set('todos');
-    this.filterRole.set('todos');
-    this.searchTerm.set('');
-    this.showFilterDropdown.set(false);
-  }
-
-  saveUser() {
-    const userData = this.newUser();
-    if (!userData.name || !userData.email || !userData.password || !userData.role) return;
-
-    const role = userData.role === 'Administrador' ? UserRole.ADMIN : UserRole.VENDOR;
+  canDeleteUser(user: User): boolean {
+    const currentUserId = this.currentUser()?.id;
+    const primaryUserId = this.getPrimaryUserId(this.users());
     
-    this.userStore.createUser({
-      name: `${userData.name} ${userData.lastname}`.trim(),
-      role: role,
-      email: userData.email,
-      password: userData.password,
-      status: UserStatus.ACTIVE
-    });
-
-    this.closeUserModal();
+    if (currentUserId && user.id === currentUserId) return false;
+    if (user.id === primaryUserId) return false;
+    
+    return true;
   }
 
-  saveEditedUser() {
-    const user = this.selectedUser();
-    if (!user) return;
-
-    this.userStore.updateUser(user.id, {
-      name: user.name,
-      role: user.role,
-      email: user.email,
-      status: user.status
-    });
-
-    this.closeEditModal();
-  }
-
-  confirmDeleteUser() {
-    const user = this.selectedUser();
-    if (!user) return;
-
-    this.userStore.deleteUser(user.id);
-    this.closeDeleteModal();
-  }
-
-  saveRole() {
-    const roleData = this.newRole();
-    if (roleData.name.trim() === '') return;
-
-    const exists = this.roles.some(r => r.name.toLowerCase() === roleData.name.toLowerCase());
-    if (exists) {
-      alert('El rol ya existe');
-      return;
+  getDeleteTooltip(user: User): string {
+    const currentUserId = this.currentUser()?.id;
+    const primaryUserId = this.getPrimaryUserId(this.users());
+    
+    if (currentUserId && user.id === currentUserId) {
+      return this.t('personalAdministration.cannotDeleteSelf');
     }
-
-    // TODO: Implement role creation in backend
-    this.closeRoleModal();
+    if (user.id === primaryUserId) {
+      return this.t('personalAdministration.cannotDeleteOwner');
+    }
+    return this.t('personalAdministration.deleteUser');
   }
 
-  getUserRoleDisplay(role: UserRole): string {
-    return role === UserRole.ADMIN ? 'Administrador' : 'Vendedor';
+  get adminCount(): number {
+    return this.filteredUsers.filter(u => u.hasRole(UserRole.ADMIN)).length;
   }
 
-  getUserStatusDisplay(status: UserStatus): string {
-    return status === UserStatus.ACTIVE ? 'Activo' : 'Inactivo';
+  get userCount(): number {
+    return this.filteredUsers.filter(u => u.hasRole(UserRole.USER)).length;
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(UserFormDialog, {
+      width: '500px',
+      data: { mode: 'create' },
+      panelClass: 'custom-dialog',
+      ariaLabel: this.t('personalAdministration.newUserTitle')
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // User was created, list will auto-update from store
+      }
+    });
+  }
+
+  openEditDialog(user: User): void {
+    const dialogRef = this.dialog.open(UserFormDialog, {
+      width: '500px',
+      data: { mode: 'edit', user },
+      panelClass: 'custom-dialog',
+      ariaLabel: this.t('personalAdministration.editUserTitle')
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // User was updated, list will auto-update from store
+      }
+    });
+  }
+
+  confirmDelete(user: User): void {
+    if (!this.canDeleteUser(user)) return;
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: this.t('personalAdministration.confirmDeleteTitle'),
+        message: this.t('personalAdministration.confirmDeleteMessage', { name: user.displayName }),
+        confirmText: this.t('common.delete'),
+        cancelText: this.t('common.cancel'),
+        type: 'danger'
+      } as ConfirmDialogData,
+      ariaLabel: this.t('personalAdministration.confirmDeleteTitle')
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.userStore.deleteUser(user.id);
+      }
+    });
+  }
+
+  clearFilters(): void {
+    this.filterRole = 'todos';
+    this.searchTerm = '';
+  }
+
+  getRoleClass(user: User): string {
+    return user.isAdmin() ? 'role-chip admin' : 'role-chip seller';
   }
 
   trackByUserId(index: number, user: User): string {
