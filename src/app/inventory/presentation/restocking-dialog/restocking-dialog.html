@@ -69,20 +69,17 @@
         </div>
       </div>
 
-      <!-- Error messages -->
       <div class="error-message" *ngIf="isExpirationBeforeReception()">
         <mat-icon color="warn">error</mat-icon>
         <span>La fecha de vencimiento no puede ser anterior a la fecha de recepción</span>
       </div>
     </div>
 
-    <!-- Loading State -->
     <div *ngIf="loading" class="loading-container">
       <mat-spinner diameter="50"></mat-spinner>
       <p>Guardando...</p>
     </div>
 
-    <!-- Error State -->
     <div *ngIf="error && !loading" class="error-container">
       <mat-icon color="warn">error</mat-icon>
       <p>{{ error }}</p>

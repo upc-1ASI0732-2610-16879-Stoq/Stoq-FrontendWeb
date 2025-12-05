@@ -26,7 +26,6 @@
         <button mat-button (click)="loadProductsWithStock()">{{ 'inventory.retry' | translate }}</button>
       </div>
 
-      <!-- Data Table -->
       <table class="items-table" *ngIf="!loading && !error">
         <thead>
           <tr>
@@ -79,7 +78,6 @@
         </tbody>
       </table>
 
-      <!-- Empty State -->
       <div *ngIf="!loading && !error && items.length === 0" class="empty-container">
         <mat-icon>inventory_2</mat-icon>
         <p>No hay productos activos disponibles</p>

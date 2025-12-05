@@ -7,12 +7,10 @@
     <input matInput [(ngModel)]="searchTerm"
            placeholder="{{'providers-view.providers-toolbar.search' | translate}}..."/>
   </mat-form-field>
-  <!--- filter Button -->
   <button class="filter-btn" id="provider-filter-btn" matFab extended>
     <mat-icon>filter_list</mat-icon>
     {{ 'providers-view.providers-toolbar.filter' | translate }}
   </button>
-  <!-- Add Provider Button -->
   <button class="add-provider-btn" matFab extended (click)="onCreate()">
     <mat-icon>add</mat-icon>
     {{ 'providers-view.providers-toolbar.add-provider' | translate }}

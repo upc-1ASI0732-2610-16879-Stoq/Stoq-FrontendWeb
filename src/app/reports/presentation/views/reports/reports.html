@@ -3,7 +3,6 @@
 
   <div class="action-bar">
     <div class="search-filter-group">
-      <!-- Search and filter can be added here in the future if needed -->
     </div>
 
     <div class="toolbar-buttons">
@@ -32,7 +31,6 @@
     </div>
   } @else {
     <mat-tab-group class="reports-tabs">
-      <!-- Providers Report Tab -->
       <mat-tab [label]="t('reports.tabs.providers')">
         <div class="tab-content">
           <mat-card class="report-card">
@@ -56,7 +54,6 @@
             </mat-card-header>
             <mat-card-content>
               @if (store.hasProvidersReport()) {
-                <!-- Category Filter -->
                 <div class="filter-section">
                   <mat-form-field appearance="outline" class="category-filter">
                     <mat-label>{{ t('reports.providers.filterByCategory') }}</mat-label>
@@ -124,7 +121,6 @@
         </div>
       </mat-tab>
 
-      <!-- Stock Report Tab -->
       <mat-tab [label]="t('reports.tabs.stock')">
         <div class="tab-content">
           <mat-card class="report-card">
@@ -202,7 +198,6 @@
         </div>
       </mat-tab>
 
-      <!-- Expiring Products Tab -->
       <mat-tab [label]="t('reports.tabs.expiring')">
         <div class="tab-content">
           <mat-card class="report-card">
@@ -320,7 +315,6 @@
         </div>
       </mat-tab>
 
-      <!-- Low Stock Tab -->
       <mat-tab [label]="t('reports.tabs.lowStock')">
         <div class="tab-content">
           <mat-card class="report-card">
@@ -393,7 +387,6 @@
         </div>
       </mat-tab>
 
-      <!-- Sales Tab -->
       <mat-tab [label]="t('reports.tabs.sales')">
         <div class="tab-content">
           <mat-card class="report-card">
