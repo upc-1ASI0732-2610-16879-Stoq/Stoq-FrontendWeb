@@ -28,7 +28,9 @@ export class AuthStore {
 
   readonly isAuthenticated = computed(() => this.user() !== null);
   readonly currentUser = computed(() => this.user());
-  readonly currentUserName = computed(() => this.user()?.name || 'Usuario');
+  readonly currentUserName = computed(() => this.user()?.displayName || 'Usuario');
+  readonly currentUserRoles = computed(() => this.user()?.roles || []);
+  readonly isAdmin = computed(() => this.user()?.isAdmin() || false);
 
   constructor(
     private authApi: AuthApi,
@@ -47,26 +49,28 @@ export class AuthStore {
         const decoded = this.tokenService.decodeToken();
         if (decoded) {
           const userId = String(decoded.sub);
-          
-          // Obtener información completa del usuario incluyendo el rol
+
+          // Obtener información completa del usuario incluyendo los roles y permisos
           this.authApi.getUserById(userId).subscribe({
-            next: (userData: any) => {
+            next: (userData) => {
               this.userSignal.set(new User({
                 id: userId,
-                email: decoded.email,
-                name: userData.name || decoded.email.split('@')[0],
-                role: userData.role || 'Vendedor'
+                email: userData.email || decoded.email,
+                roles: userData.roles || [],
+                permissions: userData.permissions || [],
+                token: this.tokenService.getToken() || undefined
               }));
               this.initializedSignal.set(true);
               resolve();
             },
-            error: (err: Error) => {
+            error: () => {
               // Si falla la petición, usar datos básicos del JWT
               this.userSignal.set(new User({
                 id: userId,
                 email: decoded.email,
-                name: decoded.email.split('@')[0],
-                role: 'Vendedor' // Rol por defecto
+                roles: [],
+                permissions: [],
+                token: this.tokenService.getToken() || undefined
               }));
               this.initializedSignal.set(true);
               resolve();
@@ -103,44 +107,42 @@ export class AuthStore {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.authApi.login(credentials).subscribe({
-      next: (response: any) => {
-        if (response.accessToken) {
-          this.tokenService.setToken(response.accessToken);
-        }
-        
-        const user = response.user;
-        const userId = String(user.id);
-        
-        // Obtener información completa del usuario incluyendo el rol
+    this.authApi.signIn(credentials).subscribe({
+      next: (response) => {
+        this.tokenService.setToken(response.token);
+
+        const userId = String(response.id);
+
         this.authApi.getUserById(userId).subscribe({
-          next: (userData: any) => {
+          next: (userData) => {
             this.userSignal.set(new User({
               id: userId,
-              email: user.email,
-              name: userData.name || user.firstname || user.email,
-              role: userData.role || 'Vendedor' // Usar el rol de la API o por defecto
+              email: response.email,
+              roles: userData.roles || [],
+              permissions: userData.permissions || [],
+              token: response.token
             }));
-            
+
             this.loadingSignal.set(false);
             this.router.navigateByUrl(returnUrl);
           },
-          error: (err: Error) => {
-            // Si falla la petición del usuario, usar datos básicos
+          error: () => {
+            // If user fetch fails, use basic data from sign-in response
             this.userSignal.set(new User({
               id: userId,
-              email: user.email,
-              name: user.firstname || user.email,
-              role: 'Vendedor' // Rol por defecto
+              email: response.email,
+              roles: [],
+              permissions: [],
+              token: response.token
             }));
-            
+
             this.loadingSignal.set(false);
             this.router.navigateByUrl(returnUrl);
           }
         });
       },
       error: (err: Error) => {
-        this.errorSignal.set(this.formatError(err, 'Error during login'));
+        this.errorSignal.set(this.formatError(err, 'Error durante el inicio de sesión'));
         this.loadingSignal.set(false);
       }
     });
@@ -148,46 +150,95 @@ export class AuthStore {
 
   /**
    * Registers a new user with the provided data.
+   * Automatically logs in the user after successful registration.
    * @param data - The registration data.
    */
   register(data: RegisterData): void {
+    // Validate passwords match before sending to API
+    if (!data.passwordsMatch()) {
+      this.errorSignal.set('Las contraseñas no coinciden');
+      return;
+    }
+
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.authApi.register(data).subscribe({
-      next: (response: any) => {
-        if (response.accessToken) {
-          this.tokenService.setToken(response.accessToken);
-        }
-        
-        const user = response.user;
+    this.authApi.signUp(data).subscribe({
+      next: (response) => {
+        // Sign-up response includes token for auto-login
+        // Store the token FIRST
+        this.tokenService.setToken(response.token);
+
+        const userId = String(response.id);
+
+        // Set user immediately with basic info from response to ensure authGuard passes
+        // New sign-up users are always ROLE_ADMIN
         this.userSignal.set(new User({
-          id: String(user.id),
-          email: user.email,
-          name: user.name || user.email,
-          role: user.role
+          id: userId,
+          email: response.email,
+          roles: ['ROLE_ADMIN'],
+          permissions: [],
+          token: response.token
         }));
-        
+
+        // Get complete user info including roles and permissions (async, update later)
+        this.authApi.getUserById(userId).subscribe({
+          next: (userData) => {
+            // Update user with complete information
+            this.userSignal.set(new User({
+              id: userId,
+              email: response.email,
+              roles: userData.roles || ['ROLE_ADMIN'],
+              permissions: userData.permissions || [],
+              token: response.token
+            }));
+          },
+          error: () => {
+            // If user fetch fails, keep the basic user info already set
+            // This is fine, user is already authenticated
+          }
+        });
+
         this.loadingSignal.set(false);
-        
-        this.router.navigate(['/dashboard']);
+        // Redirect to dashboard after successful registration and auto-login
+        // User is already set, so authGuard will pass
+        this.router.navigate(['/dashboard']).catch(err => {
+          console.error('Navigation error:', err);
+        });
       },
       error: (err: Error) => {
-        this.errorSignal.set(this.formatError(err, 'Error during registration'));
+        this.errorSignal.set(this.formatError(err, 'Error durante el registro'));
         this.loadingSignal.set(false);
       }
     });
   }
 
   /**
-   * Logs out the current user.
+   * Logs out the current user (client-side only).
    */
   logout(): void {
     this.tokenService.removeToken();
-    
     this.userSignal.set(null);
-    
     this.router.navigate(['/auth/login']);
+  }
+
+  /**
+   * Checks if the current user has a specific role.
+   * @param role - The role to check.
+   * @returns True if the user has the role.
+   */
+  hasRole(role: string): boolean {
+    return this.user()?.hasRole(role) || false;
+  }
+
+  /**
+   * Checks if the current user has any of the specified roles.
+   * @param roles - Array of roles to check.
+   * @returns True if the user has at least one of the roles.
+   */
+  hasAnyRole(roles: string[]): boolean {
+    const userRoles = this.currentUserRoles();
+    return roles.some(role => userRoles.includes(role));
   }
 
   /**
@@ -205,7 +256,13 @@ export class AuthStore {
    */
   private formatError(error: any, fallback: string): string {
     if (error instanceof Error) {
-      return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;
+      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        return 'Credenciales inválidas';
+      }
+      if (error.message.includes('Resource not found')) {
+        return `${fallback}: No encontrado`;
+      }
+      return error.message;
     }
     return fallback;
   }

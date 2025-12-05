@@ -1,13 +1,13 @@
 import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
 import { User } from '../domain/model/user.entity';
-import { UserResource, LoginResponse, RegisterResponse } from './auth-response';
+import { UserResource, SignInResponse, SignUpResponse } from './auth-response';
 
 /**
  * Assembler for transforming between User entities and UserResource DTOs.
  * @remarks
  * This class handles the conversion between domain entities and API resources.
  */
-export class AuthAssembler implements BaseAssembler<User, UserResource, LoginResponse> {
+export class AuthAssembler implements BaseAssembler<User, UserResource, SignInResponse> {
   /**
    * Converts a UserResource DTO to a User entity.
    * @param resource - The user resource from the API.
@@ -15,10 +15,10 @@ export class AuthAssembler implements BaseAssembler<User, UserResource, LoginRes
    */
   toEntityFromResource(resource: UserResource): User {
     return new User({
-      id: resource.id,
+      id: String(resource.id),
       email: resource.email,
-      name: resource.name,
-      role: resource.role,
+      roles: resource.roles,
+      permissions: resource.permissions,
       token: resource.token
     });
   }
@@ -30,10 +30,10 @@ export class AuthAssembler implements BaseAssembler<User, UserResource, LoginRes
    */
   toResourceFromEntity(entity: User): UserResource {
     return {
-      id: entity.id,
+      id: Number(entity.id),
       email: entity.email,
-      name: entity.name,
-      role: entity.role,
+      roles: entity.roles,
+      permissions: entity.permissions,
       token: entity.token
     };
   }
@@ -57,12 +57,38 @@ export class AuthAssembler implements BaseAssembler<User, UserResource, LoginRes
   }
 
   /**
+   * Converts a sign-in response to User entity.
+   * @param response - The sign-in response.
+   * @returns User entity instance.
+   */
+  toEntityFromSignInResponse(response: SignInResponse): User {
+    return new User({
+      id: String(response.id),
+      email: response.email,
+      token: response.token
+    });
+  }
+
+  /**
+   * Converts a sign-up response to User entity.
+   * @param response - The sign-up response.
+   * @returns User entity instance.
+   */
+  toEntityFromSignUpResponse(response: SignUpResponse): User {
+    return new User({
+      id: String(response.id),
+      email: response.email,
+      token: response.token
+    });
+  }
+
+  /**
    * Converts a response with multiple resources to User entities.
    * @param response - The response containing user resources.
    * @returns Array of User entity instances.
    */
-  toEntitiesFromResponse(response: LoginResponse): User[] {
-    return [this.toEntityFromResource(response.user)];
+  toEntitiesFromResponse(response: SignInResponse): User[] {
+    return [this.toEntityFromSignInResponse(response)];
   }
 }
 

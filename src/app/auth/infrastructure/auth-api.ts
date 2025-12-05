@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { BaseApi } from '../../shared/infrastructure/base-api';
 import { AuthApiEndpoint } from './auth-api-endpoint';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../domain/model/user.entity';
 import { LoginCredentials } from '../domain/model/login-credentials';
 import { RegisterData } from '../domain/model/register-data';
 import { Observable } from 'rxjs';
+import { SignInResponse, SignUpResponse, UserResource } from './auth-response';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApi extends BaseApi {
@@ -19,35 +19,27 @@ export class AuthApi extends BaseApi {
   /**
    * Authenticates a user with the provided credentials.
    * @param credentials - The login credentials.
-   * @returns An Observable of the authenticated User.
+   * @returns An Observable of the sign-in response.
    */
-  login(credentials: LoginCredentials): Observable<User> {
-    return this.authEndpoint.login(credentials);
+  signIn(credentials: LoginCredentials): Observable<SignInResponse> {
+    return this.authEndpoint.signIn(credentials);
   }
 
   /**
    * Registers a new user with the provided data.
    * @param data - The registration data.
-   * @returns An Observable of the created User.
+   * @returns An Observable of the sign-up response.
    */
-  register(data: RegisterData): Observable<User> {
-    return this.authEndpoint.register(data);
+  signUp(data: RegisterData): Observable<SignUpResponse> {
+    return this.authEndpoint.signUp(data);
   }
 
   /**
    * Gets user information by ID.
    * @param userId - The user ID.
-   * @returns An Observable of the User with complete information.
+   * @returns An Observable of the User resource.
    */
-  getUserById(userId: string): Observable<any> {
+  getUserById(userId: string): Observable<UserResource> {
     return this.authEndpoint.getUserById(userId);
-  }
-
-  /**
-   * Logs out the current user.
-   * @returns An Observable that completes when logout is successful.
-   */
-  logout(): Observable<void> {
-    return this.authEndpoint.logout();
   }
 }

@@ -12,12 +12,10 @@ export class RegisterData {
   constructor(data: {
     email: string;
     password: string;
-    name: string;
     confirmPassword: string;
   }) {
     this._email = data.email;
     this._password = data.password;
-    this._name = data.name;
     this._confirmPassword = data.confirmPassword;
   }
 
@@ -44,18 +42,7 @@ export class RegisterData {
   }
 
   /**
-   * The full name of the user.
-   */
-  private _name: string;
-  get name(): string {
-    return this._name;
-  }
-  set name(value: string) {
-    this._name = value;
-  }
-
-  /**
-   * The password confirmation.
+   * The password confirmation (used for frontend validation only).
    */
   private _confirmPassword: string;
   get confirmPassword(): string {
@@ -63,5 +50,14 @@ export class RegisterData {
   }
   set confirmPassword(value: string) {
     this._confirmPassword = value;
+  }
+
+
+  /**
+   * Validates that passwords match.
+   * @returns True if password and confirmPassword are equal.
+   */
+  passwordsMatch(): boolean {
+    return this._password === this._confirmPassword;
   }
 }

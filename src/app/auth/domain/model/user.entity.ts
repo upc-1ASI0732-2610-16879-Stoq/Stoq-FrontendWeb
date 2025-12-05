@@ -16,14 +16,14 @@ export class User implements BaseEntity {
   constructor(user: {
     id: string;
     email: string;
-    name: string;
-    role?: string;
+    roles?: string[];
+    permissions?: string[];
     token?: string;
   }) {
     this._id = user.id;
     this._email = user.email;
-    this._name = user.name;
-    this._role = user.role;
+    this._roles = user.roles || ['ROLE_ADMIN'];
+    this._permissions = user.permissions || [];
     this._token = user.token;
   }
 
@@ -50,25 +50,59 @@ export class User implements BaseEntity {
   }
 
   /**
-   * The full name of the user.
+   * The roles of the user in the system.
    */
-  private _name: string;
-  get name(): string {
-    return this._name;
+  private _roles: string[];
+  get roles(): string[] {
+    return this._roles;
   }
-  set name(value: string) {
-    this._name = value;
+  set roles(value: string[]) {
+    this._roles = value;
   }
 
   /**
-   * The role of the user in the system.
+   * The permissions of the user in the system.
    */
-  private _role?: string;
-  get role(): string | undefined {
-    return this._role;
+  private _permissions: string[];
+  get permissions(): string[] {
+    return this._permissions;
   }
-  set role(value: string | undefined) {
-    this._role = value;
+  set permissions(value: string[]) {
+    this._permissions = value;
+  }
+
+  /**
+   * Check if user has a specific permission.
+   * @param permission - The permission to check.
+   * @returns True if user has the permission.
+   */
+  hasPermission(permission: string): boolean {
+    return this._permissions.includes(permission);
+  }
+
+  /**
+   * Check if user has a specific role.
+   * @param role - The role to check.
+   * @returns True if user has the role.
+   */
+  hasRole(role: string): boolean {
+    return this._roles.includes(role);
+  }
+
+  /**
+   * Check if user is an admin.
+   * @returns True if user has ROLE_ADMIN.
+   */
+  isAdmin(): boolean {
+    return this.hasRole('ROLE_ADMIN');
+  }
+
+  /**
+   * Get display name derived from email.
+   * @returns The part of email before @.
+   */
+  get displayName(): string {
+    return this._email.split('@')[0];
   }
 
   /**

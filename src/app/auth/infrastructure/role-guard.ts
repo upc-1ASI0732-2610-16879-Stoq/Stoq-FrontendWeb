@@ -6,9 +6,9 @@ import { AuthStore } from '../application/auth.store';
 /**
  * Guard for protecting routes based on user roles.
  * @remarks
- * This guard checks if the user has the required role to access the route.
+ * This guard checks if the user has any of the required roles to access the route.
  * If the user is not authenticated, they are redirected to the login page.
- * If the user doesn't have the required role, they are redirected to an unauthorized page.
+ * If the user doesn't have any of the required roles, they are redirected to the dashboard.
  */
 export const roleGuard: CanActivateFn = (route, state) => {
   const tokenService = inject(JwtTokenService);
@@ -25,13 +25,12 @@ export const roleGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  const currentUser = authStore.currentUser();
-  const userRole = currentUser?.role;
-
-  if (userRole && requiredRoles.includes(userRole)) {
+  // Check if user has any of the required roles
+  if (authStore.hasAnyRole(requiredRoles)) {
     return true;
   }
 
-  router.navigate(['/unauthorized']);
+  // User doesn't have required role, redirect to dashboard
+  router.navigate(['/dashboard']);
   return false;
 };

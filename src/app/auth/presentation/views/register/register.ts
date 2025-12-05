@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -42,10 +42,6 @@ export class RegisterComponent {
   protected authStore = inject(AuthStore);
 
   protected registerForm = this.fb.group({
-    name: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)]
-    }),
     email: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email]
@@ -58,10 +54,25 @@ export class RegisterComponent {
       nonNullable: true,
       validators: [Validators.required]
     })
-  });
+  }, { validators: this.passwordMatchValidator });
 
   protected t(key: string): string {
     return this.translate.instant(key);
+  }
+
+  /**
+   * Custom validator to check if passwords match.
+   */
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      confirmPassword.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+
+    return null;
   }
 
   protected onSubmit(): void {
@@ -71,10 +82,10 @@ export class RegisterComponent {
     }
 
     const data = new RegisterData({
-      name: this.registerForm.value.name!,
       email: this.registerForm.value.email!,
       password: this.registerForm.value.password!,
       confirmPassword: this.registerForm.value.confirmPassword!
+      // No roles sent - backend assigns ROLE_ADMIN for sign-up (business owner)
     });
 
     this.authStore.register(data);

@@ -2,42 +2,48 @@ import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
 import { User } from '../domain/model/user.entity';
 import { LoginCredentials } from '../domain/model/login-credentials';
 import { RegisterData } from '../domain/model/register-data';
-import { UserResource, LoginResponse, RegisterResponse } from './auth-response';
+import { UserResource, SignInResponse, SignUpResponse } from './auth-response';
 import { AuthAssembler } from './auth-assembler';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-export class AuthApiEndpoint extends BaseApiEndpoint<User, UserResource, LoginResponse, AuthAssembler> {
+export class AuthApiEndpoint extends BaseApiEndpoint<User, UserResource, SignInResponse, AuthAssembler> {
   constructor(http: HttpClient) {
-    super(http, `${environment.apiBaseUrl}`, new AuthAssembler());
+    super(http, `${environment.platformProviderApiBaseUrl}`, new AuthAssembler());
   }
 
   /**
    * Authenticates a user with the provided credentials.
    * @param credentials - The login credentials.
-   * @returns An Observable of the login response with token.
-   * @remarks Uses json-server-auth /login endpoint
+   * @returns An Observable of the sign-in response with token.
+   * @remarks Uses backend /authentication/sign-in endpoint
    */
-  login(credentials: LoginCredentials) {
-    return this.http.post<any>(`${this.endpointUrl}/login`, {
-      email: credentials.email,
-      password: credentials.password
-    });
+  signIn(credentials: LoginCredentials): Observable<SignInResponse> {
+    return this.http.post<SignInResponse>(
+      `${this.endpointUrl}${environment.platformProviderAuthSignInEndpointPath}`,
+      {
+        email: credentials.email,
+        password: credentials.password
+      }
+    );
   }
 
   /**
    * Registers a new user with the provided data.
+   * Backend automatically assigns ROLE_ADMIN with all permissions (master user).
    * @param data - The registration data.
-   * @returns An Observable of the register response with token.
-   * @remarks Uses json-server-auth /register endpoint
+   * @returns An Observable of the sign-up response with user info.
+   * @remarks Uses backend /authentication/sign-up endpoint
    */
-  register(data: RegisterData) {
-    return this.http.post<any>(`${this.endpointUrl}/register`, {
-      email: data.email,
-      password: data.password,
-      name: data.name
-    });
+  signUp(data: RegisterData): Observable<SignUpResponse> {
+    return this.http.post<SignUpResponse>(
+      `${this.endpointUrl}${environment.platformProviderAuthSignUpEndpointPath}`,
+      {
+        email: data.email,
+        password: data.password
+      }
+    );
   }
 
   /**
@@ -45,15 +51,9 @@ export class AuthApiEndpoint extends BaseApiEndpoint<User, UserResource, LoginRe
    * @param userId - The user ID.
    * @returns An Observable of the user data with complete information.
    */
-  getUserById(userId: string) {
-    return this.http.get<any>(`${this.endpointUrl}/users/${userId}`);
-  }
-
-  /**
-   * Logs out the current user.
-   * @returns An Observable that completes when logout is successful.
-   */
-  logout() {
-    return this.http.post<void>(`${this.endpointUrl}/logout`, {});
+  getUserById(userId: string): Observable<UserResource> {
+    return this.http.get<UserResource>(
+      `${this.endpointUrl}${environment.platformProviderUsersEndpointPath}/${userId}`
+    );
   }
 }

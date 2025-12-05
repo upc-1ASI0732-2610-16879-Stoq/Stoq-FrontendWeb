@@ -4,15 +4,35 @@ import { BaseResponse, BaseResource } from '../../shared/infrastructure/base-res
  * DTO for a user resource from the API.
  */
 export interface UserResource extends BaseResource {
-  id: string;
+  id: number;
   email: string;
-  name: string;
-  role?: string;
+  roles?: string[];
+  permissions?: string[];
   token?: string;
 }
 
 /**
- * DTO for login response from the API.
+ * DTO for sign-in response from the API.
+ * Backend returns: { id, email, token }
+ */
+export interface SignInResponse {
+  id: number;
+  email: string;
+  token: string;
+}
+
+/**
+ * DTO for sign-up response from the API.
+ * Backend returns: { id, email, token } - auto-login after registration
+ */
+export interface SignUpResponse {
+  id: number;
+  email: string;
+  token: string;
+}
+
+/**
+ * @deprecated Use SignInResponse instead
  */
 export interface LoginResponse extends BaseResponse {
   user: UserResource;
@@ -20,7 +40,7 @@ export interface LoginResponse extends BaseResponse {
 }
 
 /**
- * DTO for register response from the API.
+ * @deprecated Use SignUpResponse instead
  */
 export interface RegisterResponse extends BaseResponse {
   user: UserResource;
