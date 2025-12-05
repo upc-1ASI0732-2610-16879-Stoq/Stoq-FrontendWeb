@@ -1,11 +1,15 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://stocktrack-fake-api.onrender.com',
-  platformProviderApiBaseUrl: 'https://stocktrack-fake-api.onrender.com',
-  platformBackendApiBaseUrl: 'https://stocktrack-backend-production.up.railway.app/api/v1',
+  platformProviderApiBaseUrl: 'http://localhost:8080/api/v1',
   platformProviderProvidersEndpointPath: '/providers',
   platformProviderProductsEndpointPath: '/products',
-  platformProviderStockEndpointPath: '/stock',
-  platformProviderRestockingEndpointPath: '/restockings',
-  platformProviderKitsEndpointPath: '/kits'
+  platformProviderKitsEndpointPath: '/kits',
+  platformProviderBatchesEndpointPath: '/batches',
+  platformProviderSalesEndpointPath: '/sales',
+  platformProviderCategoriesEndpointPath: '/categories',
+  platformProviderDashboardEndpointPath: '/dashboard',
+  platformProviderUsersEndpointPath: '/users',
+  platformProviderAuthEndpointPath: '/authentication',
+  platformProviderAuthSignInEndpointPath: '/authentication/sign-in',
+  platformProviderAuthSignUpEndpointPath: '/authentication/sign-up'
 }
