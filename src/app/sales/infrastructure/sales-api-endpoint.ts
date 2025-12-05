@@ -32,8 +32,7 @@ export class SalesApiEndpoint {
   private readonly endpointUrl: string;
 
   constructor(private http: HttpClient) {
-    const baseUrl = (environment as any).platformBackendApiBaseUrl || environment.platformProviderApiBaseUrl;
-    this.endpointUrl = baseUrl.includes('/api/v1') ? `${baseUrl}/sales` : `${baseUrl}/sales`;
+    this.endpointUrl = `${environment.platformProviderApiBaseUrl}/sales`;
   }
 
   create(sale: CreateSaleRequest): Observable<SaleResponse> {

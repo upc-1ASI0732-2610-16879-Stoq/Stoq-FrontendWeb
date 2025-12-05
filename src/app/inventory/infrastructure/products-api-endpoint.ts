@@ -7,9 +7,6 @@ import {environment} from '../../../environments/environment';
 
 export class ProductsApiEndpoint extends BaseApiEndpoint<Product, ProductResource, ProductResponse, ProductAssembler> {
   constructor(http: HttpClient) {
-    // Use backend API URL if available, otherwise fallback to platform provider API
-    const baseUrl = (environment as any).platformBackendApiBaseUrl || environment.platformProviderApiBaseUrl;
-    const endpointPath = baseUrl.includes('/api/v1') ? '/products' : environment.platformProviderProductsEndpointPath;
-    super(http, `${baseUrl}${endpointPath}`, new ProductAssembler());
+    super(http, `${environment.platformProviderApiBaseUrl}${environment.platformProviderProductsEndpointPath}`, new ProductAssembler());
   }
 }

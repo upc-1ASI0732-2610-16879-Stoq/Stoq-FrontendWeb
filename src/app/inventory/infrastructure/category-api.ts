@@ -18,10 +18,7 @@ export class CategoryApi {
   private readonly baseUrl: string;
 
   constructor(private http: HttpClient) {
-    const backendUrl = (environment as any).platformBackendApiBaseUrl;
-    this.baseUrl = backendUrl
-      ? `${backendUrl}/categories`
-      : `${environment.platformProviderApiBaseUrl}/categories`;
+    this.baseUrl = `${environment.platformProviderApiBaseUrl}${environment.platformProviderCategoriesEndpointPath}`;
   }
 
   getAll(): Observable<CategoryResource[]> {

@@ -7,8 +7,7 @@ import {environment} from '../../../environments/environment';
 
 export class KitApiEndpoint extends BaseApiEndpoint<Kit, KitResource, KitResponse, KitAssembler> {
   constructor(http: HttpClient) {
-    // Usar el backend API base URL para kits
-    super(http, `${environment.platformBackendApiBaseUrl}${environment.platformProviderKitsEndpointPath}`, new KitAssembler());
+    super(http, `${environment.platformProviderApiBaseUrl}${environment.platformProviderKitsEndpointPath}`, new KitAssembler());
   }
 }
 
