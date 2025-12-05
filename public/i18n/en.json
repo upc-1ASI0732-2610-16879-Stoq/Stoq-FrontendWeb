@@ -224,7 +224,9 @@
     }
   },
   "dashboard": {
+    "title": "Dashboard",
     "greeting": "Good morning",
+
     "notifications": {
       "title": "Notifications",
       "button": "Open notifications",

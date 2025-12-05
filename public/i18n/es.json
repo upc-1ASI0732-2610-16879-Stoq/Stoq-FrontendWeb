@@ -230,6 +230,7 @@
     }
   },
   "dashboard": {
+    "title": "Dashboard",
     "greeting": "Buenos días",
     "notifications": {
       "title": "Notificaciones",
