@@ -5,8 +5,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
+  MatDialogRef
 } from '@angular/material/dialog';
 import {ProvidersApi} from '../../../infrastructure/providers-api';
 import {Provider} from '../../../../inventory/domain/model/provider.entity';
@@ -31,7 +30,6 @@ import {TranslatePipe} from '@ngx-translate/core';
     ReactiveFormsModule,
     MatDialogActions,
     MatButton,
-    MatDialogTitle,
     MatIconModule,
     MatProgressSpinnerModule,
     TranslatePipe
