@@ -4,6 +4,26 @@
     "save": "Guardar",
     "exit": "Salir"
   },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Gestiona las preferencias y opciones de la aplicación",
+    "userInfo": {
+      "title": "Información del Usuario",
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "admin": "Administrador",
+      "user": "Usuario"
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Selecciona el idioma de la interfaz"
+    },
+    "appInfo": {
+      "title": "Información de la Aplicación",
+      "version": "Versión",
+      "name": "Nombre"
+    }
+  },
   "sidebar": {
     "title": "StockTrack",
     "menu": {
@@ -205,7 +225,8 @@
       "emailInvalid": "Email inválido",
       "minLength": "Mínimo {{min}} caracteres",
       "passwordRequired": "es requerida",
-      "confirmRequired": "Confirmación es requerida"
+      "confirmRequired": "Confirmación es requerida",
+      "passwordMismatch": "Las contraseñas no coinciden"
     }
   },
   "dashboard": {
@@ -245,6 +266,7 @@
   },
   "personalAdministration": {
     "title": "Administración de Personal",
+    "subtitle": "Gestiona los usuarios de tu negocio",
     "search": "Buscar...",
     "filter": "Filtro",
     "status": "Estado",
@@ -254,8 +276,10 @@
     "inactive": "Inactivo",
     "apply": "Aplicar",
     "clear": "Limpiar",
+    "clearFilters": "Limpiar filtros",
     "newRole": "Nuevo Rol",
     "newUser": "Nuevo Usuario",
+    "addUser": "Agregar usuario",
     "name": "Nombre",
     "account": "Cuenta",
     "actions": "Acciones",
@@ -276,10 +300,46 @@
     "roleNameLabel": "Nombre del rol",
     "rolePlaceholder": "Ej: Supervisor",
     "permissionsTitle": "Permisos",
+    "permissionsHint": "Selecciona los módulos a los que este usuario tendrá acceso",
+    "permissionsSelected": "{{count}} permiso(s) seleccionado(s)",
+    "permissionDashboard": "Dashboard",
+    "permissionInventory": "Inventario",
+    "permissionSales": "Ventas",
+    "permissionProviders": "Proveedores",
+    "permissionReports": "Reportes",
+    "permissionUserManagement": "Gestión de Usuarios",
     "permissionProducts": "Gestión de productos",
     "permissionPurchases": "Proceso de compra",
     "permissionStats": "Estadísticas",
-    "permissionUsers": "Gestión de usuarios"
+    "permissionUsers": "Gestión de usuarios",
+    "loadingUsers": "Cargando usuarios...",
+    "noUsers": "No hay usuarios",
+    "noUsersFiltered": "No se encontraron usuarios con los filtros aplicados",
+    "noUsersYet": "Aún no has agregado usuarios a tu negocio",
+    "admin": "Administrador",
+    "user": "Usuario",
+    "admins": "Admins",
+    "users": "Usuarios",
+    "cannotDeleteSelf": "No puedes eliminarte a ti mismo",
+    "cannotDeleteOwner": "No se puede eliminar al usuario principal",
+    "deleteUser": "Eliminar usuario",
+    "emailPlaceholder": "usuario@ejemplo.com",
+    "passwordPlaceholder": "Mínimo 6 caracteres",
+    "passwordPlaceholderOptional": "Dejar vacío para no cambiar",
+    "passwordHintOptional": "Dejar vacío si no deseas cambiar la contraseña",
+    "emailRequired": "El email es requerido",
+    "emailInvalid": "Ingresa un email válido",
+    "passwordRequired": "La contraseña es requerida",
+    "passwordMinLength": "Mínimo 6 caracteres",
+    "editUser": "Editar usuario",
+    "user": "Usuario",
+    "aria": {
+      "search": "Buscar usuarios",
+      "filterRole": "Filtrar por rol",
+      "createUser": "Crear nuevo usuario",
+      "deleteUser": "Eliminar usuario",
+      "clearFilters": "Limpiar filtros aplicados"
+    }
   },
   "common": {
     "cancel": "Cancelar",

@@ -4,6 +4,26 @@
     "save": "Save",
     "exit": "Exit"
   },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage application preferences and options",
+    "userInfo": {
+      "title": "User Information",
+      "email": "Email",
+      "role": "Role",
+      "admin": "Administrator",
+      "user": "User"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Select the interface language"
+    },
+    "appInfo": {
+      "title": "Application Information",
+      "version": "Version",
+      "name": "Name"
+    }
+  },
   "sidebar": {
     "title": "StockTrack",
     "menu": {
@@ -199,7 +219,8 @@
       "emailInvalid": "Invalid email",
       "minLength": "Minimum {{min}} characters",
       "passwordRequired": "is required",
-      "confirmRequired": "Confirmation is required"
+      "confirmRequired": "Confirmation is required",
+      "passwordMismatch": "Passwords do not match"
     }
   },
   "dashboard": {
@@ -240,6 +261,7 @@
   },
   "personalAdministration": {
     "title": "Staff Administration",
+    "subtitle": "Manage your business users",
     "search": "Search...",
     "filter": "Filter",
     "status": "Status",
@@ -249,8 +271,10 @@
     "inactive": "Inactive",
     "apply": "Apply",
     "clear": "Clear",
+    "clearFilters": "Clear filters",
     "newRole": "New Role",
     "newUser": "New User",
+    "addUser": "Add user",
     "name": "Name",
     "account": "Account",
     "actions": "Actions",
@@ -271,10 +295,46 @@
     "roleNameLabel": "Role Name",
     "rolePlaceholder": "Ex: Supervisor",
     "permissionsTitle": "Permissions",
+    "permissionsHint": "Select the modules this user will have access to",
+    "permissionsSelected": "{{count}} permission(s) selected",
+    "permissionDashboard": "Dashboard",
+    "permissionInventory": "Inventory",
+    "permissionSales": "Sales",
+    "permissionProviders": "Providers",
+    "permissionReports": "Reports",
+    "permissionUserManagement": "User Management",
     "permissionProducts": "Product Management",
     "permissionPurchases": "Purchase Process",
     "permissionStats": "Statistics",
-    "permissionUsers": "User Management"
+    "permissionUsers": "User Management",
+    "loadingUsers": "Loading users...",
+    "noUsers": "No users",
+    "noUsersFiltered": "No users found with the applied filters",
+    "noUsersYet": "You haven't added any users to your business yet",
+    "admin": "Administrator",
+    "user": "User",
+    "admins": "Admins",
+    "users": "Users",
+    "cannotDeleteSelf": "You cannot delete yourself",
+    "cannotDeleteOwner": "Cannot delete the primary user",
+    "deleteUser": "Delete user",
+    "emailPlaceholder": "user@example.com",
+    "passwordPlaceholder": "Minimum 6 characters",
+    "passwordPlaceholderOptional": "Leave empty to keep current",
+    "passwordHintOptional": "Leave empty if you don't want to change the password",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Minimum 6 characters",
+    "editUser": "Edit user",
+    "user": "User",
+    "aria": {
+      "search": "Search users",
+      "filterRole": "Filter by role",
+      "createUser": "Create new user",
+      "deleteUser": "Delete user",
+      "clearFilters": "Clear applied filters"
+    }
   },
   "common": {
     "cancel": "Cancel",
