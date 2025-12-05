@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
-import { User, UserRole, UserStatus } from '../domain/user.model';
-import { UserResource, UserResponse, UserListResponse } from './user-response';
+import { User } from '../domain/user.model';
+import { UserResource, UserListResponse } from './user-response';
 
 /**
  * Assembler for transforming between User entities and UserResource DTOs.
  * @remarks
  * This service handles the conversion between domain entities and API resources.
+ * Backend returns: { id, email, roles[] }
  */
 @Injectable({
   providedIn: 'root'
 })
-export class UserAssembler implements BaseAssembler<User, UserResource, UserResponse> {
+export class UserAssembler implements BaseAssembler<User, UserResource, UserListResponse> {
   /**
    * Converts a UserResource to a User entity.
    * @param resource - The UserResource to convert.
@@ -20,11 +21,9 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
   toEntityFromResource(resource: UserResource): User {
     return new User({
       id: String(resource.id || ''),
-      name: resource.name,
-      role: this.mapStringToUserRole(resource.role || 'Vendedor'),
       email: resource.email,
-      password: resource.password || '',
-      status: this.mapStringToUserStatus(resource.status || 'Activo')
+      roles: resource.roles || ['ROLE_USER'],
+      permissions: resource.permissions || []
     });
   }
 
@@ -34,22 +33,12 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
    * @returns A UserResource.
    */
   toResourceFromEntity(entity: User): UserResource {
-    const resource: UserResource = {
-      name: entity.name,
-      role: this.mapUserRoleToString(entity.role),
+    return {
+      id: Number(entity.id) || 0,
       email: entity.email,
-      status: this.mapUserStatusToString(entity.status)
+      roles: entity.roles,
+      permissions: entity.permissions || []
     };
-
-    if (entity.id && entity.id.trim() !== '') {
-      resource.id = entity.id;
-    }
-
-    if (entity.password && entity.password.trim() !== '') {
-      resource.password = entity.password;
-    }
-
-    return resource;
   }
 
   /**
@@ -71,101 +60,15 @@ export class UserAssembler implements BaseAssembler<User, UserResource, UserResp
   }
 
   /**
-   * Converts a UserResponse to a User entity.
-   * @param response - The UserResponse to convert.
-   * @returns A User entity.
-   */
-  toEntityFromResponse(response: UserResponse): User {
-    return this.toEntityFromResource(response.user);
-  }
-
-  /**
-   * Converts a UserResponse to User entities.
-   * @param response - The UserResponse to convert.
+   * Converts API response (array) to User entities.
+   * Backend returns array of UserResource directly.
+   * @param response - The array response from API.
    * @returns An array of User entities.
    */
-  toEntitiesFromResponse(response: UserResponse): User[] {
-    return [this.toEntityFromResponse(response)];
-  }
-
-  /**
-   * Converts a UserListResponse to User entities.
-   * @param response - The UserListResponse to convert.
-   * @returns An array of User entities.
-   */
-  toEntitiesFromListResponse(response: UserListResponse): User[] {
-    return this.toEntitiesFromResources(response.users);
-  }
-
-  /**
-   * Maps a string role to UserRole enum.
-   * @param roleString - The role string to map.
-   * @returns The corresponding UserRole enum value.
-   */
-  private mapStringToUserRole(roleString: string): UserRole {
-    if (!roleString) {
-      return UserRole.VENDOR;
+  toEntitiesFromResponse(response: UserListResponse): User[] {
+    if (Array.isArray(response)) {
+      return this.toEntitiesFromResources(response);
     }
-    
-    switch (roleString.toLowerCase()) {
-      case 'administrador':
-        return UserRole.ADMIN;
-      case 'vendedor':
-        return UserRole.VENDOR;
-      default:
-        return UserRole.VENDOR;
-    }
-  }
-
-  /**
-   * Maps a string status to UserStatus enum.
-   * @param statusString - The status string to map.
-   * @returns The corresponding UserStatus enum value.
-   */
-  private mapStringToUserStatus(statusString: string): UserStatus {
-    if (!statusString) {
-      return UserStatus.ACTIVE;
-    }
-    
-    switch (statusString.toLowerCase()) {
-      case 'activo':
-        return UserStatus.ACTIVE;
-      case 'inactivo':
-        return UserStatus.INACTIVE;
-      default:
-        return UserStatus.ACTIVE;
-    }
-  }
-
-  /**
-   * Maps a UserRole enum to string.
-   * @param role - The UserRole enum to map.
-   * @returns The corresponding string value.
-   */
-  private mapUserRoleToString(role: UserRole): string {
-    switch (role) {
-      case UserRole.ADMIN:
-        return 'Administrador';
-      case UserRole.VENDOR:
-        return 'Vendedor';
-      default:
-        throw new Error(`Unknown user role: ${role}`);
-    }
-  }
-
-  /**
-   * Maps a UserStatus enum to string.
-   * @param status - The UserStatus enum to map.
-   * @returns The corresponding string value.
-   */
-  private mapUserStatusToString(status: UserStatus): string {
-    switch (status) {
-      case UserStatus.ACTIVE:
-        return 'Activo';
-      case UserStatus.INACTIVE:
-        return 'Inactivo';
-      default:
-        throw new Error(`Unknown user status: ${status}`);
-    }
+    return [];
   }
 }

@@ -1,11 +1,15 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { User, UserRole, UserStatus } from '../domain/user.model';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { User, UserRole } from '../domain/user.model';
 import { UserApi } from '../infrastructure/user-api';
+import { CreateUserRequest, UpdateUserRequest } from '../infrastructure/user-response';
 
 /**
  * Store for managing user state and operations.
  * @remarks
  * This service orchestrates user use cases and manages user state.
+ * Users can be created via staff management with specific roles.
  */
 @Injectable({
   providedIn: 'root'
@@ -20,20 +24,15 @@ export class UserStore {
   readonly error = this.errorSignal.asReadonly();
 
   readonly hasUsers = computed(() => this.users().length > 0);
-  readonly activeUsers = computed(() => this.users().filter(user => user.isActive()));
   readonly adminUsers = computed(() => this.users().filter(user => user.isAdmin()));
-
-  readonly availableRoles = [
-    { name: 'Vendedor', permissions: { productos: true, compras: true, estadisticas: false, usuarios: false } },
-    { name: 'Administrador', permissions: { productos: true, compras: true, estadisticas: true, usuarios: true } }
-  ];
+  readonly regularUsers = computed(() => this.users().filter(user => user.hasRole(UserRole.USER)));
 
   constructor(private userApi: UserApi) {
     this.loadUsers();
   }
 
   /**
-   * Loads all users.
+   * Loads all users from the backend.
    */
   loadUsers(): void {
     this.loadingSignal.set(true);
@@ -52,32 +51,24 @@ export class UserStore {
   }
 
   /**
-   * Creates a new user.
-   * @param userData - The user data to create.
+   * Creates a new user (from staff management).
+   * User is automatically authenticated and receives a token.
+   * Users created by admin always get ROLE_USER.
+   * @param email - The user's email.
+   * @param password - The user's password.
+   * @param permissions - The permissions to assign for module access.
    */
-  createUser(userData: {
-    name: string;
-    role: UserRole;
-    email: string;
-    password: string;
-    status: UserStatus;
-  }): void {
+  createUser(email: string, password: string, permissions: string[]): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    const newUser = new User({
-      id: '',
-      name: userData.name,
-      role: userData.role,
-      email: userData.email,
-      password: userData.password,
-      status: userData.status
-    });
+    const request: CreateUserRequest = { email, password, permissions };
 
-    this.userApi.createUser(newUser).subscribe({
-      next: (user: User) => {
-        const currentUsers = this.users();
-        this.usersSignal.set([...currentUsers, user]);
+    this.userApi.createUser(request).subscribe({
+      next: (result) => {
+        // User created successfully with token (auto-login ready)
+        // Refresh the list to get full user data with roles
+        this.loadUsers();
         this.loadingSignal.set(false);
       },
       error: (err: Error) => {
@@ -88,28 +79,22 @@ export class UserStore {
   }
 
   /**
-   * Updates an existing user.
-   * @param id - The user ID.
-   * @param userData - The updated user data.
+   * Updates a user (from staff management).
+   * @param id - The user ID to update.
+   * @param email - The new email (optional).
+   * @param password - The new password (optional, only if changing).
+   * @param permissions - The new permissions (optional).
    */
-  updateUser(id: string, userData: {
-    name: string;
-    role: UserRole;
-    email: string;
-    status: UserStatus;
-  }): void {
+  updateUser(id: string, email?: string, password?: string, permissions?: string[]): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    const updatedUser = new User({
-      id: id,
-      name: userData.name,
-      role: userData.role,
-      email: userData.email,
-      status: userData.status
-    });
+    const request: UpdateUserRequest = {};
+    if (email) request.email = email;
+    if (password) request.password = password;
+    if (permissions) request.permissions = permissions;
 
-    this.userApi.updateUser(id, updatedUser).subscribe({
+    this.userApi.updateUser(id, request).subscribe({
       next: (user: User) => {
         const currentUsers = this.users();
         const updatedUsers = currentUsers.map(u => u.id === id ? user : u);
@@ -125,7 +110,7 @@ export class UserStore {
 
   /**
    * Deletes a user.
-   * @param id - The user ID.
+   * @param id - The user ID to delete.
    */
   deleteUser(id: string): void {
     this.loadingSignal.set(true);

@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../domain/user.model';
 import { UserApiEndpoint } from './user-api-endpoint';
+import { CreateUserRequest, UpdateUserRequest } from './user-response';
 
 /**
  * API service for user operations.
  * @remarks
- * This service orchestrates user-related API calls using the UserApiEndpoint.
+ * This service orchestrates user-related API calls.
+ * Users can be created via /api/v1/users (staff management) with specific roles.
  */
 @Injectable({
   providedIn: 'root'
@@ -32,22 +34,23 @@ export class UserApi {
   }
 
   /**
-   * Creates a new user.
-   * @param user - The user data to create.
-   * @returns Observable of User entity.
+   * Creates a new user (from staff management).
+   * Returns user with token for auto-login.
+   * @param data - The user data with email, password and roles.
+   * @returns Observable of created User entity with token.
    */
-  createUser(user: User): Observable<User> {
-    return this.endpoint.createUser(user);
+  createUser(data: CreateUserRequest): Observable<{ user: User; token: string }> {
+    return this.endpoint.createUser(data);
   }
 
   /**
-   * Updates an existing user.
-   * @param id - The user ID.
-   * @param user - The updated user data.
-   * @returns Observable of User entity.
+   * Updates a user (from staff management).
+   * @param id - The user ID to update.
+   * @param data - The user data with email, password (optional) and permissions.
+   * @returns Observable of updated User entity.
    */
-  updateUser(id: string, user: User): Observable<User> {
-    return this.endpoint.updateUser(id, user);
+  updateUser(id: string, data: UpdateUserRequest): Observable<User> {
+    return this.endpoint.updateUser(id, data);
   }
 
   /**
