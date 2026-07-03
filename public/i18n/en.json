@@ -208,6 +208,22 @@
       "hasAccount": "Already have an account?",
       "login": "Sign in"
     },
+    "recovery": {
+      "title": "Recover password",
+      "description": "Enter your email and set a new password to regain access to your account.",
+      "email": "Email",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Reset password",
+      "successMessage": "Your password was updated successfully. You can now sign in.",
+      "backToLogin": "Back to sign in",
+      "rememberPassword": "Remember your password?",
+      "errors": {
+        "userNotFound": "We couldn't find an account with that email.",
+        "unauthorized": "Password recovery could not be completed. Please try again.",
+        "recoveryFailed": "Failed to reset password. Please try again."
+      }
+    },
     "tagline": "An inventory control designed to help you sell more and stress less",
     "errors": {
       "loginFailed": "Login failed. Please check your credentials.",

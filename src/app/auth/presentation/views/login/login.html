@@ -58,7 +58,7 @@
           </mat-form-field>
 
           <div class="forgot-password">
-            <a href="#" class="link-text">{{ t('auth.login.forgotPassword') }}</a>
+            <a routerLink="/auth/recovery" class="link-text">{{ t('auth.login.forgotPassword') }}</a>
           </div>
 
           @if (authStore.error()) {

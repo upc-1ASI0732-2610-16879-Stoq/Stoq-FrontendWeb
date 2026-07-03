@@ -214,6 +214,22 @@
       "hasAccount": "¿Ya tienes una cuenta?",
       "login": "Inicia sesión"
     },
+    "recovery": {
+      "title": "Recuperar contraseña",
+      "description": "Ingresa tu email y define una nueva contraseña para recuperar el acceso a tu cuenta.",
+      "email": "Email",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Restablecer contraseña",
+      "successMessage": "Tu contraseña fue actualizada correctamente. Ya puedes iniciar sesión.",
+      "backToLogin": "Volver al inicio de sesión",
+      "rememberPassword": "¿Recordaste tu contraseña?",
+      "errors": {
+        "userNotFound": "No encontramos una cuenta con ese email.",
+        "unauthorized": "No se pudo completar la recuperación. Intenta nuevamente.",
+        "recoveryFailed": "Error al restablecer la contraseña. Intenta nuevamente."
+      }
+    },
     "tagline": "Un control de inventario diseñado para que vendas más y te estreses menos",
     "errors": {
       "loginFailed": "Error al iniciar sesión. Verifica tus credenciales.",

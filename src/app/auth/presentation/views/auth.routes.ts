@@ -13,6 +13,9 @@ const loginComponent = () =>
 const registerComponent = () =>
   import('./register/register').then(m => m.RegisterComponent);
 
+const recoveryComponent = () =>
+  import('./recovery/recovery').then(m => m.RecoveryComponent);
+
 /**
  * Authentication routes configuration.
  * @remarks
@@ -31,6 +34,12 @@ export const authRoutes: Routes = [
     loadComponent: registerComponent,
     canActivate: [noAuthGuard],
     title: 'Register - StockTrack'
+  },
+  {
+    path: 'recovery',
+    loadComponent: recoveryComponent,
+    canActivate: [noAuthGuard],
+    title: 'Recover Password - StockTrack'
   },
   {
     path: '',

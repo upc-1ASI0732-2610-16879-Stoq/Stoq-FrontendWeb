@@ -9,8 +9,8 @@ export class ProductAssembler implements BaseAssembler<Product, ProductResource,
       id: String(resource.id), // Convert id to string (API returns number)
       name: resource.name,
       description: resource.description,
-      categoryId: resource.categoryId,
-      providerId: resource.providerId,
+      categoryId: String(resource.categoryId),
+      providerId: String(resource.providerId),
       minStock: resource.minStock,
       unitPrice: resource.unitPrice,
       isActive: resource.isActive

@@ -56,4 +56,17 @@ export class AuthApiEndpoint extends BaseApiEndpoint<User, UserResource, SignInR
       `${this.endpointUrl}${environment.platformProviderUsersEndpointPath}/${userId}`
     );
   }
+
+  /**
+   * Resets a user's password without authentication.
+   * @param email - The account email.
+   * @param password - The new password.
+   * @returns An Observable that completes when the password is reset.
+   */
+  resetPassword(email: string, password: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.endpointUrl}${environment.platformProviderAuthResetPasswordEndpointPath}`,
+      { email, password }
+    );
+  }
 }

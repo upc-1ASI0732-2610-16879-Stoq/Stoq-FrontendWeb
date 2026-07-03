@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { User } from '../domain/model/user.entity';
 import { LoginCredentials } from '../domain/model/login-credentials';
 import { RegisterData } from '../domain/model/register-data';
+import { RecoverPasswordData } from '../domain/model/recover-password-data';
 import { AuthApi } from '../infrastructure/auth-api';
 import { JwtTokenService } from '../infrastructure/jwt-token';
 
@@ -18,12 +19,14 @@ export class AuthStore {
   private readonly userSignal = signal<User | null>(null);
   private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
+  private readonly recoverySuccessSignal = signal<boolean>(false);
   private readonly initializedSignal = signal<boolean>(false);
   private initializationPromise: Promise<void> | null = null;
 
   readonly user = this.userSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
+  readonly recoverySuccess = this.recoverySuccessSignal.asReadonly();
   readonly initialized = this.initializedSignal.asReadonly();
 
   readonly isAuthenticated = computed(() => this.user() !== null);
@@ -232,6 +235,32 @@ export class AuthStore {
   }
 
   /**
+   * Resets a user's password using the public authentication endpoint.
+   * @param data The recovery data with email and new password
+   */
+  recoverPassword(data: RecoverPasswordData): void {
+    if (!data.passwordsMatch()) {
+      this.errorSignal.set('auth.errors.passwordMismatch');
+      return;
+    }
+
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+    this.recoverySuccessSignal.set(false);
+
+    this.authApi.resetPassword(data.email, data.password).subscribe({
+      next: () => {
+        this.loadingSignal.set(false);
+        this.recoverySuccessSignal.set(true);
+      },
+      error: (err: Error) => {
+        this.errorSignal.set(this.formatRecoveryError(err));
+        this.loadingSignal.set(false);
+      }
+    });
+  }
+
+  /**
    * Logs out the current user (client-side only).
    */
   logout(): void {
@@ -298,6 +327,31 @@ export class AuthStore {
    */
   clearError(): void {
     this.errorSignal.set(null);
+  }
+
+  /**
+   * Clears the recovery success state.
+   */
+  clearRecoverySuccess(): void {
+    this.recoverySuccessSignal.set(false);
+  }
+
+  private formatRecoveryError(error: any): string {
+    if (error?.status === 404) {
+      return 'auth.recovery.errors.userNotFound';
+    }
+    if (error?.status === 401) {
+      return 'auth.recovery.errors.unauthorized';
+    }
+    if (error instanceof Error) {
+      if (error.message.includes('404') || error.message.includes('not found')) {
+        return 'auth.recovery.errors.userNotFound';
+      }
+      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        return 'auth.recovery.errors.unauthorized';
+      }
+    }
+    return 'auth.recovery.errors.recoveryFailed';
   }
 
   /**

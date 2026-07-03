@@ -42,4 +42,14 @@ export class AuthApi extends BaseApi {
   getUserById(userId: string): Observable<UserResource> {
     return this.authEndpoint.getUserById(userId);
   }
+
+  /**
+   * Resets a user's password using the public recovery endpoint.
+   * @param email - The account email.
+   * @param password - The new password.
+   * @returns An Observable that completes when the password is reset.
+   */
+  resetPassword(email: string, password: string): Observable<void> {
+    return this.authEndpoint.resetPassword(email, password);
+  }
 }

@@ -1,0 +1,123 @@
+<div class="auth-container">
+  <div class="language-switcher-wrapper">
+    <app-language-switcher></app-language-switcher>
+  </div>
+
+  <div class="auth-branding">
+    <div class="branding-content">
+      <div class="logo-section">
+        <img src="assets/logo.png" alt="StockTrack Logo" class="logo" />
+        <h1 class="brand-name">StockTrack</h1>
+      </div>
+      <p class="tagline">{{ t('auth.tagline') }}</p>
+    </div>
+    <div class="decorative-circles decorative-circles-left"></div>
+  </div>
+
+  <div class="auth-form-wrapper">
+    <div class="decorative-circles decorative-circles-right"></div>
+    <mat-card class="auth-card">
+      <mat-card-content>
+        <h2 class="auth-title">{{ t('auth.recovery.title') }}</h2>
+        @if (authStore.recoverySuccess()) {
+          <div class="success-message" role="status">
+            {{ t('auth.recovery.successMessage') }}
+          </div>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            class="submit-button"
+            (click)="navigateToLogin()"
+            [attr.aria-label]="t('auth.recovery.backToLogin')"
+          >
+            {{ t('auth.recovery.backToLogin') }}
+          </button>
+        } @else {
+          <form [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ t('auth.recovery.email') }}</mat-label>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                [attr.aria-label]="t('auth.recovery.email')"
+                [attr.aria-required]="true"
+                autocomplete="email"
+              />
+              @if (recoveryForm.get('email')?.hasError('required') && recoveryForm.get('email')?.touched) {
+                <mat-error>{{ t('auth.recovery.email') }} {{ t('auth.validation.required') }}</mat-error>
+              }
+              @if (recoveryForm.get('email')?.hasError('email') && recoveryForm.get('email')?.touched) {
+                <mat-error>{{ t('auth.validation.emailInvalid') }}</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ t('auth.recovery.newPassword') }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                [attr.aria-label]="t('auth.recovery.newPassword')"
+                [attr.aria-required]="true"
+                autocomplete="new-password"
+              />
+              @if (recoveryForm.get('password')?.hasError('required') && recoveryForm.get('password')?.touched) {
+                <mat-error>{{ t('auth.recovery.newPassword') }} {{ t('auth.validation.passwordRequired') }}</mat-error>
+              }
+              @if (recoveryForm.get('password')?.hasError('minlength') && recoveryForm.get('password')?.touched) {
+                <mat-error>{{ t('auth.validation.minLength').replace('{{min}}', '6') }}</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ t('auth.recovery.confirmPassword') }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="confirmPassword"
+                [attr.aria-label]="t('auth.recovery.confirmPassword')"
+                [attr.aria-required]="true"
+                autocomplete="new-password"
+              />
+              @if (recoveryForm.get('confirmPassword')?.hasError('required') && recoveryForm.get('confirmPassword')?.touched) {
+                <mat-error>{{ t('auth.validation.confirmRequired') }}</mat-error>
+              }
+              @if (recoveryForm.get('confirmPassword')?.hasError('passwordMismatch') && recoveryForm.get('confirmPassword')?.touched) {
+                <mat-error>{{ t('auth.validation.passwordMismatch') }}</mat-error>
+              }
+            </mat-form-field>
+
+            @if (authStore.error()) {
+              <div class="error-message" role="alert">
+                {{ t(authStore.error()!) }}
+              </div>
+            }
+
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="submit-button"
+              [disabled]="authStore.loading()"
+              [attr.aria-label]="t('auth.recovery.submit')"
+            >
+              @if (authStore.loading()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                {{ t('auth.recovery.submit') }}
+              }
+            </button>
+
+            <div class="alternative-action">
+              <span class="alternative-text">{{ t('auth.recovery.rememberPassword') }}</span>
+              <a routerLink="/auth/login" class="link-text">{{ t('auth.recovery.backToLogin') }}</a>
+            </div>
+          </form>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
