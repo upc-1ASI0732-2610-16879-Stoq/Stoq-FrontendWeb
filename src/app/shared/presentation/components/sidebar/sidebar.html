@@ -6,7 +6,7 @@
   <div class="header-container">
     <div class="logo-container">
       @if (isExpanded) {
-        <span class="sidebar-title">{{ t('sidebar.title') }}</span>
+      <span class="sidebar-title">{{ t('sidebar.title') }}</span>
       }
     </div>
   </div>
@@ -24,11 +24,9 @@
 
   <mat-divider class="sidebar-divider" *ngIf="isExpanded"></mat-divider>
 
-  @if (isExpanded) {
-    <div class="language-section">
-      <app-language-switcher></app-language-switcher>
-    </div>
-  }
+  <div class="language-section">
+    <app-language-switcher [compact]="!isExpanded"></app-language-switcher>
+  </div>
 
   <mat-divider class="sidebar-divider"></mat-divider>
 
@@ -38,10 +36,10 @@
       <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.settings') }}</span>
     </a>
     @if (canAccessPersonalAdmin()) {
-      <a mat-list-item routerLink="/perfil" routerLinkActive="active" [disableRipple]="true">
-        <mat-icon matListItemIcon>person</mat-icon>
-        <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.personal') }}</span>
-      </a>
+    <a mat-list-item routerLink="/perfil" routerLinkActive="active" [disableRipple]="true">
+      <mat-icon matListItemIcon>person</mat-icon>
+      <span matListItemTitle *ngIf="isExpanded">{{ t('sidebar.footer.personal') }}</span>
+    </a>
     }
     <a mat-list-item (click)="logout()" class="logout-btn" [disableRipple]="true">
       <mat-icon matListItemIcon>logout</mat-icon>
