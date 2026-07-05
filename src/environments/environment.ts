@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  platformProviderApiBaseUrl: 'https://stocktrack-backend-production.up.railway.app/api/v1',
+  platformProviderApiBaseUrl: 'https://stoq-web-backend.onrender.com/api/v1',
   platformProviderProductsEndpointPath: '/products',
   platformProviderProvidersEndpointPath: '/providers',
   platformProviderBatchesEndpointPath: '/batches',
