@@ -17,6 +17,8 @@ import {MatIconButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {ProviderFormDialog} from '../provider-form-dialog/provider-form-dialog';
 import {ProvidersStore} from '../../../application/providers.store';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-providers-table',
@@ -34,7 +36,8 @@ import {ProvidersStore} from '../../../application/providers.store';
     MatHeaderRowDef,
     MatRowDef,
     MatIconModule,
-    MatIconButton
+    MatIconButton,
+    MatSnackBarModule
   ],
   templateUrl: './providers-table.html',
   styleUrl: './providers-table.css'
@@ -43,6 +46,8 @@ export class ProvidersTable {
   protected readonly store = inject(ProvidersStore);
   private readonly providersApi = inject(ProvidersApi);
   private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translate = inject(TranslateService);
 
   displayedColumns: string[] = ['firstName', 'phoneNumber', 'email', 'ruc', 'actions'];
 
@@ -58,6 +63,16 @@ export class ProvidersTable {
     ref.afterClosed().subscribe((updated?: Provider) => {
       if (!updated) return;
       this.store.updateProvider(updated);
+      this.snackBar.open(
+        this.translate.instant('providers-view.providers-table.edit-success'),
+        this.translate.instant('global.close'),
+        {
+          duration: 2500,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['provider-feedback-snackbar', 'provider-feedback-snackbar-success']
+        }
+      );
     });
   }
 

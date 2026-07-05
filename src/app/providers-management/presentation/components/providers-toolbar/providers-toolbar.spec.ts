@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProvidersToolbar } from './providers-toolbar';
+import { TranslateService } from '@ngx-translate/core';
 
 describe('ProvidersToolbar', () => {
   let component: ProvidersToolbar;
@@ -8,7 +9,15 @@ describe('ProvidersToolbar', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProvidersToolbar]
+      imports: [ProvidersToolbar],
+      providers: [
+        {
+          provide: TranslateService,
+          useValue: {
+            instant: (key: string) => key
+          }
+        }
+      ]
     })
     .compileComponents();
 

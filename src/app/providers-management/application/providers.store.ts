@@ -14,12 +14,23 @@ export class ProvidersStore {
   private readonly providersSignal = signal<Provider[]>([]);
   private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
+  private readonly filterTermSignal = signal<string>('');
 
   readonly providers = this.providersSignal.asReadonly();
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
+  readonly filteredProviders = computed(() => {
+    const searchTerm = this.filterTermSignal().trim().toLowerCase();
+
+    if (!searchTerm) {
+      return this.providers();
+    }
+
+    return this.providers().filter(provider => this.matchesSearchTerm(provider, searchTerm));
+  });
 
   readonly hasProviders = computed(() => this.providers().length > 0);
+  readonly hasActiveFilters = computed(() => this.filterTermSignal().trim().length > 0);
 
   constructor(private providersApi: ProvidersApi) {
     this.loadProviders();
@@ -52,6 +63,14 @@ export class ProvidersStore {
   }
 
   /**
+   * Applies the search filter to the provider list.
+   * @param searchTerm - The term typed by the user.
+   */
+  applyFilter(searchTerm: string): void {
+    this.filterTermSignal.set(searchTerm.trim());
+  }
+
+  /**
    * Updates an existing provider in the store.
    * @param updatedProvider - The updated provider.
    */
@@ -76,6 +95,16 @@ export class ProvidersStore {
    */
   refresh(): void {
     this.loadProviders();
+  }
+
+  private matchesSearchTerm(provider: Provider, searchTerm: string): boolean {
+    return [
+      provider.firstName,
+      provider.lastName,
+      provider.phoneNumber,
+      provider.email,
+      provider.ruc
+    ].some(value => value.toLowerCase().includes(searchTerm));
   }
 
   /**

@@ -7,7 +7,15 @@
     <input matInput [(ngModel)]="searchTerm"
            placeholder="{{'providers-view.providers-toolbar.search' | translate}}..."/>
   </mat-form-field>
-  <button class="filter-btn" id="provider-filter-btn" matFab extended>
+  <button
+    class="filter-btn"
+    id="provider-filter-btn"
+    matFab
+    extended
+    type="button"
+    (click)="applyFilters()"
+    [class.is-active]="store.hasActiveFilters()"
+    [attr.aria-pressed]="store.hasActiveFilters()">
     <mat-icon>filter_list</mat-icon>
     {{ 'providers-view.providers-toolbar.filter' | translate }}
   </button>
