@@ -2,7 +2,8 @@
   "global": {
     "cancel": "Cancel",
     "save": "Save",
-    "exit": "Exit"
+    "exit": "Exit",
+    "close": "Close"
   },
   "settings": {
     "title": "Settings",
@@ -134,7 +135,9 @@
     "providers-toolbar": {
       "search": "Search",
       "filter": "Filter",
-      "add-provider": "Add Provider"
+      "add-provider": "Add Provider",
+      "filter-applied": "Filters applied",
+      "filter-cleared": "Filters cleared"
     },
     "form-dialog": {
       "add": "Add Provider",
@@ -157,6 +160,9 @@
       "email-invalid": "Invalid email format",
       "ruc-required": "RUC is required",
       "ruc-invalid": "RUC must have exactly 11 digits"
+    },
+    "providers-table": {
+      "edit-success": "Provider updated successfully"
     }
   },
   "sales": {

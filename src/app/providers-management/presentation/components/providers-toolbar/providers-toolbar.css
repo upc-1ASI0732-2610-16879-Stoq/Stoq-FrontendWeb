@@ -23,6 +23,34 @@
   width: 127px;
   height: 47px;
 }
+
+.filter-btn {
+  border: 1px solid var(--color-gray-border) !important;
+  color: var(--color-gray-dark) !important;
+}
+
+.filter-btn:hover:not(:disabled) {
+  background: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary-active) !important;
+}
+
+.filter-btn.is-active {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  box-shadow: var(--shadow-primary);
+}
+
+.filter-btn.is-active mat-icon {
+  color: var(--color-white) !important;
+}
+
+.filter-btn:focus-visible {
+  outline: 2px solid var(--color-primary-active);
+  outline-offset: 2px;
+}
+
 .provider-header {
   font-weight: 600;
   font-size: 1.2rem;
@@ -43,5 +71,6 @@
 .add-provider-btn mat-icon {
   color: white !important;
 }
+
 
 
