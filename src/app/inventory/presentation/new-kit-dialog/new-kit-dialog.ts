@@ -44,6 +44,19 @@ export class NewKitDialogComponent implements OnInit {
   nombre: string = '';
   items: NewKitItem[] = [];
   saving: boolean = false;
+  submitted: boolean = false;
+
+  get nombreInvalid(): boolean {
+    return this.submitted && !this.nombre.trim();
+  }
+
+  get noProductsSelected(): boolean {
+    return this.submitted && this.items.filter(i => i.selected && i.quantity > 0 && i.price > 0).length === 0;
+  }
+
+  isItemIncomplete(item: NewKitItem): boolean {
+    return this.submitted && item.selected && (item.quantity <= 0 || item.price <= 0);
+  }
 
   get loading(): boolean {
     return this.store.loading();
@@ -80,6 +93,7 @@ export class NewKitDialogComponent implements OnInit {
   }
 
   onSave(): void {
+    this.submitted = true;
     if (!this.nombre.trim()) {
       return;
     }

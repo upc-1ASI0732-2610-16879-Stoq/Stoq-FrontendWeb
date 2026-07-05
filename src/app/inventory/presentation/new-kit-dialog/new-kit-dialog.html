@@ -12,6 +12,7 @@
         <mat-label>{{ 'inventory.name' | translate }}</mat-label>
         <input matInput [(ngModel)]="nombre" placeholder="Combo pelicula">
       </mat-form-field>
+      <span class="error-text" *ngIf="nombreInvalid">Falta ingresar el nombre del kit</span>
     </div>
 
     <div class="table-container">
@@ -19,6 +20,7 @@
         <mat-spinner diameter="50"></mat-spinner>
         <p>Cargando productos...</p>
       </div>
+      <span class="error-text" *ngIf="noProductsSelected">Selecciona al menos un producto con cantidad y precio</span>
 
       <div *ngIf="error && !loading" class="error-container">
         <mat-icon color="warn">error</mat-icon>
@@ -36,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of items">
+        <tr *ngFor="let item of items" [class.row-invalid]="isItemIncomplete(item)">
             <td>
               <div class="name-with-selection">
                 <div class="selection-circle"

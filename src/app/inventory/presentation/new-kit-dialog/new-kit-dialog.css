@@ -235,3 +235,14 @@
     width: 100%;
   }
 }
+
+.error-text {
+  color: #f44336;
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
+
+.row-invalid {
+  background-color: rgba(244, 67, 54, 0.08);
+}
