@@ -362,8 +362,25 @@ export class InventoryListComponent {
   }
 
   editProduct(product: ProductRow): void {
-    // TODO: Implementar edición de producto
-    console.log('Editar producto:', product);
+
+    this.store.getProductById(product.id).subscribe(fullProduct => {
+
+      const dialogRef = this.dialog.open(NewProductDialogComponent, {
+        width: '750px',
+        maxWidth: '90vw',
+        panelClass: 'new-product-dialog',
+        disableClose: false,
+        data: fullProduct
+      });
+
+      dialogRef.afterClosed().subscribe(ok => {
+        if (ok) {
+          console.log('Producto actualizado');
+        }
+      });
+
+    });
+
   }
 
   deleteProduct(product: ProductRow): void {

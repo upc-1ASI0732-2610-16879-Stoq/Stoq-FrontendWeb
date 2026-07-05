@@ -7,6 +7,9 @@ import { InventoryStore } from '../../application/inventory.store';
 import { Product } from '../../domain/model/product.entity';
 import { TranslatePipe } from '@ngx-translate/core';
 
+import { Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-new-product-dialog',
   standalone: true,
@@ -17,6 +20,22 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class NewProductDialogComponent {
   protected readonly store = inject(InventoryStore);
   private dialogRef = inject(MatDialogRef<NewProductDialogComponent>);
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    if (data) {
+      this.form = {
+        name: data.name,
+        description: data.description ?? '',
+        categoryId: data.categoryId,
+        providerId: data.providerId,
+        minStock: data.minStock,
+        unitPrice: data.unitPrice,
+        isActive: data.isActive ?? true
+      };
+    }
+  }
 
   form = {
     name: '',
@@ -46,7 +65,7 @@ export class NewProductDialogComponent {
     const unitPrice = Number(String(this.form.unitPrice).replace(',', '.'));
 
     const product = new Product({
-      id: '', // El backend asignará el ID
+      id: this.data ? this.data.id : '',
       name: this.form.name.trim(),
       description: this.form.description.trim(),
       categoryId: this.form.categoryId,
@@ -56,7 +75,12 @@ export class NewProductDialogComponent {
       isActive: this.form.isActive
     });
 
-    this.store.addProduct(product);
+    if (this.data) {
+      this.store.updateProduct(product);
+    } else {
+      this.store.addProduct(product);
+    }
+
     this.dialogRef.close(true);
   }
 }

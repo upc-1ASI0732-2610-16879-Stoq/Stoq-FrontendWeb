@@ -173,6 +173,14 @@ export class InventoryStore {
   }
 
   /**
+   * Gets a product by its ID.
+   * @param productId - The ID of the product.
+   */
+  getProductById(productId: string) {
+    return this.productsApi.getProductById(Number(productId));
+  }
+
+  /**
    * Updates an existing product in the store.
    * @param product - The updated product.
    */
