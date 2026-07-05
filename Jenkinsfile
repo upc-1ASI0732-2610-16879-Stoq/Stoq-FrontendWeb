@@ -2,12 +2,13 @@ pipeline {
     agent any
 
     tools {
-        // Usamos el entorno Node 20 que configuramos
         nodejs 'node-20'
     }
 
     environment {
         GITHUB_CREDENTIALS_ID = 'github-credentials'
+        // Inyectamos de forma segura la credencial de Netlify
+        NETLIFY_FRONT_WEBHOOK = credentials('netlify-frontend-webhook')
     }
 
     stages {
@@ -20,26 +21,32 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Instalando paquetes de Node para Angular (npm ci)...'
-                // Instala los paquetes basándose estrictamente en tu package-lock.json
                 sh 'npm ci'
             }
         }
 
         stage('Build & Lint Angular App') {
             steps {
-                echo 'Compilando el proyecto Angular con TypeScript para verificar errores...'
-                // Corre la compilación local
+                echo 'Compilando el proyecto Angular con TypeScript...'
                 sh 'npm run build'
+            }
+        }
+
+        stage('Deploy to Netlify') {
+            steps {
+                echo '¡CI aprobado con éxito! Notificando a Netlify para iniciar el despliegue...'
+                // Disparamos Netlify
+                sh "curl -X POST '${NETLIFY_FRONT_WEBHOOK}'"
             }
         }
     }
 
     post {
         success {
-            echo '¡CI del Frontend verificado con éxito! El código compila perfectamente.'
+            echo '¡Pipeline del Frontend ejecutado por completo con éxito en Netlify!'
         }
         failure {
-            echo 'Algo falló en la compilación de Angular. Revisa los logs de TypeScript.'
+            echo 'Algo falló en el pipeline del Front. Revisa los logs.'
         }
     }
 }
