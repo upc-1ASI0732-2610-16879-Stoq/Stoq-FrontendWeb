@@ -33,6 +33,13 @@ export class TopbarComponent {
 
   pageTitle = '';
 
+  /**
+   * The dashboard view already renders its own full notifications panel
+   * (and a mobile trigger), so the topbar's notification bell/dropdown
+   * is hidden there to avoid showing two notification UIs at once.
+   */
+  showNotifications = true;
+
   constructor() {
     this.updatePageTitle();
     this.router.events
@@ -47,6 +54,7 @@ export class TopbarComponent {
 
   private updatePageTitle(): void {
     const url = this.router.url;
+    this.showNotifications = !url.includes('/dashboard');
     if (url.includes('/dashboard')) {
       this.pageTitle = 'dashboard.title';
     } else if (url.includes('/inventario')) {
@@ -82,4 +90,3 @@ export class TopbarComponent {
     return this.translate.instant(`dashboard.notificationMessages.${notification.title}`, notification.data);
   }
 }
-

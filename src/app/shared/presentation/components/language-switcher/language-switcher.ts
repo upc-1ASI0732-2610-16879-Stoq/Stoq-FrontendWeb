@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -9,7 +9,10 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class LanguageSwitcher implements OnInit {
   private static readonly LANGUAGE_STORAGE_KEY = 'stocktrack_language';
-  
+
+  /** When true, renders a minimal single-button version (used when the sidebar is collapsed). */
+  @Input() compact = false;
+
   protected currentLanguage: string = 'es';
   protected languages = ['es', 'en'];
 
@@ -34,6 +37,15 @@ export class LanguageSwitcher implements OnInit {
     this.translate.use(lang);
     this.currentLanguage = lang;
     this.saveLanguage(lang);
+  }
+
+  /**
+   * In compact mode, cycles to the next available language on click.
+   */
+  cycleLanguage(): void {
+    const currentIndex = this.languages.indexOf(this.currentLanguage);
+    const nextLanguage = this.languages[(currentIndex + 1) % this.languages.length];
+    this.useLanguage(nextLanguage);
   }
 
   /**

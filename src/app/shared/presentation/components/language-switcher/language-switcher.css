@@ -34,3 +34,17 @@
 .lang-btn:active {
   transform: scale(0.98);
 }
+
+.lang-btn-compact {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 6px 0;
+  min-width: 36px;
+  width: 36px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.lang-btn-compact:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
