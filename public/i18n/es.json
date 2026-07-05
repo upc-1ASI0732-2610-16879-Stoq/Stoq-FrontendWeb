@@ -2,7 +2,8 @@
   "global": {
     "cancel": "Cancelar",
     "save": "Guardar",
-    "exit": "Salir"
+    "exit": "Salir",
+    "close": "Cerrar"
   },
   "settings": {
     "title": "Configuración",
@@ -141,7 +142,9 @@
     "providers-toolbar": {
       "search": "Buscar",
       "filter": "Filtrar",
-      "add-provider": "Agregar Proveedor"
+      "add-provider": "Agregar Proveedor",
+      "filter-applied": "Filtros aplicados",
+      "filter-cleared": "Filtros limpiados"
     },
     "form-dialog": {
       "add": "Agregar Proveedor",
@@ -163,6 +166,9 @@
       "email-invalid": "Formato de correo electrónico inválido",
       "ruc-required": "El RUC es requerido",
       "ruc-invalid": "El RUC debe tener exactamente 11 dígitos"
+    },
+    "providers-table": {
+      "edit-success": "Proveedor actualizado correctamente"
     }
   },
   "sales": {
