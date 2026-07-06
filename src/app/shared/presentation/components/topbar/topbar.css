@@ -11,22 +11,10 @@
 
 .topbar-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   height: 100%;
-}
-
-.topbar-left {
-  display: flex;
-  align-items: center;
-}
-
-.page-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  margin: 0;
 }
 
 .topbar-right {
