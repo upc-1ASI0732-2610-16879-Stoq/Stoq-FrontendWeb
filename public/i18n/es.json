@@ -26,7 +26,7 @@
     }
   },
   "sidebar": {
-    "title": "StockTrack",
+    "title": "StockWise",
     "menu": {
       "home": "Inicio",
       "inventory": "Inventario",
@@ -57,7 +57,7 @@
     }
   },
   "home": {
-    "title": "Bienvenido a StockTrack",
+    "title": "Bienvenido a StockWise",
     "subtitle": "Sistema de gestión de inventario"
   },
   "inventory": {
