@@ -137,7 +137,8 @@
       "address": "Dirección",
       "actions": "Acciones",
       "edit": "Editar",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "edit-success": "Proveedor actualizado correctamente"
     },
     "providers-toolbar": {
       "search": "Buscar",
@@ -166,9 +167,6 @@
       "email-invalid": "Formato de correo electrónico inválido",
       "ruc-required": "El RUC es requerido",
       "ruc-invalid": "El RUC debe tener exactamente 11 dígitos"
-    },
-    "providers-table": {
-      "edit-success": "Proveedor actualizado correctamente"
     }
   },
   "sales": {

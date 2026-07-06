@@ -137,7 +137,8 @@
       "address": "Address",
       "actions": "Actions",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "edit-success": "Provider updated successfully"
     },
     "providers-toolbar": {
       "search": "Search",
@@ -167,9 +168,6 @@
       "email-invalid": "Invalid email format",
       "ruc-required": "RUC is required",
       "ruc-invalid": "RUC must have exactly 11 digits"
-    },
-    "providers-table": {
-      "edit-success": "Provider updated successfully"
     }
   },
   "sales": {
