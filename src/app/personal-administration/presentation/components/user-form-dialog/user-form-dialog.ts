@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, effect } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserStore } from '../../../application/user.store';
 import { User } from '../../../domain/user.model';
 import { PermissionApi } from '../../../infrastructure/permission-api';
@@ -45,6 +46,7 @@ export interface UserFormDialogData {
     MatIconModule,
     MatProgressSpinnerModule,
     MatChipsModule,
+    MatSnackBarModule, // <-- Agregamos el módulo para notificaciones
     TranslatePipe
   ],
   templateUrl: './user-form-dialog.html',
@@ -56,6 +58,9 @@ export class UserFormDialog implements OnInit {
   form!: FormGroup;
   availablePermissions: PermissionWithMetadata[] = [];
 
+  // Inyectamos el servicio para mostrar notificaciones tipo Toast
+  private readonly snackBar = inject(MatSnackBar);
+
   constructor(
     private fb: FormBuilder,
     private userStore: UserStore,
@@ -64,12 +69,7 @@ export class UserFormDialog implements OnInit {
     private ref: MatDialogRef<UserFormDialog>,
     @Inject(MAT_DIALOG_DATA) public data: UserFormDialogData
   ) {
-    effect(() => {
-      if (this.saving && !this.userStore.loading()) {
-        this.saving = false;
-        this.ref.close(true);
-      }
-    });
+
   }
 
   ngOnInit(): void {
@@ -89,7 +89,7 @@ export class UserFormDialog implements OnInit {
     this.ref.close();
   }
 
-  save(): void {
+  async save(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -97,23 +97,48 @@ export class UserFormDialog implements OnInit {
 
     this.saving = true;
     const { email, password, permissions } = this.form.value;
-    
+
     const selectedPermissions = this.availablePermissions
       .filter((_, index) => permissions[index])
       .map(perm => perm.value);
-    
-    if (this.data.mode === 'edit' && this.data.user) {
-      const updatePassword = password && password.trim() !== '' ? password : undefined;
-      this.userStore.updateUser(this.data.user.id, email, updatePassword, selectedPermissions);
-    } else {
-      this.userStore.createUser(email, password, selectedPermissions);
+
+    try {
+      if (this.data.mode === 'edit' && this.data.user) {
+        const updatePassword = password && password.trim() !== '' ? password : undefined;
+        // Esperamos a que la operación en el store termine
+        await this.userStore.updateUser(this.data.user.id, email, updatePassword, selectedPermissions);
+        this.mostrarNotificacion('Usuario actualizado con éxito');
+      } else {
+        await this.userStore.createUser(email, password, selectedPermissions);
+        this.mostrarNotificacion('Usuario creado con éxito');
+      }
+
+      // Una vez exitoso: detenemos el spinner, limpiamos el form y cerramos el modal
+      this.saving = false;
+      this.form.reset();
+      this.ref.close(true);
+
+    } catch (error) {
+      // Manejo de errores en caso de que falle la petición
+      console.error('Error al guardar el usuario:', error);
+      this.saving = false;
+      this.mostrarNotificacion('Error al guardar el usuario. Intente nuevamente.');
     }
+  }
+
+  // Función auxiliar para mostrar el toast
+  private mostrarNotificacion(mensaje: string): void {
+    this.snackBar.open(mensaje, 'Cerrar', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 
   private initializeForm(): void {
     const isEditMode = this.data.mode === 'edit' && this.data.user;
     const user = this.data.user;
-    
+
     this.form = this.fb.group({
       email: [isEditMode && user ? user.email : '', [Validators.required, Validators.email]],
       password: ['', isEditMode ? [] : [Validators.required, Validators.minLength(6)]],
@@ -138,16 +163,15 @@ export class UserFormDialog implements OnInit {
   private updateFormWithPermissions(): void {
     const isEditMode = this.data.mode === 'edit' && this.data.user;
     const user = this.data.user;
-    
+
     const permissionsArray = this.permissionsFormArray;
     while (permissionsArray.length !== 0) {
       permissionsArray.removeAt(0);
     }
-    
+
     this.availablePermissions.forEach(perm => {
       const hasPermission = isEditMode && user ? user.hasPermission(perm.value) : false;
       permissionsArray.push(this.fb.control(hasPermission));
     });
   }
 }
-

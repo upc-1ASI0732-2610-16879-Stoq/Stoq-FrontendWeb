@@ -4,10 +4,12 @@
   <div class="filter-section">
     <mat-form-field appearance="outline" class="search-field">
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Bolsa Papitas" value="Bolsa Papitas">
+      <!-- El input ahora interactúa con [(ngModel)] y detecta la tecla Enter -->
+      <input matInput placeholder="Buscar producto..." [(ngModel)]="searchInput" (keyup.enter)="applyFilter()">
     </mat-form-field>
 
-    <button mat-stroked-button class="btn-filter">
+    <!-- El botón dispara la función applyFilter() -->
+    <button mat-stroked-button class="btn-filter" (click)="applyFilter()">
       <mat-icon>filter_list</mat-icon>
       {{ 'sales.filter' | translate }}
     </button>
@@ -27,7 +29,8 @@
             <span class="actions-header"></span>
           </div>
           <div class="table-body">
-            <div class="row" *ngFor="let p of products()">
+            <!-- Renderizamos sobre displayedProducts() en lugar de products() -->
+            <div class="row" *ngFor="let p of displayedProducts()">
               <span class="prod-name">{{ p.name }}</span>
               <span>s/. {{ p.price | number:'1.2-2' }}</span>
               <span>{{ p.stock }}</span>
@@ -41,8 +44,12 @@
                 <mat-icon>add_shopping_cart</mat-icon>
               </button>
             </div>
-            <div class="row empty-row"></div>
-            <div class="row empty-row"></div>
+
+            <!-- Mensaje de UX si la búsqueda no encuentra nada -->
+            <div class="row empty-row" *ngIf="displayedProducts().length === 0">
+              <span style="grid-column: 1 / -1; text-align: center; width: 100%; color: #666; font-style: italic;">No se encontraron productos con ese nombre.</span>
+            </div>
+
           </div>
         </mat-card>
       </div>

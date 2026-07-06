@@ -1,4 +1,3 @@
-// typescript
 import {Component, inject, ChangeDetectorRef, computed, signal} from '@angular/core';
 import {SalesStore} from '../../../application/sales.store';
 import {MatCardModule} from '@angular/material/card';
@@ -52,12 +51,14 @@ export class SalesTables {
   private readonly snackBar = inject(MatSnackBar);
   private cdr = inject(ChangeDetectorRef);
 
+  //  LÓGICA DE FILTRADO
+  searchInput: string = '';
+  appliedFilter = signal('');
+
   get availableKits() {
-    // All kits from backend are considered active (no isEnabled field)
     return this.inventoryStore.kits();
   }
 
-  // Usar computed para evitar ejecuciones repetidas
   products = computed(() => {
     const products = this.store.products();
     const batches = this.store.batches();
@@ -76,12 +77,26 @@ export class SalesTables {
     }));
   });
 
-  // Obtener stock disponible de un producto
+  // Lista de productos filtrada para mostrar en la tabla sin alterar los originales
+  displayedProducts = computed(() => {
+    const term = this.appliedFilter().toLowerCase().trim();
+    const allProducts = this.products();
+
+    if (!term) return allProducts;
+
+    return allProducts.filter(p => p.name && p.name.toLowerCase().includes(term));
+  });
+
+  // Función que se dispara al dar clic en "Filtro" o presionar Enter
+  applyFilter(): void {
+    this.appliedFilter.set(this.searchInput);
+  }
+
+
   getAvailableStock(productId: string): number {
     const product = this.products().find(p => p.id === productId);
     if (!product) return 0;
 
-    // Calcular stock ya reservado en el carrito
     const cartItem = this.cartItems.find(item => item.type === 'product' && item.productId === productId);
     const reservedQuantity = cartItem ? cartItem.quantity : 0;
 
@@ -101,7 +116,6 @@ export class SalesTables {
       }))
     }));
   }
-
 
   cartItems: CartItem[] = [];
 
@@ -126,7 +140,6 @@ export class SalesTables {
       return;
     }
 
-    // Validar stock disponible
     const availableStock = this.getAvailableStock(product.id);
     if (availableStock <= 0) {
       this.snackBar.open(`No hay stock disponible para ${product.name}`, 'Cerrar', {
@@ -137,7 +150,6 @@ export class SalesTables {
       return;
     }
 
-    // Obtener el producto completo desde el endpoint
     const productId = Number(product.id);
     if (isNaN(productId)) {
       console.error('ID de producto inválido:', product.id);
@@ -146,11 +158,9 @@ export class SalesTables {
 
     this.productsApi.getProductById(productId).subscribe({
       next: (fullProduct) => {
-        // Verificar si el producto ya está en el carrito
         const existingItem = this.cartItems.find(item => item.type === 'product' && item.productId === product.id);
 
         if (existingItem) {
-          // Si ya existe, aumentar la cantidad (con validación de stock)
           const newQuantity = existingItem.quantity + 1;
           if (newQuantity > product.stock) {
             this.snackBar.open(`Stock insuficiente. Solo hay ${product.stock} unidades disponibles de ${product.name}`, 'Cerrar', {
@@ -162,7 +172,6 @@ export class SalesTables {
           }
           this.updateQuantity(existingItem, newQuantity);
         } else {
-          // Si no existe, agregarlo con cantidad 1
           const newItem: CartItem = {
             id: `product-${fullProduct.id}`,
             name: fullProduct.name,
@@ -174,13 +183,10 @@ export class SalesTables {
           };
           this.cartItems = [...this.cartItems, newItem];
         }
-
-        // Forzar detección de cambios
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al obtener el producto:', error);
-        // Fallback: usar los datos del producto de la lista
         const existingItem = this.cartItems.find(item => item.type === 'product' && item.productId === product.id);
         if (existingItem) {
           const newQuantity = existingItem.quantity + 1;
@@ -211,14 +217,11 @@ export class SalesTables {
   }
 
   addKitToCart(kit: Kit): void {
-    // Verificar si el kit ya está en el carrito
     const existingItem = this.cartItems.find(item => item.type === 'kit' && item.kitId === kit.id);
 
     if (existingItem) {
-      // Si ya existe, aumentar la cantidad
       this.updateQuantity(existingItem, existingItem.quantity + 1);
     } else {
-      // Si no existe, agregarlo con cantidad 1
       const kitPrice = this.getTotalKitPrice(kit);
       const newItem: CartItem = {
         id: `kit-${kit.id}`,
@@ -239,10 +242,8 @@ export class SalesTables {
       return;
     }
 
-    // Asegurar que la cantidad sea un número válido
     const quantity = Math.max(1, Math.floor(newQuantity));
 
-    // Validar stock si es un producto
     if (item.type === 'product' && item.productId) {
       const product = this.products().find(p => p.id === item.productId);
       if (product && quantity > product.stock) {
@@ -251,7 +252,6 @@ export class SalesTables {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
-        // Ajustar a la cantidad máxima disponible
         item.quantity = product.stock;
         item.total = item.unitPrice * product.stock;
         this.cartItems = [...this.cartItems];
@@ -262,7 +262,6 @@ export class SalesTables {
 
     item.quantity = quantity;
     item.total = item.unitPrice * quantity;
-    // Actualizar el array para que Angular detecte el cambio
     this.cartItems = [...this.cartItems];
     this.cdr.detectChanges();
   }
@@ -285,7 +284,6 @@ export class SalesTables {
       return;
     }
 
-    // Validar stock antes de guardar
     for (const item of this.cartItems) {
       if (item.type === 'product' && item.productId) {
         const product = this.products().find(p => p.id === item.productId);
@@ -300,7 +298,6 @@ export class SalesTables {
       }
     }
 
-    // Obtener el usuario actual
     const currentUser = this.authStore.currentUser();
     if (!currentUser || !currentUser.id) {
       this.snackBar.open('Error: No se pudo identificar al usuario', 'Cerrar', {
@@ -311,7 +308,6 @@ export class SalesTables {
       return;
     }
 
-    // Preparar los datos para el endpoint
     const products = this.cartItems
       .filter(item => item.type === 'product')
       .map(item => ({
@@ -332,7 +328,6 @@ export class SalesTables {
       kits: kits
     };
 
-    // Enviar la venta al backend
     this.salesApi.createSale(saleData).subscribe({
       next: (response) => {
         this.snackBar.open('Venta guardada exitosamente', 'Cerrar', {
@@ -340,9 +335,7 @@ export class SalesTables {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
-        // Limpiar el carrito después de guardar
         this.cartItems = [];
-        // Recargar batches para actualizar el stock
         this.store.loadBatches();
         this.cdr.detectChanges();
       },
